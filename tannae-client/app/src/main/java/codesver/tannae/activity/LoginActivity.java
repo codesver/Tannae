@@ -1,8 +1,11 @@
-package codesver.tannae;
+package codesver.tannae.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import codesver.tannae.R;
+
 
 public class LoginActivity extends AppCompatActivity {
 
