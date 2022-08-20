@@ -1,4 +1,4 @@
-package codesver.tannae.activity;
+package codesver.tannae.activity.account;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import codesver.tannae.R;
+import codesver.tannae.network.Network;
+import codesver.tannae.network.RetrofitClient;
+import codesver.tannae.network.ServiceApi;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -16,6 +19,8 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Network.service = RetrofitClient.getClient().create(ServiceApi.class);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setViews();

@@ -1,12 +1,17 @@
-package codesver.tannae.activity;
+package codesver.tannae.activity.account;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import codesver.tannae.R;
+import codesver.tannae.network.Network;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SignUpActivity extends AppCompatActivity {
     private Button buttonBack, buttonCheckId, buttonCheckUser, buttonSignUp;
@@ -44,6 +49,17 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void checkId() {
+        Network.service.checkId(editId.getText().toString()).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                System.out.println("HI");
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                System.out.println("BYE");
+            }
+        });
     }
 
     private void checkUser() {

@@ -1,4 +1,4 @@
-package codesver.tannae.activity;
+package codesver.tannae.activity.account;
 
 import androidx.appcompat.app.AppCompatActivity;
 
