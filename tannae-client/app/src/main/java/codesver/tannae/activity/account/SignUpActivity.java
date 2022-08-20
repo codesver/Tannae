@@ -1,9 +1,11 @@
 package codesver.tannae.activity.account;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +19,9 @@ import retrofit2.Response;
 public class SignUpActivity extends AppCompatActivity {
     private Button buttonBack, buttonCheckId, buttonCheckUser, buttonSignUp;
     private EditText editId, editPw, editPwCheck, editName, editRrnFront, editRrnBack, editEmail, editPhone;
+    private TextView textIdState, textPwState;
+
+    private boolean idAvailable, idChecked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,9 @@ public class SignUpActivity extends AppCompatActivity {
         editRrnBack = findViewById(R.id.edit_rrn_back_sign_up);
         editEmail = findViewById(R.id.edit_email_sign_up);
         editPhone = findViewById(R.id.edit_phone_sign_up);
+
+        textIdState = findViewById(R.id.text_id_state_sign_up);
+        textPwState = findViewById(R.id.text_pw_state_sign_up);
     }
 
     private void setEventListeners() {
@@ -47,18 +55,28 @@ public class SignUpActivity extends AppCompatActivity {
         buttonCheckId.setOnClickListener(v -> checkId());
         buttonCheckUser.setOnClickListener(v -> checkUser());
         buttonSignUp.setOnClickListener(v -> signUp());
+
+        editId.addTextChangedListener(idChecker());
     }
 
     private void checkId() {
+        if (!idAvailable) {
+            textIdState.setTextColor(0xAAFF0000);
+            textIdState.setText("사용 불가능한 ID 형식입니다.");
+            Toast.makeText(this, "ID를 다시 입력하세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Network.service.checkId(editId.getText().toString()).enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                Toast.makeText(SignUpActivity.this, "HI", Toast.LENGTH_SHORT).show();
+                idChecked = response.body();
+                Toast.makeText(SignUpActivity.this, idChecked ? "사용 가능한 ID 입니다." : "이미 사용 중인 ID 입니다.", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(Call<Boolean> call, Throwable t) {
-                Toast.makeText(SignUpActivity.this, "BYE", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUpActivity.this, "오류가 발생했습니다.\n고객센터로 문의바랍니다.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -67,5 +85,40 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void signUp() {
+    }
+
+    private TextWatcher idChecker() {
+        return new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String id = editId.getText().toString();
+                idChecked = false;
+
+                if (id.length() == 0) {
+                    textIdState.setTextColor(0xAA000000);
+                    textIdState.setText("영문과 숫자를 사용하여 6자리 이상 작성하세요.");
+                    idAvailable = false;
+                } else if (id.length() >= 6
+                        && id.matches(".*[a-zA-Z0-9].*")
+                        && !id.matches(".[가-힣].*")
+                        && !id.matches(".*[\\W].*")) {
+                    textIdState.setTextColor(0xAA000000);
+                    textIdState.setText("사용 가능한 ID 형식입니다. 사용을 위해서 중복체크를 하세요.");
+                    idAvailable = true;
+                } else {
+                    textIdState.setTextColor(0xAAFF0000);
+                    textIdState.setText("사용 불가능한 ID 형식입니다.");
+                    idAvailable = false;
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        };
     }
 }
