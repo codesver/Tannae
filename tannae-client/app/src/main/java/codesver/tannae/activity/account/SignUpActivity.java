@@ -71,6 +71,8 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 idChecked = response.body();
+                textIdState.setText(idChecked ? "사용 가능한 ID 입니다." : "다른 ID를 사용해주세요.");
+                textIdState.setTextColor(idChecked ? 0xAA0000FF : 0xAAFF0000);
                 Toast.makeText(SignUpActivity.this, idChecked ? "사용 가능한 ID 입니다." : "이미 사용 중인 ID 입니다.", Toast.LENGTH_SHORT).show();
             }
 
