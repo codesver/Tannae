@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -52,12 +53,12 @@ public class SignUpActivity extends AppCompatActivity {
         Network.service.checkId(editId.getText().toString()).enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                System.out.println("HI");
+                Toast.makeText(SignUpActivity.this, "HI", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(Call<Boolean> call, Throwable t) {
-                System.out.println("BYE");
+                Toast.makeText(SignUpActivity.this, "BYE", Toast.LENGTH_SHORT).show();
             }
         });
     }
