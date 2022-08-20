@@ -5,6 +5,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface ServiceApi {
-    @GET("/account/checkId")
+    @GET("/user/checkId")
     Call<Boolean> checkId(@Query("id") String id);
 }
