@@ -14,8 +14,8 @@ public class UserJpaRepository implements UserRepository {
     private final UserSpringDataJpaRepository repository;
 
     @Override
-    public boolean checkId(String id) {
-        return repository.countUserByIdEquals(id) == 0;
+    public int countById(String id) {
+        return repository.countUserByIdEquals(id);
     }
 
 }
