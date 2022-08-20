@@ -97,19 +97,19 @@ public class SignUpActivity extends AppCompatActivity {
                 idChecked = false;
 
                 if (id.length() == 0) {
-                    textIdState.setTextColor(0xAA000000);
                     textIdState.setText("영문과 숫자를 사용하여 6자리 이상 작성하세요.");
+                    textIdState.setTextColor(0xAA000000);
                     idAvailable = false;
                 } else if (id.length() >= 6
                         && id.matches(".*[a-zA-Z0-9].*")
                         && !id.matches(".[가-힣].*")
                         && !id.matches(".*[\\W].*")) {
-                    textIdState.setTextColor(0xAA000000);
                     textIdState.setText("사용 가능한 ID 형식입니다. 사용을 위해서 중복체크를 하세요.");
+                    textIdState.setTextColor(0xAA000000);
                     idAvailable = true;
                 } else {
-                    textIdState.setTextColor(0xAAFF0000);
                     textIdState.setText("사용 불가능한 ID 형식입니다.");
+                    textIdState.setTextColor(0xAAFF0000);
                     idAvailable = false;
                 }
             }
