@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import codesver.tannae.R;
 import codesver.tannae.network.Network;
+import codesver.tannae.service.Toaster;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -63,7 +64,7 @@ public class SignUpActivity extends AppCompatActivity {
         if (!idAvailable) {
             textIdState.setTextColor(0xAAFF0000);
             textIdState.setText("사용 불가능한 ID 형식입니다.");
-            Toast.makeText(this, "ID를 다시 입력하세요.", Toast.LENGTH_SHORT).show();
+            Toaster.toast(this, "ID를 다시 입력하세요.");
             return;
         }
 
@@ -73,12 +74,12 @@ public class SignUpActivity extends AppCompatActivity {
                 idChecked = response.body();
                 textIdState.setText(idChecked ? "사용 가능한 ID 입니다." : "다른 ID를 사용해주세요.");
                 textIdState.setTextColor(idChecked ? 0xAA0000FF : 0xAAFF0000);
-                Toast.makeText(SignUpActivity.this, idChecked ? "사용 가능한 ID 입니다." : "이미 사용 중인 ID 입니다.", Toast.LENGTH_SHORT).show();
+                Toaster.toast(SignUpActivity.this, idChecked ? "사용 가능한 ID 입니다." : "이미 사용 중인 ID 입니다.");
             }
 
             @Override
             public void onFailure(Call<Boolean> call, Throwable t) {
-                Toast.makeText(SignUpActivity.this, "오류가 발생했습니다.\n고객센터로 문의바랍니다.", Toast.LENGTH_SHORT).show();
+                Toaster.toast(SignUpActivity.this, "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });
     }
