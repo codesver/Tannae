@@ -3,6 +3,7 @@ package codesver.tannae.activity.account;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,9 +21,11 @@ import retrofit2.Response;
 public class SignUpActivity extends AppCompatActivity {
     private Button buttonBack, buttonCheckId, buttonCheckUser, buttonSignUp;
     private EditText editId, editPw, editPwCheck, editName, editRrnFront, editRrnBack, editEmail, editPhone;
-    private TextView textIdState, textPwState;
+    private TextView textIdState, textPwState, textPrivateState;
 
     private boolean idAvailable, idChecked;
+    private boolean pwAvailable, pwChecked;
+    private boolean privateAvailable, privateChecked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         textIdState = findViewById(R.id.text_id_state_sign_up);
         textPwState = findViewById(R.id.text_pw_state_sign_up);
+        textPrivateState = findViewById(R.id.text_private_sign_up);
     }
 
     private void setEventListeners() {
@@ -58,6 +62,12 @@ public class SignUpActivity extends AppCompatActivity {
         buttonSignUp.setOnClickListener(v -> signUp());
 
         editId.addTextChangedListener(idChecker());
+        editPw.addTextChangedListener(pwChecker());
+        editPwCheck.addTextChangedListener(pwDoubleChecker());
+
+        editName.addTextChangedListener(privateChecker());
+        editRrnFront.addTextChangedListener(privateChecker());
+        editRrnBack.addTextChangedListener(privateChecker());
     }
 
     private void checkId() {
@@ -85,6 +95,38 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void checkUser() {
+        String name = editName.getText().toString();
+        String rrnFront = editRrnFront.getText().toString();
+        String rrnBack = editRrnBack.getText().toString();
+
+        if (!privateAvailable) {
+            textPrivateState.setText("개인정보를 정확하게 입력하세요.");
+            textPrivateState.setTextColor(0xAAFF0000);
+            privateChecked = false;
+        } else {
+            Network.service.checkPrivate(name, rrnFront + "-" + rrnBack).enqueue(new Callback<Boolean>() {
+                @Override
+                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                    Boolean isNew = response.body();
+                    if (isNew) {
+                        textPrivateState.setText("본인인증이 되었습니다.");
+                        textPrivateState.setTextColor(0xAA0000FF);
+                        privateChecked = true;
+                        Toaster.toast(SignUpActivity.this, "본인인증이 완료되었습니다.");
+                    } else {
+                        textPrivateState.setText("이미 가입된 사용자입니다.");
+                        textPrivateState.setTextColor(0xAAFF0000);
+                        privateChecked = false;
+                        Toaster.toast(SignUpActivity.this, "이미 가입된 사용자입니다.");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Boolean> call, Throwable t) {
+                    Toaster.toast(SignUpActivity.this, "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
+                }
+            });
+        }
     }
 
     private void signUp() {
@@ -121,6 +163,109 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+            }
+        };
+    }
+
+    private TextWatcher pwChecker() {
+        return new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String pw = editPw.getText().toString();
+                pwChecked = false;
+
+                if (pw.length() == 0) {
+                    textPwState.setText("영문과 숫자를 사용하여 8자 이상 작성하세요.");
+                    textPwState.setTextColor(0xAA000000);
+                    pwAvailable = false;
+                } else if (pw.length() >= 8
+                        && pw.matches(".*[a-zA-Z0-9].*")
+                        && !pw.matches(".[가-힣].*")
+                        && !pw.matches(".*[\\W].*")) {
+                    if (pw.equals(editPwCheck.getText().toString())) {
+                        textPwState.setText("PW가 일치합니다.");
+                        textPwState.setTextColor(0xAA0000FF);
+                        pwChecked = true;
+                    } else {
+                        textPwState.setText("사용 가능한 PW 형식힙니다. 비밀번호를 확인해주세요.");
+                        textPwState.setTextColor(0xAA000000);
+                    }
+                    pwAvailable = true;
+                } else {
+                    textPwState.setText("사용 불가능한 PW 형식입니다.");
+                    textPwState.setTextColor(0xAAFF0000);
+                    pwAvailable = false;
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        };
+    }
+
+    private TextWatcher pwDoubleChecker() {
+        return new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!pwAvailable) {
+                    textPwState.setText("사용 불가능한 PW 형식입니다. PW를 다시 입력하세요.");
+                    textPwState.setTextColor(0xAAFF0000);
+                    pwChecked = false;
+                } else if (editPw.getText().toString().equals(editPwCheck.getText().toString())) {
+                    textPwState.setText("PW가 일치합니다.");
+                    textPwState.setTextColor(0xAA0000FF);
+                    pwChecked = true;
+                } else {
+                    textPwState.setText("PW가 일치하지 않습니다.");
+                    textPwState.setTextColor(0xAAFF0000);
+                    pwChecked = false;
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        };
+    }
+
+    private TextWatcher privateChecker() {
+        return new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                privateAvailable = false;
+                if (editName.getText().toString().length() == 0) {
+                    textPrivateState.setText("이름을 입력하세요.");
+                    textPrivateState.setTextColor(0xAAFF0000);
+                } else if (editRrnFront.getText().toString().length() != 6) {
+                    textPrivateState.setText("주민등록번호 앞자리를 정확하게 입력하세요.");
+                    textPrivateState.setTextColor(0xAAFF0000);
+                } else if (editRrnBack.getText().toString().length() != 7) {
+                    textPrivateState.setText("주민등록번호 뒷자리를 정확하게 입력하세요.");
+                    textPrivateState.setTextColor(0xAAFF0000);
+                } else {
+                    textPrivateState.setText("본인인증을 하세요.");
+                    textPrivateState.setTextColor(0xAA000000);
+                    privateAvailable = true;
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         };
     }
