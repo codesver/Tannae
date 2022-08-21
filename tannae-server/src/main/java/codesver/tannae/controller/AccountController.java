@@ -10,14 +10,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class AccountController {
 
     private final SignUpService signUpService;
 
-    @GetMapping("/checkId")
+    @GetMapping("/check-id")
     public Boolean checkId(@RequestParam String id) {
         return signUpService.isAvailableId(id);
     }
+
 }
