@@ -15,4 +15,8 @@ public class SignUpService {
     public boolean isAvailableId(String id) {
         return userRepository.countById(id) == 0;
     }
+
+    public boolean isAvailableUser(String name, String rrn) {
+        return userRepository.countByPrivate(name, rrn) == 0;
+    }
 }

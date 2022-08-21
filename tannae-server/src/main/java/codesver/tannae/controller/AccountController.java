@@ -21,4 +21,8 @@ public class AccountController {
         return signUpService.isAvailableId(id);
     }
 
+    @GetMapping("/check-private")
+    public Boolean check(@RequestParam String name, @RequestParam String rrn) {
+        return signUpService.isAvailableUser(name, rrn);
+    }
 }

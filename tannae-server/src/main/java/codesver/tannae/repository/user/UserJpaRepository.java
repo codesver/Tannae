@@ -15,7 +15,11 @@ public class UserJpaRepository implements UserRepository {
 
     @Override
     public int countById(String id) {
-        return repository.countUserByIdEquals(id);
+        return repository.countUserById(id);
     }
 
+    @Override
+    public int countByPrivate(String name, String rrn) {
+        return repository.countUserByNameAndRrn(name, rrn);
+    }
 }

@@ -5,5 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserSpringDataJpaRepository extends JpaRepository<User, Integer> {
 
-    int countUserByIdEquals(String id);
+    int countUserById(String id);
+
+    int countUserByNameAndRrn(String name, String rrn);
 }
