@@ -68,6 +68,7 @@ public class SignUpActivity extends AppCompatActivity {
         editName.addTextChangedListener(privateChecker());
         editRrnFront.addTextChangedListener(privateChecker());
         editRrnBack.addTextChangedListener(privateChecker());
+        editEmail.addTextChangedListener(emailChecker());
     }
 
     private void checkId() {
@@ -103,6 +104,7 @@ public class SignUpActivity extends AppCompatActivity {
             textPrivateState.setText("개인정보를 정확하게 입력하세요.");
             textPrivateState.setTextColor(0xAAFF0000);
             privateChecked = false;
+            Toaster.toast(SignUpActivity.this, "개인정보를 정확하게 입력하세요.");
         } else {
             Network.service.checkPrivate(name, rrnFront + "-" + rrnBack).enqueue(new Callback<Boolean>() {
                 @Override
@@ -256,6 +258,25 @@ public class SignUpActivity extends AppCompatActivity {
                     textPrivateState.setTextColor(0xAA000000);
                     privateAvailable = true;
                 }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+    }
+
+    private TextWatcher emailChecker() {
+        return new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
             }
 
             @Override
