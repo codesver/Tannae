@@ -20,6 +20,6 @@ public class UserJpaRepository implements UserRepository {
 
     @Override
     public int countByPrivate(String name, String rrn) {
-        return repository.countUserByNameAndRrn(name, rrn);
+        return repository.countUserByRrn(rrn);
     }
 }

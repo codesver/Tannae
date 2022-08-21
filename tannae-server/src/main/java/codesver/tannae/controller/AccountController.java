@@ -18,11 +18,17 @@ public class AccountController {
 
     @GetMapping("/check-id")
     public Boolean checkId(@RequestParam String id) {
-        return signUpService.isAvailableId(id);
+        log.info("[SERVER] Checking id={}", id);
+        boolean isAvailable = signUpService.isAvailableId(id);
+        log.info("[SERVER] ID availability={}", isAvailable);
+        return isAvailable;
     }
 
     @GetMapping("/check-private")
     public Boolean check(@RequestParam String name, @RequestParam String rrn) {
-        return signUpService.isAvailableUser(name, rrn);
+        log.info("[SERVER] Checking user={}({})", name, rrn);
+        boolean isAvailable = signUpService.isAvailableUser(name, rrn);
+        log.info("[SERVER] User availability={}", isAvailable);
+        return isAvailable;
     }
 }
