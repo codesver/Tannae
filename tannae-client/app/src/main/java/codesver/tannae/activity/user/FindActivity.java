@@ -51,7 +51,6 @@ public class FindActivity extends AppCompatActivity {
         editRrnBack.addTextChangedListener(privateChecker());
 
         buttonCheckPrivate.setOnClickListener(v -> checkUser());
-
     }
 
     private TextWatcher privateChecker() {
@@ -103,12 +102,12 @@ public class FindActivity extends AppCompatActivity {
         Network.service.findAccount(name, rrn).enqueue(new Callback<FoundAccountDTO>() {
             @Override
             public void onResponse(Call<FoundAccountDTO> call, Response<FoundAccountDTO> response) {
-                FoundAccountDTO dto = response.body();
+                FoundAccountDTO account = response.body();
 
-                if (dto.isFound()) {
+                if (account.isFound()) {
                     Toaster.toast(FindActivity.this, "회원 정보와 일치하는 계정을 찾았습니다.");
-                    textIdFound.setText(dto.getId());
-                    textPwFound.setText(dto.getPw());
+                    textIdFound.setText(account.getId());
+                    textPwFound.setText(account.getPw());
                 } else
                     Toaster.toast(FindActivity.this, "일치하는 계정이 없습니다.");
             }
