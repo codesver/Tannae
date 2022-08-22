@@ -7,6 +7,6 @@ public class User {
     private String name;
     private String rrn;
     private Boolean gender;
-    private String phone;
     private String email;
+    private String phone;
 }

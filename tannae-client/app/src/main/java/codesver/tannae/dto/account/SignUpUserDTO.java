@@ -5,15 +5,15 @@ public class SignUpUserDTO {
     private String pw;
     private String name;
     private String rrn;
-    private String phone;
     private String email;
+    private String phone;
 
-    public SignUpUserDTO(String id, String pw, String name, String rrn, String phone, String email) {
+    public SignUpUserDTO(String id, String pw, String name, String rrn, String email, String phone) {
         this.id = id;
         this.pw = pw;
         this.name = name;
         this.rrn = rrn;
-        this.phone = phone;
         this.email = email;
+        this.phone = phone;
     }
 }
