@@ -1,6 +1,8 @@
 package codesver.tannae.network;
 
+import codesver.tannae.domain.User;
 import codesver.tannae.dto.user.FoundAccountDTO;
+import codesver.tannae.dto.user.LoginDTO;
 import codesver.tannae.dto.user.SignUpUserDTO;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -20,4 +22,7 @@ public interface ServiceApi {
 
     @GET("/users/find-account")
     Call<FoundAccountDTO> findAccount(@Query("name") String name, @Query("rrn") String rrn);
+
+    @GET("/users/login")
+    Call<LoginDTO> login(@Query("id") String id, @Query("pw") String pw);
 }
