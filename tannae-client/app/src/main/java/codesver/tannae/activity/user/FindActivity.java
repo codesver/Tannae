@@ -21,7 +21,7 @@ public class FindActivity extends AppCompatActivity {
 
     private EditText editName, editRrnFront, editRrnBack;
     private TextView textPrivateState, textIdFound, textPwFound;
-    private Button buttonCheckPrivate;
+    private Button buttonCheckPrivate, buttonBack;
 
     private boolean privateAvailable;
 
@@ -43,6 +43,7 @@ public class FindActivity extends AppCompatActivity {
         textPwFound = findViewById(R.id.text_pw_found_find);
 
         buttonCheckPrivate = findViewById(R.id.button_check_user_find);
+        buttonBack = findViewById(R.id.button_back_find);
     }
 
     private void setEventListeners() {
@@ -51,6 +52,7 @@ public class FindActivity extends AppCompatActivity {
         editRrnBack.addTextChangedListener(privateChecker());
 
         buttonCheckPrivate.setOnClickListener(v -> checkUser());
+        buttonBack.setOnClickListener(v -> onBackPressed());
     }
 
     private TextWatcher privateChecker() {
@@ -108,8 +110,15 @@ public class FindActivity extends AppCompatActivity {
                     Toaster.toast(FindActivity.this, "회원 정보와 일치하는 계정을 찾았습니다.");
                     textIdFound.setText(account.getId());
                     textPwFound.setText(account.getPw());
-                } else
+                    textPrivateState.setText("계정을 찾았습니다.");
+                    textPrivateState.setTextColor(0xAA0000FF);
+                } else {
                     Toaster.toast(FindActivity.this, "일치하는 계정이 없습니다.");
+                    textIdFound.setText("");
+                    textPwFound.setText("");
+                    textPrivateState.setText("일치하는 계정이 없습니다.");
+                    textPrivateState.setTextColor(0xAAFF0000);
+                }
             }
 
             @Override
