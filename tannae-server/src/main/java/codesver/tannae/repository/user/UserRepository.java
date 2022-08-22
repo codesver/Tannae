@@ -13,4 +13,6 @@ public interface UserRepository {
     boolean save(User user);
 
     Optional<User> findByNameRrn(String name, String rrn);
+
+    Optional<User> findByIdPw(String id, String pw);
 }

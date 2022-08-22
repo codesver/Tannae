@@ -42,4 +42,10 @@ public class UserJpaRepository implements UserRepository {
         log.info("[REPOSITORY-USER : FIND_BY_NAME_RRN] Finding user by name={} rrn={}", name, rrn);
         return repository.findUserByNameAndRrn(name, rrn);
     }
+
+    @Override
+    public Optional<User> findByIdPw(String id, String pw) {
+        log.info("[REPOSITORY-USER : FIND_BY_ID_PW Finding user by id={} pw={}", id, pw);
+        return repository.findUserByIdAndPw(id, pw);
+    }
 }

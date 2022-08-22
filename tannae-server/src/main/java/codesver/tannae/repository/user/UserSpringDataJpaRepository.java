@@ -12,4 +12,6 @@ public interface UserSpringDataJpaRepository extends JpaRepository<User, Integer
     int countUserByRrn(String rrn);
 
     Optional<User> findUserByNameAndRrn(String name, String rrn);
+
+    Optional<User> findUserByIdAndPw(String id, String pw);
 }

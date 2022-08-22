@@ -1,8 +1,10 @@
 package codesver.tannae.controller;
 
 import codesver.tannae.dto.user.FoundAccountDTO;
+import codesver.tannae.dto.user.LoginDTO;
 import codesver.tannae.dto.user.SignUpUserDTO;
 import codesver.tannae.service.user.FindAccountService;
+import codesver.tannae.service.user.LoginService;
 import codesver.tannae.service.user.SignUpService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +18,7 @@ public class UserController {
 
     private final SignUpService signUpService;
     private final FindAccountService findAccountService;
+    private final LoginService loginService;
 
     @GetMapping("/check-id")
     public Boolean checkId(@RequestParam String id) {
@@ -39,5 +42,11 @@ public class UserController {
     public FoundAccountDTO findAccount(@RequestParam String name, @RequestParam String rrn) {
         log.info("[CONTROLLER-USER : FIND_ACCOUNT] /users/find-account?name={}&rrn={}", name, rrn);
         return findAccountService.findAccount(name, rrn);
+    }
+
+    @GetMapping("/login")
+    public LoginDTO login(@RequestParam String id, @RequestParam String pw) {
+        log.info("[CONTROLLER-USER : LOGIN] /users/login?id=ID&pw=PW");
+        return loginService.login(id, pw);
     }
 }
