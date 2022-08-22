@@ -15,6 +15,6 @@ public interface ServiceApi {
     @GET("/users/check-private")
     Call<Boolean> checkPrivate(@Query("name") String name, @Query("rrn") String rrn);
 
-    @POST("/users/")
+    @POST("/users/sign-up")
     Call<Boolean> signUp(@Body SignUpUserDTO dto);
 }
