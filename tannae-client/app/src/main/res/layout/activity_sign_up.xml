@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="회원가입"
-            android:textColor="@color/black"
+            android:textColor="@color/main"
             android:textSize="25dp"
             android:textStyle="bold" />
 
@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="계정 정보"
-                android:textColor="@color/black"
+                android:textColor="@color/main"
                 android:textSize="25dp"
                 android:textStyle="bold" />
 
@@ -129,7 +129,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="개인 정보"
-                android:textColor="@color/black"
+                android:textColor="@color/main"
                 android:textSize="25dp"
                 android:textStyle="bold" />
 
