@@ -1,4 +1,4 @@
-package codesver.tannae.activity.account;
+package codesver.tannae.activity.user;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,8 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import codesver.tannae.R;
-import codesver.tannae.domain.User;
-import codesver.tannae.dto.account.SignUpUserDTO;
+import codesver.tannae.dto.user.SignUpUserDTO;
 import codesver.tannae.network.Network;
 import codesver.tannae.service.Toaster;
 import retrofit2.Call;

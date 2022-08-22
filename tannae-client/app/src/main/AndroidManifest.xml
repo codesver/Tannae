@@ -16,16 +16,16 @@
         android:theme="@style/Theme.TANNAE"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".activity.account.MainActivity"
+            android:name=".activity.user.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.account.SignUpActivity"
+            android:name=".activity.user.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.account.FindActivity"
+            android:name=".activity.user.FindActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.account.LoginActivity"
+            android:name=".activity.user.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

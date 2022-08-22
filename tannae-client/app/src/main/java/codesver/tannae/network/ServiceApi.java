@@ -1,7 +1,6 @@
 package codesver.tannae.network;
 
-import codesver.tannae.domain.User;
-import codesver.tannae.dto.account.SignUpUserDTO;
+import codesver.tannae.dto.user.SignUpUserDTO;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
