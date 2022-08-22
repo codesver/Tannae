@@ -26,6 +26,9 @@ public class User {
     @Column(name = "rrn", length = 13, nullable = false)
     private String rrn;
 
+    @Column(name = "gender", length = 1, nullable = false)
+    private Boolean gender;
+
     @Column(name = "phone", length = 11, nullable = false)
     private String phone;
 
