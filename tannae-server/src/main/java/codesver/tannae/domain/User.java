@@ -1,6 +1,9 @@
 package codesver.tannae.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.type.descriptor.sql.TinyIntTypeDescriptor;
 
 import javax.persistence.*;
 
@@ -8,16 +11,18 @@ import javax.persistence.*;
 @Entity
 @Table(name = "User",
         uniqueConstraints = @UniqueConstraint(columnNames = {"name", "rrn"}))
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer usn;
 
-    @Column(name = "id", length = 20)
+    @Column(name = "id", length = 20, unique = true, nullable = false)
     private String id;
 
-    @Column(name = "pw", length = 20, unique = true, nullable = false)
+    @Column(name = "pw", length = 20, nullable = false)
     private String pw;
 
     @Column(name = "name", length = 8, nullable = false)
@@ -27,11 +32,12 @@ public class User {
     private String rrn;
 
     @Column(name = "gender", length = 1, nullable = false)
-    private Boolean gender;
+    private Integer gender;
+
+    @Column(name = "email", length = 30, nullable = false)
+    private String email;
 
     @Column(name = "phone", length = 11, nullable = false)
     private String phone;
 
-    @Column(name = "email", length = 30, nullable = false)
-    private String email;
 }

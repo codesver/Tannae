@@ -1,5 +1,7 @@
 package codesver.tannae.service.user;
 
+import codesver.tannae.domain.User;
+import codesver.tannae.dto.user.SignUpUserDTO;
 import codesver.tannae.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,5 +20,10 @@ public class SignUpService {
 
     public boolean isAvailableUser(String name, String rrn) {
         return userRepository.countByPrivate(name, rrn) == 0;
+    }
+
+    public boolean signUpSuccessfully(SignUpUserDTO dto) {
+        User newUser = dto.toUser();
+        return userRepository.save(newUser);
     }
 }

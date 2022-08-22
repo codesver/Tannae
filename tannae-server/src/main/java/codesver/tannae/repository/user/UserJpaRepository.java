@@ -1,5 +1,6 @@
 package codesver.tannae.repository.user;
 
+import codesver.tannae.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -21,5 +22,16 @@ public class UserJpaRepository implements UserRepository {
     @Override
     public int countByPrivate(String name, String rrn) {
         return repository.countUserByRrn(rrn);
+    }
+
+    @Override
+    public boolean save(User user) {
+        try {
+            repository.save(user);
+            return true;
+        } catch (Exception e) {
+            log.info("[MYSQL] Error={}", e.getMessage());
+            return false;
+        }
     }
 }

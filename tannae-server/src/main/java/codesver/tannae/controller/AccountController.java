@@ -1,12 +1,10 @@
 package codesver.tannae.controller;
 
+import codesver.tannae.dto.user.SignUpUserDTO;
 import codesver.tannae.service.user.SignUpService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -30,5 +28,12 @@ public class AccountController {
         boolean isAvailable = signUpService.isAvailableUser(name, rrn);
         log.info("[SERVER] User availability={}", isAvailable);
         return isAvailable;
+    }
+
+    @PostMapping("/sign-up")
+    public Boolean signUp(@RequestBody SignUpUserDTO dto) {
+        log.info("[SERVER] New user signing User={}", dto);
+        signUpService.signUpSuccessfully(dto);
+        return true;
     }
 }
