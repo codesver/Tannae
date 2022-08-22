@@ -3,15 +3,16 @@ package codesver.tannae.activity.account;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import codesver.tannae.R;
+import codesver.tannae.domain.User;
+import codesver.tannae.dto.account.SignUpUserDTO;
 import codesver.tannae.network.Network;
 import codesver.tannae.service.Toaster;
 import retrofit2.Call;
@@ -68,7 +69,6 @@ public class SignUpActivity extends AppCompatActivity {
         editName.addTextChangedListener(privateChecker());
         editRrnFront.addTextChangedListener(privateChecker());
         editRrnBack.addTextChangedListener(privateChecker());
-        editEmail.addTextChangedListener(emailChecker());
     }
 
     private void checkId() {
@@ -79,6 +79,10 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
+        checkIdByServer();
+    }
+
+    private void checkIdByServer() {
         Network.service.checkId(editId.getText().toString()).enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
@@ -106,32 +110,77 @@ public class SignUpActivity extends AppCompatActivity {
             privateChecked = false;
             Toaster.toast(SignUpActivity.this, "개인정보를 정확하게 입력하세요.");
         } else {
-            Network.service.checkPrivate(name, rrnFront + "-" + rrnBack).enqueue(new Callback<Boolean>() {
-                @Override
-                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                    Boolean isNew = response.body();
-                    if (isNew) {
-                        textPrivateState.setText("본인인증이 되었습니다.");
-                        textPrivateState.setTextColor(0xAA0000FF);
-                        privateChecked = true;
-                        Toaster.toast(SignUpActivity.this, "본인인증이 완료되었습니다.");
-                    } else {
-                        textPrivateState.setText("이미 가입된 사용자입니다.");
-                        textPrivateState.setTextColor(0xAAFF0000);
-                        privateChecked = false;
-                        Toaster.toast(SignUpActivity.this, "이미 가입된 사용자입니다.");
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Boolean> call, Throwable t) {
-                    Toaster.toast(SignUpActivity.this, "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
-                }
-            });
+            checkUserByServer(name, rrnFront, rrnBack);
         }
     }
 
+    private void checkUserByServer(String name, String rrnFront, String rrnBack) {
+        Network.service.checkPrivate(name, rrnFront + "-" + rrnBack).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Boolean isNew = response.body();
+                if (isNew) {
+                    textPrivateState.setText("본인인증이 되었습니다.");
+                    textPrivateState.setTextColor(0xAA0000FF);
+                    privateChecked = true;
+                    Toaster.toast(SignUpActivity.this, "본인인증이 완료되었습니다.");
+                } else {
+                    textPrivateState.setText("이미 가입된 사용자입니다.");
+                    textPrivateState.setTextColor(0xAAFF0000);
+                    privateChecked = false;
+                    Toaster.toast(SignUpActivity.this, "이미 가입된 사용자입니다.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Toaster.toast(SignUpActivity.this, "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
+            }
+        });
+    }
+
     private void signUp() {
+
+        if (!idChecked) Toaster.toast(SignUpActivity.this, "ID 중복을 검사하세요.");
+        else if (!pwChecked) Toaster.toast(SignUpActivity.this, "PW를 확인하세요.");
+        else if (!privateChecked) Toaster.toast(SignUpActivity.this, "본인인증을 하세요.");
+        else if (!Patterns.EMAIL_ADDRESS.matcher(editEmail.getText().toString()).matches())
+            Toaster.toast(SignUpActivity.this, "잘못된 E-mail 형식입니다.");
+        else if (!Patterns.PHONE.matcher(editPhone.getText().toString()).matches())
+            Toaster.toast(SignUpActivity.this, "잘못된 전화번호 형식입니다.");
+        else {
+            SignUpUserDTO dto = createSignUpUserDTO();
+            signUpByServer(dto);
+        }
+    }
+
+    private SignUpUserDTO createSignUpUserDTO() {
+        String id = editId.getText().toString();
+        String pw = editPw.getText().toString();
+        String name = editName.getText().toString();
+        String rrn = editRrnFront.getText().toString() + "-" + editRrnBack.getText().toString();
+        String email = editEmail.getText().toString();
+        String phone = editPhone.getText().toString();
+        return new SignUpUserDTO(id, pw, name, rrn, email, phone);
+    }
+
+    private void signUpByServer(SignUpUserDTO dto) {
+        Network.service.signUp(dto).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Boolean success = response.body();
+                if (success) {
+                    Toaster.toast(SignUpActivity.this, "회원가입이 완료되었습니다.");
+                    onBackPressed();
+                } else
+                    Toaster.toast(SignUpActivity.this, "회원가입이 거부되었습니다.\n고객센터로 문의바랍니다.");
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Toaster.toast(SignUpActivity.this, "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
+            }
+        });
     }
 
     private TextWatcher idChecker() {
@@ -272,22 +321,4 @@ public class SignUpActivity extends AppCompatActivity {
         };
     }
 
-    private TextWatcher emailChecker() {
-        return new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        };
-    }
 }
