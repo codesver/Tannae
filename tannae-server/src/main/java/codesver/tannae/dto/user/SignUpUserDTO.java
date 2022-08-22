@@ -16,7 +16,7 @@ public class SignUpUserDTO {
     private String phone;
 
     public User toUser() {
-        char genderNumber = rrn.charAt(8);
+        char genderNumber = rrn.charAt(7);
         int gender = (genderNumber == '1' || genderNumber == '3') ? 1 : 2;
         return new User(null, id, pw, name, rrn, gender, email, phone);
     }
