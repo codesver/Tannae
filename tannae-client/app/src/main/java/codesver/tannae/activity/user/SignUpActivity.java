@@ -19,6 +19,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SignUpActivity extends AppCompatActivity {
+
     private Button buttonBack, buttonCheckId, buttonCheckUser, buttonSignUp;
     private EditText editId, editPw, editPwCheck, editName, editRrnFront, editRrnBack, editEmail, editPhone;
     private TextView textIdState, textPwState, textPrivateState;
