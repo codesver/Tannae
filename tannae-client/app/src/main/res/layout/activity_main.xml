@@ -43,5 +43,4 @@
         android:backgroundTint="@color/main"
         android:src="@drawable/taxi" />
 
-
 </FrameLayout>
