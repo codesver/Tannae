@@ -1,4 +1,4 @@
-package codesver.tannae.activity.user;
+package codesver.tannae.activity.main;
 
 import android.os.Bundle;
 import android.view.ViewGroup;

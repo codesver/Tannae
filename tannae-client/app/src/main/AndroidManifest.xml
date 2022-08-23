@@ -16,7 +16,7 @@
         android:theme="@style/Theme.TANNAE"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".activity.user.MainActivity"
+            android:name=".activity.main.MainActivity"
             android:exported="false" />
         <activity
             android:name=".activity.user.SignUpActivity"

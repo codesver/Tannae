@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import codesver.tannae.R;
-import codesver.tannae.domain.User;
+import codesver.tannae.activity.main.MainActivity;
 import codesver.tannae.dto.user.LoginDTO;
 import codesver.tannae.network.Network;
 import codesver.tannae.network.RetrofitClient;
