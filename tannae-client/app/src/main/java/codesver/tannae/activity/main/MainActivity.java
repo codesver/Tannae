@@ -1,5 +1,6 @@
 package codesver.tannae.activity.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -11,6 +12,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import net.daum.mf.map.api.MapView;
 
 import codesver.tannae.R;
+import codesver.tannae.activity.menu.MenuActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,6 +42,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setEventListeners() {
-
+        buttonMenu.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MenuActivity.class)));
     }
 }

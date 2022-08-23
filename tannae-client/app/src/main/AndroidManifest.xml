@@ -16,6 +16,9 @@
         android:theme="@style/Theme.TANNAE"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activity.menu.MenuActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.main.MainActivity"
             android:exported="false" />
         <activity
