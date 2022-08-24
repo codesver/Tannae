@@ -1,6 +1,7 @@
 package codesver.tannae.activity.user;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,10 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import codesver.tannae.R;
 import codesver.tannae.activity.main.MainActivity;
+import codesver.tannae.domain.User;
 import codesver.tannae.dto.user.LoginDTO;
 import codesver.tannae.network.Network;
 import codesver.tannae.network.RetrofitClient;
 import codesver.tannae.network.ServiceApi;
+import codesver.tannae.service.InnerDB;
 import codesver.tannae.service.Toaster;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,6 +23,7 @@ import retrofit2.Response;
 
 
 public class LoginActivity extends AppCompatActivity {
+
     private EditText editId, editPw;
     private Button buttonFind, buttonSignUp, buttonLogin;
 
@@ -49,25 +53,25 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
-        Toaster.toast(LoginActivity.this, "Test Login");
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-//        String id = editId.getText().toString();
-//        String pw = editPw.getText().toString();
-//
-//        if (id.equals(""))
-//            Toaster.toast(LoginActivity.this, "ID를 입력하세요.");
-//        else if (pw.equals(""))
-//            Toaster.toast(LoginActivity.this, "PW를 입력하세요.");
-//        else
-//            loginByServer(id, pw);
+//        Toaster.toast(LoginActivity.this, "Test Login");
+//        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        String id = editId.getText().toString();
+        String pw = editPw.getText().toString();
+
+        if (id.equals(""))
+            Toaster.toast(LoginActivity.this, "ID를 입력하세요.");
+        else if (pw.equals(""))
+            Toaster.toast(LoginActivity.this, "PW를 입력하세요.");
+        else
+            loginByServer(id, pw, false);
     }
 
-    private void loginByServer(String id, String pw) {
+    private void loginByServer(String id, String pw, boolean exist) {
         Network.service.login(id, pw).enqueue(new Callback<LoginDTO>() {
             @Override
             public void onResponse(Call<LoginDTO> call, Response<LoginDTO> response) {
-                LoginDTO user = response.body();
-                if (user.exist()) {
+                LoginDTO login = response.body();
+                if (login.exist()) {
                     Toaster.toast(LoginActivity.this, "로그인 되었습니다.");
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 } else {
@@ -82,5 +86,9 @@ public class LoginActivity extends AppCompatActivity {
                 Toaster.toast(LoginActivity.this, "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });
+    }
+
+    private void autoLogin() {
+
     }
 }
