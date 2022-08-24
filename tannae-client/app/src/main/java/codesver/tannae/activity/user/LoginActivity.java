@@ -49,15 +49,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
-        String id = editId.getText().toString();
-        String pw = editPw.getText().toString();
-
-        if (id.equals(""))
-            Toaster.toast(LoginActivity.this, "ID를 입력하세요.");
-        else if (pw.equals(""))
-            Toaster.toast(LoginActivity.this, "PW를 입력하세요.");
-        else
-            loginByServer(id, pw);
+        Toaster.toast(LoginActivity.this, "Test Login");
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//        String id = editId.getText().toString();
+//        String pw = editPw.getText().toString();
+//
+//        if (id.equals(""))
+//            Toaster.toast(LoginActivity.this, "ID를 입력하세요.");
+//        else if (pw.equals(""))
+//            Toaster.toast(LoginActivity.this, "PW를 입력하세요.");
+//        else
+//            loginByServer(id, pw);
     }
 
     private void loginByServer(String id, String pw) {
