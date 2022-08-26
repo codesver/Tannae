@@ -35,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         setViews();
         setEventListeners();
+        autoLogin();
     }
 
     private void setViews() {
@@ -72,7 +73,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<LoginDTO> call, Response<LoginDTO> response) {
                 LoginDTO login = response.body();
                 if (login.exist()) {
-                    Toaster.toast(LoginActivity.this, "로그인 되었습니다.");
+                    if (!exist) InnerDB.saveUser(getApplicationContext(), login.getUser());
+                    Toaster.toast(LoginActivity.this, "로그인 하였습니다.");
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 } else {
                     Toaster.toast(LoginActivity.this, "존재하지 않는 계정입니다.");
@@ -89,6 +91,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void autoLogin() {
-
+        SharedPreferences getter = InnerDB.getter(getApplicationContext());
+        int usn = getter.getInt("usn", -1);
+        if (usn != -1) {
+            String id = getter.getString("id", null);
+            String pw = getter.getString("pw", null);
+            loginByServer(id, pw, true);
+        }
     }
 }

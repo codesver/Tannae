@@ -11,6 +11,20 @@ public class User {
     private String email;
     private String phone;
 
+    public User() {
+    }
+
+    public User(Integer usn, String id, String pw, String name, String rrn, Integer gender, String email, String phone) {
+        this.usn = usn;
+        this.id = id;
+        this.pw = pw;
+        this.name = name;
+        this.rrn = rrn;
+        this.gender = gender;
+        this.email = email;
+        this.phone = phone;
+    }
+
     public Integer getUsn() {
         return usn;
     }
