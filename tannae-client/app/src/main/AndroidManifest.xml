@@ -16,6 +16,9 @@
         android:theme="@style/Theme.TANNAE"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activity.main.passenger.RequestActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.menu.PointActivity"
             android:exported="false" />
         <activity

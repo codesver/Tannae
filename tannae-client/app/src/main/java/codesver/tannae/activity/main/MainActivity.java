@@ -13,12 +13,16 @@ import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
 import codesver.tannae.R;
+import codesver.tannae.activity.main.passenger.RequestActivity;
 import codesver.tannae.activity.menu.MenuActivity;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button buttonMenu;
     private FloatingActionButton buttonService;
+
+    private MapView mapView;
+    private ViewGroup mapViewContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +34,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setMap() {
-        MapView mapView = new MapView(this);
+        mapView = new MapView(this);
         mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(35.1761175, 126.9058167), true);
         mapView.setZoomLevel(2, true);
-        ViewGroup mapViewContainer = findViewById(R.id.frame_layout_main);
+        mapViewContainer = findViewById(R.id.frame_layout_main);
 
         mapViewContainer.addView(mapView);
         (findViewById(R.id.text_tannae_main)).bringToFront();
@@ -47,6 +51,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void setEventListeners() {
         buttonMenu.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MenuActivity.class)));
+        buttonService.setOnClickListener(v -> request());
+    }
+
+    private void request() {
+        mapViewContainer.removeView(mapView);
+        startActivity(new Intent(MainActivity.this, RequestActivity.class));
     }
 
     @Override
