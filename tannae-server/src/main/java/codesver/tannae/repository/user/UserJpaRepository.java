@@ -10,27 +10,25 @@ import java.util.Optional;
 
 @Slf4j
 @Repository
+@Transactional
 @RequiredArgsConstructor
 public class UserJpaRepository implements UserRepository {
 
     private final UserSpringDataJpaRepository repository;
 
     @Override
-    @Transactional
     public int countById(String id) {
         log.info("[REPOSITORY-USER : COUNT_BY_ID] Counting user by id={}", id);
         return repository.countUserById(id);
     }
 
     @Override
-    @Transactional
     public int countByPrivate(String name, String rrn) {
         log.info("[REPOSITORY-USER : COUNT_BY_PRIVATE] Counting user by name={} rrn={}", name, rrn);
         return repository.countUserByRrn(rrn);
     }
 
     @Override
-    @Transactional
     public boolean save(User user) {
         log.info("[REPOSITORY-USER : SAVE] Save user={}", user);
         repository.save(user);
@@ -45,12 +43,13 @@ public class UserJpaRepository implements UserRepository {
 
     @Override
     public Optional<User> findByIdPw(String id, String pw) {
-        log.info("[REPOSITORY-USER : FIND_BY_ID_PW Finding user by id={} pw={}", id, pw);
+        log.info("[REPOSITORY-USER : FIND_BY_ID_PW] Finding user by id={} pw={}", id, pw);
         return repository.findUserByIdAndPw(id, pw);
     }
 
     @Override
     public Integer chargePoint(Integer usn, Integer point) {
+        log.info("[REPOSITORY-USER : CHARGE_POINT] Charging {} point for usn={}", point, usn);
         User user = repository.findUserByUsn(usn).orElse(new User());
         int charged = user.getPoint() + point;
         user.setPoint(charged);
