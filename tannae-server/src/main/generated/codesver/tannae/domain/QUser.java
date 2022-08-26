@@ -29,6 +29,8 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath phone = createString("phone");
 
+    public final NumberPath<Integer> point = createNumber("point", Integer.class);
+
     public final StringPath pw = createString("pw");
 
     public final StringPath rrn = createString("rrn");

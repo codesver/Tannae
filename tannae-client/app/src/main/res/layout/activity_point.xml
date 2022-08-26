@@ -31,8 +31,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_margin="10dp"
+        android:layout_weight="1"
         android:background="@drawable/cardview"
         android:elevation="2dp"
         android:gravity="center"
@@ -70,19 +70,19 @@
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/arrow_up"/>
+            android:src="@drawable/arrow_up" />
 
         <ImageView
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/arrow_up"/>
+            android:src="@drawable/arrow_up" />
 
         <ImageView
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/arrow_up"/>
+            android:src="@drawable/arrow_up" />
 
     </LinearLayout>
 
@@ -90,8 +90,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_margin="10dp"
+        android:layout_weight="1"
         android:background="@drawable/cardview"
         android:elevation="2dp"
         android:gravity="center"
@@ -111,10 +111,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
             android:layout_marginHorizontal="50dp"
+            android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
-            android:hint="충전량을 입력하세요."/>
+            android:hint="충전량을 입력하세요."
+            android:inputType="number" />
 
     </LinearLayout>
 
