@@ -10,11 +10,12 @@ public class User {
     private Integer gender;
     private String email;
     private String phone;
+    private Integer point;
 
     public User() {
     }
 
-    public User(Integer usn, String id, String pw, String name, String rrn, Integer gender, String email, String phone) {
+    public User(Integer usn, String id, String pw, String name, String rrn, Integer gender, String email, String phone, Integer point) {
         this.usn = usn;
         this.id = id;
         this.pw = pw;
@@ -23,6 +24,7 @@ public class User {
         this.gender = gender;
         this.email = email;
         this.phone = phone;
+        this.point = point;
     }
 
     public Integer getUsn() {
@@ -55,5 +57,9 @@ public class User {
 
     public String getPhone() {
         return phone;
+    }
+
+    public Integer getPoint() {
+        return point;
     }
 }

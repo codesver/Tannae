@@ -39,4 +39,6 @@ public class User {
     @Column(name = "phone", length = 11, nullable = false)
     private String phone;
 
+    @Column(name = "point", nullable = false)
+    private Integer point;
 }

@@ -28,6 +28,7 @@ public class InnerDB {
                 .putString("email", user.getEmail())
                 .putString("phone", user.getPhone())
                 .putBoolean("exist", true)
+                .putInt("point", user.getPoint())
                 .apply();
     }
 
@@ -42,8 +43,9 @@ public class InnerDB {
         int gender = sp.getInt("gender", 1);
         String email = sp.getString("email", null);
         String phone = sp.getString("phone", null);
+        int point = sp.getInt("point", 0);
 
-        return new User(usn, id, pw, name, rrn, gender, email, phone);
+        return new User(usn, id, pw, name, rrn, gender, email, phone, point);
     }
 
     public static void clear(Context context) {
