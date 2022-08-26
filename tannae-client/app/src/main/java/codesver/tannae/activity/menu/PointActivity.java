@@ -88,7 +88,7 @@ public class PointActivity extends AppCompatActivity {
         });
     }
 
-    private void updatePoint(int charged) {
+    private void updatePoint(Integer charged) {
         SharedPreferences.Editor setter = setter(getApplicationContext());
         setter.putInt("point", charged).apply();
 
