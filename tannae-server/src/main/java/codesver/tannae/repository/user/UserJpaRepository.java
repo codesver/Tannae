@@ -48,4 +48,12 @@ public class UserJpaRepository implements UserRepository {
         log.info("[REPOSITORY-USER : FIND_BY_ID_PW Finding user by id={} pw={}", id, pw);
         return repository.findUserByIdAndPw(id, pw);
     }
+
+    @Override
+    public Integer chargePoint(Integer usn, Integer point) {
+        User user = repository.findUserByUsn(usn).orElse(new User());
+        int charged = user.getPoint() + point;
+        user.setPoint(charged);
+        return charged;
+    }
 }

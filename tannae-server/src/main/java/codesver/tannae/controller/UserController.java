@@ -51,4 +51,10 @@ public class UserController {
         Optional<User> loggedUser = userRepository.findByIdPw(id, pw);
         return new LoginDTO(loggedUser.orElse(new User()), loggedUser.isPresent());
     }
+
+    @PatchMapping("/{usn}/charge")
+    public Integer charge(@PathVariable Integer usn, @RequestParam Integer point) {
+        log.info("[CONTROLLER-USER : CHARGE] /users/{}/point={}", usn, point);
+        return userRepository.chargePoint(usn, point);
+    }
 }

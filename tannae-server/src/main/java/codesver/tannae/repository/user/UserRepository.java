@@ -15,4 +15,6 @@ public interface UserRepository {
     Optional<User> findByNameRrn(String name, String rrn);
 
     Optional<User> findByIdPw(String id, String pw);
+
+    Integer chargePoint(Integer usn, Integer point);
 }
