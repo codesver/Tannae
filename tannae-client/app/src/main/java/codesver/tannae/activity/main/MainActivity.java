@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
 import codesver.tannae.R;
@@ -30,7 +31,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void setMap() {
         MapView mapView = new MapView(this);
+        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(35.1761175, 126.9058167), true);
+        mapView.setZoomLevel(2, true);
         ViewGroup mapViewContainer = findViewById(R.id.frame_layout_main);
+
         mapViewContainer.addView(mapView);
         (findViewById(R.id.text_tannae_main)).bringToFront();
         (findViewById(R.id.image_tannae_logo_main)).bringToFront();
@@ -43,5 +47,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void setEventListeners() {
         buttonMenu.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MenuActivity.class)));
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 }
