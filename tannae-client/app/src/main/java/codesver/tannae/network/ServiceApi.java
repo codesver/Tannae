@@ -30,5 +30,5 @@ public interface ServiceApi {
     Call<LoginDTO> login(@Query("id") String id, @Query("pw") String pw);
 
     @PATCH("/users/{usn}/charge")
-    Call<Boolean> charge(@Path("usn") Integer usn, @Query("point") Integer point);
+    Call<Integer> charge(@Path("usn") Integer usn, @Query("point") Integer point);
 }

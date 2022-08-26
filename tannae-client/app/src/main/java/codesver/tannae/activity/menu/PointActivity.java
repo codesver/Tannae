@@ -73,31 +73,26 @@ public class PointActivity extends AppCompatActivity {
     private void chargeByServer(int point) {
         SharedPreferences getter = getter(getApplicationContext());
         int usn = getter.getInt("usn", 0);
-        Network.service.charge(usn, point).enqueue(new Callback<Boolean>() {
+        Network.service.charge(usn, point).enqueue(new Callback<Integer>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                Boolean success = response.body();
-                if (!success) return;
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                Integer charged = response.body();
                 Toaster.toast(PointActivity.this, "충전을 완료하였습니다.");
-                updatePoint(point);
+                updatePoint(charged);
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<Integer> call, Throwable t) {
                 Toaster.toast(PointActivity.this, "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });
     }
 
-    private void updatePoint(int point) {
+    private void updatePoint(int charged) {
         SharedPreferences.Editor setter = setter(getApplicationContext());
-        SharedPreferences getter = getter(getApplicationContext());
-        int newPoint = getter.getInt("point", 0) + point;
+        setter.putInt("point", charged).apply();
 
-        setter.putInt("point", newPoint);
-        setter.apply();
-
-        textCurrent.setText(String.valueOf(newPoint));
+        textCurrent.setText(String.valueOf(charged));
         editPoint.setText("");
     }
 }
