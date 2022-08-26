@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import codesver.tannae.R;
@@ -60,13 +61,13 @@ public class PointActivity extends AppCompatActivity {
         SharedPreferences getter = getter(getApplicationContext());
         int point = getter.getInt("point", 0);
         String chargePointText = editPoint.getText().toString();
-        int chargePoint = Integer.parseInt(chargePointText);
+        int chargePoint = Integer.parseInt(chargePointText.equals("") ? "0" : chargePointText);
 
         if (chargePointText.length() == 0 || chargePoint == 0)
             Toaster.toast(PointActivity.this, "충전량을 입력하세요.");
         else if (point < 0 && -point > chargePoint)
             Toaster.toast(PointActivity.this, "초과 사용 포인트 이상을 충전해주시기 바랍니다.");
-        else chargeByServer(point);
+        else chargeByServer(chargePoint);
     }
 
     private void chargeByServer(int point) {
@@ -75,8 +76,8 @@ public class PointActivity extends AppCompatActivity {
         Network.service.charge(usn, point).enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                Boolean success = response.body();
-                if (!success) return;
+                //Boolean success = response.body();
+                //if (!success) return;
                 Toaster.toast(PointActivity.this, "충전을 완료하였습니다.");
                 updatePoint(point);
             }

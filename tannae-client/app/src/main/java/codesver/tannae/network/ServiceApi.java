@@ -6,6 +6,7 @@ import codesver.tannae.dto.user.LoginDTO;
 import codesver.tannae.dto.user.SignUpUserDTO;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
@@ -29,5 +30,5 @@ public interface ServiceApi {
     Call<LoginDTO> login(@Query("id") String id, @Query("pw") String pw);
 
     @PATCH("/users/{usn}/charge")
-    Call<Boolean> charge(@Path(value = "usn") Integer usn, @Query("point") Integer point);
+    Call<Boolean> charge(@Query("usn") Integer usn, @Query("point") Integer point);
 }
