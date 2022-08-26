@@ -38,13 +38,12 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     private void setEventListeners() {
+        linearAccount.setOnClickListener(v -> startActivity(new Intent(MenuActivity.this, AccountActivity.class)));
+
         buttonBack.setOnClickListener(v -> onBackPressed());
-        buttonLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                InnerDB.clear(getApplicationContext());
-                startActivity(new Intent(MenuActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-            }
+        buttonLogout.setOnClickListener(v -> {
+            InnerDB.clear(getApplicationContext());
+            startActivity(new Intent(MenuActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         });
     }
 }

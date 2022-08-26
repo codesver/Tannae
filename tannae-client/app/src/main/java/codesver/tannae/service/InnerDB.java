@@ -31,7 +31,7 @@ public class InnerDB {
                 .apply();
     }
 
-    public static User callUser(Context context) {
+    public static User getUser(Context context) {
         SharedPreferences sp = context.getSharedPreferences("InnerDB", Context.MODE_PRIVATE);
 
         int usn = sp.getInt("usn", -1);

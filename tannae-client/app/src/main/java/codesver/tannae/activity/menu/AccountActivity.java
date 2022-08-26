@@ -1,5 +1,6 @@
 package codesver.tannae.activity.menu;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -7,6 +8,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import codesver.tannae.R;
+import codesver.tannae.domain.User;
+import codesver.tannae.service.InnerDB;
 
 public class AccountActivity extends AppCompatActivity {
 
@@ -19,6 +22,7 @@ public class AccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account);
         setViews();
         setEventListeners();
+        setText();
     }
 
     private void setViews() {
@@ -26,7 +30,7 @@ public class AccountActivity extends AppCompatActivity {
         textRrn = findViewById(R.id.text_rrn_account);
         textEmail = findViewById(R.id.text_email_account);
         textPhone = findViewById(R.id.text_phone_account);
-        textId = findViewById(R.id.text_phone_account);
+        textId = findViewById(R.id.text_id_account);
         textPw = findViewById(R.id.text_pw_account);
 
         buttonEdit = findViewById(R.id.button_edit_account);
@@ -35,5 +39,15 @@ public class AccountActivity extends AppCompatActivity {
 
     private void setEventListeners() {
         buttonBack.setOnClickListener(v -> onBackPressed());
+    }
+
+    private void setText() {
+        User user = InnerDB.getUser(getApplicationContext());
+        textName.setText(user.getName());
+        textRrn.setText(user.getRrn());
+        textEmail.setText(user.getEmail());
+        textPhone.setText(user.getPhone());
+        textId.setText(user.getId());
+        textPw.setText(user.getPw());
     }
 }
