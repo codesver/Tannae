@@ -76,8 +76,8 @@ public class PointActivity extends AppCompatActivity {
         Network.service.charge(usn, point).enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                //Boolean success = response.body();
-                //if (!success) return;
+                Boolean success = response.body();
+                if (!success) return;
                 Toaster.toast(PointActivity.this, "충전을 완료하였습니다.");
                 updatePoint(point);
             }
