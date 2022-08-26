@@ -54,8 +54,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
-//        Toaster.toast(LoginActivity.this, "Test Login");
-//        startActivity(new Intent(LoginActivity.this, MainActivity.class));
         String id = editId.getText().toString();
         String pw = editPw.getText().toString();
 
@@ -91,12 +89,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void autoLogin() {
-        SharedPreferences getter = InnerDB.getter(getApplicationContext());
-        int usn = getter.getInt("usn", -1);
-        if (usn != -1) {
-            String id = getter.getString("id", null);
-            String pw = getter.getString("pw", null);
-            loginByServer(id, pw, true);
-        }
+        Toaster.toast(LoginActivity.this, "Test Login");
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//        SharedPreferences getter = InnerDB.getter(getApplicationContext());
+//        int usn = getter.getInt("usn", -1);
+//        if (usn != -1) {
+//            String id = getter.getString("id", null);
+//            String pw = getter.getString("pw", null);
+//            loginByServer(id, pw, true);
+//        }
     }
 }
