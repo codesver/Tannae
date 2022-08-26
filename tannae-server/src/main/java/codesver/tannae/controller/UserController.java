@@ -47,7 +47,7 @@ public class UserController {
 
     @GetMapping("/login")
     public LoginDTO login(@RequestParam String id, @RequestParam String pw) {
-        log.info("[CONTROLLER-USER : LOGIN] /users/login?id=ID&pw=PW");
+        log.info("[CONTROLLER-USER : LOGIN] /users/login?id={}&pw={}", id, pw);
         Optional<User> loggedUser = userRepository.findByIdPw(id, pw);
         return new LoginDTO(loggedUser.orElse(new User()), loggedUser.isPresent());
     }
