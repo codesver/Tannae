@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                 LoginDTO login = response.body();
                 if (login.exist()) {
                     if (!exist) InnerDB.saveUser(getApplicationContext(), login.getUser());
-                    Toaster.toast(LoginActivity.this, "로그인 하였습니다.");
+                    Toaster.toast(LoginActivity.this, id + "님 반갑습니다!");
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 } else {
                     Toaster.toast(LoginActivity.this, "존재하지 않는 계정입니다.");
