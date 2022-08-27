@@ -40,7 +40,5 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     implementation files('libs/libDaumMapAndroid.jar')
-    implementation ('io.socket:socket.io-client:2.0.0') {
-        exclude group: 'org.json', module: 'json'
-    }
+    implementation 'tech.gusavila92:java-android-websocket-client:1.2.2'
 }
