@@ -13,7 +13,6 @@ import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
 import codesver.tannae.R;
-import codesver.tannae.activity.main.passenger.RequestActivity;
 import codesver.tannae.activity.menu.MenuActivity;
 
 public class MainActivity extends AppCompatActivity {

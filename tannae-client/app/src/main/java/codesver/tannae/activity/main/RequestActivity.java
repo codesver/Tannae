@@ -1,10 +1,9 @@
-package codesver.tannae.activity.main.passenger;
+package codesver.tannae.activity.main;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -16,8 +15,6 @@ import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
 
 import codesver.tannae.R;
-import codesver.tannae.activity.main.MainActivity;
-import codesver.tannae.service.Toaster;
 
 public class RequestActivity extends AppCompatActivity implements MapView.MapViewEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener {
 
