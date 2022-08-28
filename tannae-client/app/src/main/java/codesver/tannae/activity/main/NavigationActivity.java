@@ -26,6 +26,7 @@ public class NavigationActivity extends AppCompatActivity {
     private boolean driverState, shareState;
     private double originLatitude, originLongitude, destinationLatitude, destinationLongitude;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
