@@ -2,7 +2,6 @@ package codesver.tannae.activity.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,12 +12,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import codesver.tannae.R;
-import codesver.tannae.service.Toaster;
-import tech.gusavila92.websocketclient.WebSocketClient;
 
 public class NavigationActivity extends AppCompatActivity {
 
@@ -32,14 +26,11 @@ public class NavigationActivity extends AppCompatActivity {
     private boolean driverState, shareState;
     private double originLatitude, originLongitude, destinationLatitude, destinationLongitude;
 
-    private WebSocketClient socket;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         bringExtras();
-        createWebSocketClient();
     }
 
     private void bringExtras() {
@@ -52,14 +43,6 @@ public class NavigationActivity extends AppCompatActivity {
             destinationLatitude = intent.getDoubleExtra("destinationLatitude", 0);
             destinationLongitude = intent.getDoubleExtra("destinationLongitude", 0);
         }
-    }
-
-    private void createWebSocketClient() {
-        socket = client(createUri());
-        socket.setConnectTimeout(10000);
-        socket.setReadTimeout(10000);
-        socket.enableAutomaticReconnection(5000);
-        socket.connect();
     }
 
     private void checkAvailability() {
@@ -84,57 +67,5 @@ public class NavigationActivity extends AppCompatActivity {
 
     private void setEventListeners() {
 
-    }
-
-    private URI createUri() {
-        try {
-            return new URI("ws://118.219.190.205:8080/socket");
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private WebSocketClient client(URI uri) {
-        return new WebSocketClient(uri) {
-            @Override
-            public void onOpen() {
-                socket.send("Hello Spring!");
-            }
-
-            @Override
-            public void onTextReceived(String s) {
-                final String message = s;
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toaster.toast(NavigationActivity.this, message);
-                    }
-                });
-            }
-
-            @Override
-            public void onBinaryReceived(byte[] data) {
-            }
-
-            @Override
-            public void onPingReceived(byte[] data) {
-            }
-
-            @Override
-            public void onPongReceived(byte[] data) {
-            }
-
-            @Override
-            public void onException(Exception e) {
-                System.out.println(e.getMessage());
-            }
-
-            @Override
-            public void onCloseReceived() {
-                Log.i("WebSocket", "Closed ");
-                System.out.println("onCloseReceived");
-            }
-        };
     }
 }
