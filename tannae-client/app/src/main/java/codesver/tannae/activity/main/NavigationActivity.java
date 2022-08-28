@@ -17,6 +17,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import codesver.tannae.R;
+import codesver.tannae.service.Toaster;
 import tech.gusavila92.websocketclient.WebSocketClient;
 
 public class NavigationActivity extends AppCompatActivity {
@@ -38,10 +39,7 @@ public class NavigationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         bringExtras();
-        checkAvailability();
-        setMap();
-        setViews();
-        setEventListeners();
+        createWebSocketClient();
     }
 
     private void bringExtras() {
@@ -101,18 +99,16 @@ public class NavigationActivity extends AppCompatActivity {
         return new WebSocketClient(uri) {
             @Override
             public void onOpen() {
-                Log.i("WebSocket", "Session is starting");
-                socket.send("Hello World!");
+                socket.send("Hello Spring!");
             }
 
             @Override
             public void onTextReceived(String s) {
-                Log.i("WebSocket", "Message received");
                 final String message = s;
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
+                        Toaster.toast(NavigationActivity.this, message);
                     }
                 });
             }
