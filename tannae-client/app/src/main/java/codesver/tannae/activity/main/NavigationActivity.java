@@ -1,13 +1,11 @@
 package codesver.tannae.activity.main;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
@@ -61,7 +59,7 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     private void checkAvailability() {
-        
+
     }
 
     private void setMap() {
