@@ -58,6 +58,7 @@ public class RequestActivity extends AppCompatActivity implements MapView.MapVie
         switchShare = findViewById(R.id.switch_share_request);
         buttonRequest = findViewById(R.id.button_request_request);
         buttonBack = findViewById(R.id.button_back_request);
+        findViewById(R.id.image_pin_request).bringToFront();
     }
 
     private void setEventListeners() {
