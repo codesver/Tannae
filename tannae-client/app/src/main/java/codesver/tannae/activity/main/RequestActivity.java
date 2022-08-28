@@ -15,6 +15,7 @@ import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
 
 import codesver.tannae.R;
+import codesver.tannae.service.Toaster;
 
 public class RequestActivity extends AppCompatActivity implements MapView.MapViewEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener {
 
@@ -30,6 +31,7 @@ public class RequestActivity extends AppCompatActivity implements MapView.MapVie
 
     private boolean locationType = true, shareState;
     private double originLongitude, originLatitude, destinationLongitude, destinationLatitude;
+    private boolean originSelected, destinationSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +68,19 @@ public class RequestActivity extends AppCompatActivity implements MapView.MapVie
     }
 
     private void request() {
-
+        if (!originSelected)
+            Toaster.toast(RequestActivity.this, "출발지를 지정해주세요.");
+        else if (!destinationSelected)
+            Toaster.toast(RequestActivity.this, "목적지를 지정해주세요.");
+        else {
+            mapViewContainer.removeView(mapView);
+            startActivity(new Intent(RequestActivity.this, NavigationActivity.class)
+                    .putExtra("originLatitude", originLatitude)
+                    .putExtra("originLongitude", originLongitude)
+                    .putExtra("destinationLatitude", destinationLatitude)
+                    .putExtra("destinationLongitude", destinationLongitude)
+                    .putExtra("shareState", shareState));
+        }
     }
 
     @Override
@@ -80,9 +94,11 @@ public class RequestActivity extends AppCompatActivity implements MapView.MapVie
         mapGeoCoder.startFindingAddress();
 
         if (locationType) {
+            originSelected = true;
             originLatitude = center.getMapPointGeoCoord().latitude;
             originLongitude = center.getMapPointGeoCoord().longitude;
         } else {
+            destinationSelected = true;
             destinationLatitude = center.getMapPointGeoCoord().latitude;
             destinationLongitude = center.getMapPointGeoCoord().longitude;
         }
