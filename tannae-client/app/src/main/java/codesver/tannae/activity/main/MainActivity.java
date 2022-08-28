@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(35.1761175, 126.9058167), true);
         mapView.setZoomLevel(2, true);
         mapViewContainer = findViewById(R.id.frame_layout_main);
-
         mapViewContainer.addView(mapView);
         (findViewById(R.id.text_tannae_main)).bringToFront();
         (findViewById(R.id.image_tannae_logo_main)).bringToFront();
