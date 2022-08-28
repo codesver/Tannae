@@ -12,14 +12,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
-import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.handshake.ServerHandshake;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import codesver.tannae.R;
-import codesver.tannae.network.Network;
 
 public class NavigationActivity extends AppCompatActivity {
 
@@ -33,14 +26,14 @@ public class NavigationActivity extends AppCompatActivity {
     private boolean driverState, shareState;
     private double originLatitude, originLongitude, destinationLatitude, destinationLongitude;
 
-    private WebSocketClient socket;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
+        setMap();
+        setViews();
+        setEventListeners();
         bringExtras();
-        connectWebSocket();
     }
 
     private void bringExtras() {
@@ -53,17 +46,6 @@ public class NavigationActivity extends AppCompatActivity {
             destinationLatitude = intent.getDoubleExtra("destinationLatitude", 0);
             destinationLongitude = intent.getDoubleExtra("destinationLongitude", 0);
         }
-    }
-
-    private void connectWebSocket() {
-        socket = createWebSocket(createUri());
-        socket.connect();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        socket.send("HELLO SPRING!!!");
     }
 
     private void checkAvailability() {
@@ -88,36 +70,5 @@ public class NavigationActivity extends AppCompatActivity {
 
     private void setEventListeners() {
 
-    }
-
-    private URI createUri() {
-        try {
-            return new URI("ws://" + Network.ip + "/service");
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private WebSocketClient createWebSocket(URI uri) {
-        return new WebSocketClient(uri) {
-            @Override
-            public void onOpen(ServerHandshake handshakeMessage) {
-            }
-
-            @Override
-            public void onMessage(String message) {
-
-            }
-
-            @Override
-            public void onClose(int code, String reason, boolean remote) {
-
-            }
-
-            @Override
-            public void onError(Exception ex) {
-            }
-        };
     }
 }
