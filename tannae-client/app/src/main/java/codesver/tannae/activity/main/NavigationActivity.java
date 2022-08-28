@@ -40,11 +40,11 @@ public class NavigationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
+        bringExtras();
         checkAvailability();
         setMap();
         setViews();
         setEventListeners();
-        bringExtras();
     }
 
     private void bringExtras() {
@@ -61,7 +61,7 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     private void checkAvailability() {
-
+        
     }
 
     private void setMap() {
