@@ -8,8 +8,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "User",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"name", "rrn"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name", "rrn"}))
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
@@ -18,27 +17,33 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer usn;
 
-    @Column(name = "id", length = 20, unique = true, nullable = false)
+    @Column(length = 20, unique = true, nullable = false)
     private String id;
 
-    @Column(name = "pw", length = 20, nullable = false)
+    @Column(length = 20, nullable = false)
     private String pw;
 
-    @Column(name = "name", length = 8, nullable = false)
+    @Column(length = 8, nullable = false)
     private String name;
 
-    @Column(name = "rrn", length = 13, nullable = false)
+    @Column(length = 13, nullable = false)
     private String rrn;
 
-    @Column(name = "gender", length = 1, nullable = false)
+    @Column(length = 1, nullable = false)
     private Integer gender;
 
-    @Column(name = "email", length = 30, nullable = false)
+    @Column(length = 30, nullable = false)
     private String email;
 
-    @Column(name = "phone", length = 11, nullable = false)
+    @Column(length = 11, nullable = false)
     private String phone;
 
-    @Column(name = "point", nullable = false)
+    @Column(nullable = false)
     private Integer point;
+
+    @Column(nullable = false)
+    private Integer driver;
+
+    @Column(nullable = false)
+    private Float score;
 }

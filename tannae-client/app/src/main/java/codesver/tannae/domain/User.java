@@ -11,11 +11,13 @@ public class User {
     private String email;
     private String phone;
     private Integer point;
+    private Integer driver;
+    private Float score;
 
     public User() {
     }
 
-    public User(Integer usn, String id, String pw, String name, String rrn, Integer gender, String email, String phone, Integer point) {
+    public User(Integer usn, String id, String pw, String name, String rrn, Integer gender, String email, String phone, Integer point, Integer driver, Float score) {
         this.usn = usn;
         this.id = id;
         this.pw = pw;
@@ -25,6 +27,8 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.point = point;
+        this.driver = driver;
+        this.score = score;
     }
 
     public Integer getUsn() {
@@ -61,5 +65,13 @@ public class User {
 
     public Integer getPoint() {
         return point;
+    }
+
+    public Integer getDriver() {
+        return driver;
+    }
+
+    public Float getScore() {
+        return score;
     }
 }

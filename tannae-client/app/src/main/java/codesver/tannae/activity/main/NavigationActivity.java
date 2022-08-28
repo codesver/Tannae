@@ -61,7 +61,7 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     private void checkAvailability() {
-        
+
     }
 
     private void setMap() {
