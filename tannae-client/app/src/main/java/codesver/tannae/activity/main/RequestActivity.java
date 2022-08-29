@@ -93,6 +93,8 @@ public class RequestActivity extends AppCompatActivity implements MapView.MapVie
 
     @Override
     public void onMapViewCenterPointMoved(MapView mapView, MapPoint mapPoint) {
+        center = mapView.getMapCenterPoint();
+        mapGeoCoder = new MapReverseGeoCoder("be32c53145962ae88db090324e2223b0", center, this, RequestActivity.this);
         mapGeoCoder.startFindingAddress();
 
         if (locationType) {
