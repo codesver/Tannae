@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import codesver.tannae.R;
-import codesver.tannae.dto.user.FoundAccountDTO;
+import codesver.tannae.dto.FoundAccountDTO;
 import codesver.tannae.network.Network;
 import codesver.tannae.service.Toaster;
 import retrofit2.Call;

@@ -1,4 +1,4 @@
-package codesver.tannae.dto.user;
+package codesver.tannae.dto;
 
 public class SignUpUserDTO {
     private String id;

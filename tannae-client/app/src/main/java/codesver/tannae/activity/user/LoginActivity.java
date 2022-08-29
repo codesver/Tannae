@@ -10,8 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import codesver.tannae.R;
 import codesver.tannae.activity.main.MainActivity;
-import codesver.tannae.domain.User;
-import codesver.tannae.dto.user.LoginDTO;
+import codesver.tannae.dto.LoginDTO;
 import codesver.tannae.network.Network;
 import codesver.tannae.network.RetrofitClient;
 import codesver.tannae.network.ServiceApi;
