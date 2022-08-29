@@ -1,7 +1,7 @@
 package codesver.tannae.controller;
 
 import codesver.tannae.domain.Vehicle;
-import codesver.tannae.dto.CheckAvailableDTO;
+import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.service.VehicleFinderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ public class ServiceController {
     private final VehicleFinderService finder;
 
     @PostMapping("/request")
-    public void request(@RequestBody CheckAvailableDTO dto) {
+    public void request(@RequestBody ServiceRequestDTO dto) {
         log.info("[CONTROLLER-SERVICE : REQUEST] /service/request body={}", dto);
         Optional<Vehicle> vehicle = finder.findVehicle(dto);
         if (vehicle.isPresent()) {

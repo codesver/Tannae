@@ -3,7 +3,7 @@ package codesver.tannae.dto;
 import lombok.Getter;
 
 @Getter
-public class CheckAvailableDTO {
+public class ServiceRequestDTO {
 
     private Integer usn;
     private String id;
