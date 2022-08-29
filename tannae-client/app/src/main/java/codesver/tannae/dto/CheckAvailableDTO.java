@@ -3,6 +3,7 @@ package codesver.tannae.dto;
 public class CheckAvailableDTO {
 
     private Integer usn;
+    private String id;
     private Boolean gender;
 
     private String origin, destination;
@@ -10,8 +11,9 @@ public class CheckAvailableDTO {
     private Double destinationLatitude, destinationLongitude;
     private Boolean share;
 
-    public CheckAvailableDTO(Integer usn, Boolean gender, String origin, String destination, Double originLatitude, Double originLongitude, Double destinationLatitude, Double destinationLongitude, Boolean share) {
+    public CheckAvailableDTO(Integer usn, String id, Boolean gender, String origin, String destination, Double originLatitude, Double originLongitude, Double destinationLatitude, Double destinationLongitude, Boolean share) {
         this.usn = usn;
+        this.id = id;
         this.gender = gender;
         this.origin = origin;
         this.destination = destination;

@@ -66,8 +66,9 @@ public class NavigationActivity extends AppCompatActivity {
     private void request() {
         SharedPreferences getter = InnerDB.getter(getApplicationContext());
         int usn = getter.getInt("usn", 0);
+        String id = getter.getString("id", null);
         boolean gender = getter.getBoolean("gender", true);
-        CheckAvailableDTO dto = new CheckAvailableDTO(usn, gender, origin, destination, originLatitude, originLongitude, destinationLatitude, destinationLongitude, shareState);
+        CheckAvailableDTO dto = new CheckAvailableDTO(usn, id, gender, origin, destination, originLatitude, originLongitude, destinationLatitude, destinationLongitude, shareState);
         requestByServer(dto);
     }
 

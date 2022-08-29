@@ -6,6 +6,7 @@ import lombok.Getter;
 public class CheckAvailableDTO {
 
     private Integer usn;
+    private String id;
     private Boolean gender;
 
     private String origin, destination;
