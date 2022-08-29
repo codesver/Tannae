@@ -15,7 +15,6 @@ import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
 import codesver.tannae.R;
-import codesver.tannae.activity.user.LoginActivity;
 import codesver.tannae.dto.CheckAvailableDTO;
 import codesver.tannae.network.Network;
 import codesver.tannae.service.InnerDB;
@@ -47,7 +46,7 @@ public class NavigationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         bringExtras();
-        checkAvailability();
+        request();
     }
 
     private void bringExtras() {
@@ -64,15 +63,15 @@ public class NavigationActivity extends AppCompatActivity {
         }
     }
 
-    private void checkAvailability() {
+    private void request() {
         SharedPreferences getter = InnerDB.getter(getApplicationContext());
         int usn = getter.getInt("usn", 0);
         boolean gender = getter.getBoolean("gender", true);
         CheckAvailableDTO dto = new CheckAvailableDTO(usn, gender, origin, destination, originLatitude, originLongitude, destinationLatitude, destinationLongitude, shareState);
-        checkAvailabilityByServer(dto);
+        requestByServer(dto);
     }
 
-    private void checkAvailabilityByServer(CheckAvailableDTO dto) {
+    private void requestByServer(CheckAvailableDTO dto) {
         Network.service.checkAvailable(dto).enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {

@@ -31,6 +31,6 @@ public interface ServiceApi {
     @PATCH("/users/{usn}/charge")
     Call<Integer> charge(@Path("usn") Integer usn, @Query("point") Integer point);
 
-    @POST("/service/check-available")
+    @POST("/service/request")
     Call<Boolean> checkAvailable(@Body CheckAvailableDTO dto);
 }
