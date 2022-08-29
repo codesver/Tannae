@@ -1,4 +1,4 @@
-package codesver.tannae.dto.user;
+package codesver.tannae.dto;
 
 import codesver.tannae.domain.User;
 import lombok.Getter;

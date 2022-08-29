@@ -1,9 +1,9 @@
 package codesver.tannae.controller;
 
 import codesver.tannae.domain.User;
-import codesver.tannae.dto.user.FoundAccountDTO;
-import codesver.tannae.dto.user.LoginDTO;
-import codesver.tannae.dto.user.SignUpUserDTO;
+import codesver.tannae.dto.FoundAccountDTO;
+import codesver.tannae.dto.LoginDTO;
+import codesver.tannae.dto.SignUpUserDTO;
 import codesver.tannae.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

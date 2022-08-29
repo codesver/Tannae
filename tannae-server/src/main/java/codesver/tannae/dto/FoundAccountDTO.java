@@ -1,4 +1,4 @@
-package codesver.tannae.dto.user;
+package codesver.tannae.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
