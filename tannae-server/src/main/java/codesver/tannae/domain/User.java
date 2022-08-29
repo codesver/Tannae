@@ -23,10 +23,10 @@ public class User {
     @Column(length = 20, nullable = false)
     private String pw;
 
-    @Column(length = 8, nullable = false)
+    @Column(length = 10, nullable = false)
     private String name;
 
-    @Column(length = 13, nullable = false)
+    @Column(length = 14, nullable = false)
     private String rrn;
 
     @Column(length = 1, nullable = false)
@@ -35,14 +35,17 @@ public class User {
     @Column(length = 30, nullable = false)
     private String email;
 
-    @Column(length = 11, nullable = false)
+    @Column(length = 13, nullable = false)
     private String phone;
 
     @Column(nullable = false)
-    private Integer point;
+    private Integer driver;
 
     @Column(nullable = false)
-    private Integer driver;
+    private Integer board;
+
+    @Column(nullable = false)
+    private Integer point;
 
     @Column(nullable = false)
     private Float score;

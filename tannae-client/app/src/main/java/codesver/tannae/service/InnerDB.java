@@ -27,9 +27,10 @@ public class InnerDB {
                 .putInt("gender", user.getGender())
                 .putString("email", user.getEmail())
                 .putString("phone", user.getPhone())
+                .putInt("driver", user.getDriver())
+                .putInt("board", user.getBoard())
                 .putInt("point", user.getPoint())
                 .putFloat("score", user.getScore())
-                .putInt("driver", user.getDriver())
                 .putBoolean("exist", true)
                 .apply();
     }
@@ -45,11 +46,12 @@ public class InnerDB {
         int gender = sp.getInt("gender", 1);
         String email = sp.getString("email", null);
         String phone = sp.getString("phone", null);
-        int point = sp.getInt("point", 0);
         int driver = sp.getInt("driver", 0);
+        int board = sp.getInt("board", 0);
+        int point = sp.getInt("point", 0);
         float score = sp.getFloat("score", 0.0f);
 
-        return new User(usn, id, pw, name, rrn, gender, email, phone, point, driver, score);
+        return new User(usn, id, pw, name, rrn, gender, email, phone, board, driver, point, score);
     }
 
     public static void clear(Context context) {

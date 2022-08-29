@@ -10,14 +10,15 @@ public class User {
     private Integer gender;
     private String email;
     private String phone;
-    private Integer point;
     private Integer driver;
+    private Integer board;
+    private Integer point;
     private Float score;
 
     public User() {
     }
 
-    public User(Integer usn, String id, String pw, String name, String rrn, Integer gender, String email, String phone, Integer point, Integer driver, Float score) {
+    public User(Integer usn, String id, String pw, String name, String rrn, Integer gender, String email, String phone, Integer driver, Integer board, Integer point, Float score) {
         this.usn = usn;
         this.id = id;
         this.pw = pw;
@@ -26,8 +27,9 @@ public class User {
         this.gender = gender;
         this.email = email;
         this.phone = phone;
-        this.point = point;
         this.driver = driver;
+        this.board = board;
+        this.point = point;
         this.score = score;
     }
 
@@ -63,12 +65,16 @@ public class User {
         return phone;
     }
 
-    public Integer getPoint() {
-        return point;
-    }
-
     public Integer getDriver() {
         return driver;
+    }
+
+    public Integer getBoard() {
+        return board;
+    }
+
+    public Integer getPoint() {
+        return point;
     }
 
     public Float getScore() {

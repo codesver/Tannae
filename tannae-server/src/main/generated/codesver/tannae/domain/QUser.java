@@ -19,6 +19,8 @@ public class QUser extends EntityPathBase<User> {
 
     public static final QUser user = new QUser("user");
 
+    public final NumberPath<Integer> board = createNumber("board", Integer.class);
+
     public final NumberPath<Integer> driver = createNumber("driver", Integer.class);
 
     public final StringPath email = createString("email");

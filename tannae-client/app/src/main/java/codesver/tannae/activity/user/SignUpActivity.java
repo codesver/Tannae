@@ -160,7 +160,7 @@ public class SignUpActivity extends AppCompatActivity {
         String name = editName.getText().toString();
         String rrn = editRrnFront.getText().toString() + "-" + editRrnBack.getText().toString();
         String email = editEmail.getText().toString();
-        String phone = editPhone.getText().toString();
+        String phone = new StringBuffer(editPhone.getText().toString()).insert(7, '-').insert(3, '-').toString();
         return new SignUpUserDTO(id, pw, name, rrn, email, phone);
     }
 
