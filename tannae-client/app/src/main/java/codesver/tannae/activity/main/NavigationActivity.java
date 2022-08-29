@@ -1,6 +1,7 @@
 package codesver.tannae.activity.main;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +15,15 @@ import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
 import codesver.tannae.R;
+import codesver.tannae.activity.user.LoginActivity;
+import codesver.tannae.dto.CheckAvailableDTO;
 import codesver.tannae.network.Network;
+import codesver.tannae.service.InnerDB;
 import codesver.tannae.service.Toaster;
 import io.reactivex.disposables.Disposable;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import ua.naiksoftware.stomp.Stomp;
 import ua.naiksoftware.stomp.StompClient;
 
@@ -30,6 +37,7 @@ public class NavigationActivity extends AppCompatActivity {
     private ViewGroup mapViewContainer;
 
     private boolean driverState, shareState;
+    private String origin, destination;
     private double originLatitude, originLongitude, destinationLatitude, destinationLongitude;
 
     private StompClient stomp;
@@ -40,9 +48,6 @@ public class NavigationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_navigation);
         bringExtras();
         checkAvailability();
-        setMap();
-        setViews();
-        setEventListeners();
     }
 
     private void bringExtras() {
@@ -50,16 +55,34 @@ public class NavigationActivity extends AppCompatActivity {
         driverState = intent.getBooleanExtra("driverState", true);
         if (!driverState) {
             shareState = intent.getBooleanExtra("shareState", false);
+            origin = intent.getStringExtra("origin");
+            destination = intent.getStringExtra("destination");
             originLatitude = intent.getDoubleExtra("originLatitude", 0);
             originLongitude = intent.getDoubleExtra("originLongitude", 0);
             destinationLatitude = intent.getDoubleExtra("destinationLatitude", 0);
             destinationLongitude = intent.getDoubleExtra("destinationLongitude", 0);
-            connectStomp();
         }
     }
 
     private void checkAvailability() {
+        SharedPreferences getter = InnerDB.getter(getApplicationContext());
+        int usn = getter.getInt("usn", 0);
+        boolean gender = getter.getBoolean("gender", true);
+        CheckAvailableDTO dto = new CheckAvailableDTO(usn, gender, origin, destination, originLatitude, originLongitude, destinationLatitude, destinationLongitude, shareState);
+        Network.service.checkAvailable(dto).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                setMap();
+                setViews();
+                setEventListeners();
+            }
 
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Toaster.toast(NavigationActivity.this, "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
+                startActivity(new Intent(NavigationActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            }
+        });
     }
 
     private void setMap() {

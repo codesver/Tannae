@@ -30,6 +30,7 @@ public class RequestActivity extends AppCompatActivity implements MapView.MapVie
     private MapReverseGeoCoder mapGeoCoder;
 
     private boolean locationType = true, shareState;
+    private String origin, destination;
     private double originLongitude, originLatitude, destinationLongitude, destinationLatitude;
     private boolean originSelected, destinationSelected;
 
@@ -76,8 +77,10 @@ public class RequestActivity extends AppCompatActivity implements MapView.MapVie
         else {
             mapViewContainer.removeView(mapView);
             startActivity(new Intent(RequestActivity.this, NavigationActivity.class)
+                    .putExtra("origin", origin)
                     .putExtra("originLatitude", originLatitude)
                     .putExtra("originLongitude", originLongitude)
+                    .putExtra("destination", destination)
                     .putExtra("destinationLatitude", destinationLatitude)
                     .putExtra("destinationLongitude", destinationLongitude)
                     .putExtra("shareState", shareState)
@@ -145,14 +148,24 @@ public class RequestActivity extends AppCompatActivity implements MapView.MapVie
 
     @Override
     public void onReverseGeoCoderFoundAddress(MapReverseGeoCoder mapReverseGeoCoder, String s) {
-        if (locationType) textOrigin.setText(s);
-        else textDestination.setText(s);
+        if (locationType) {
+            textOrigin.setText(s);
+            origin = s;
+        } else {
+            textDestination.setText(s);
+            destination = s;
+        }
     }
 
     @Override
     public void onReverseGeoCoderFailedToFindAddress(MapReverseGeoCoder mapReverseGeoCoder) {
-        if (locationType) textOrigin.setText("올바른 지역이 아닙니다.");
-        else textDestination.setText("올바른 지역이 아닙니다.");
+        if (locationType) {
+            textOrigin.setText("올바른 지역이 아닙니다.");
+            originSelected = false;
+        } else {
+            textDestination.setText("올바른 지역이 아닙니다.");
+            destinationSelected = false;
+        }
     }
 
     @Override

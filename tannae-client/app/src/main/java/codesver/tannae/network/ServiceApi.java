@@ -1,5 +1,6 @@
 package codesver.tannae.network;
 
+import codesver.tannae.dto.CheckAvailableDTO;
 import codesver.tannae.dto.FoundAccountDTO;
 import codesver.tannae.dto.LoginDTO;
 import codesver.tannae.dto.SignUpUserDTO;
@@ -29,4 +30,7 @@ public interface ServiceApi {
 
     @PATCH("/users/{usn}/charge")
     Call<Integer> charge(@Path("usn") Integer usn, @Query("point") Integer point);
+
+    @POST("/service/check-available")
+    Call<Boolean> checkAvailable(@Body CheckAvailableDTO dto);
 }
