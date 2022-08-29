@@ -69,6 +69,10 @@ public class NavigationActivity extends AppCompatActivity {
         int usn = getter.getInt("usn", 0);
         boolean gender = getter.getBoolean("gender", true);
         CheckAvailableDTO dto = new CheckAvailableDTO(usn, gender, origin, destination, originLatitude, originLongitude, destinationLatitude, destinationLongitude, shareState);
+        checkAvailabilityByServer(dto);
+    }
+
+    private void checkAvailabilityByServer(CheckAvailableDTO dto) {
         Network.service.checkAvailable(dto).enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
