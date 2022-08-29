@@ -28,7 +28,7 @@ public class AccountActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.text_phone_account)).setText(user.getPhone());
         ((TextView) findViewById(R.id.text_score_account)).setText(String.valueOf(user.getScore()));
         ((TextView) findViewById(R.id.text_point_account)).setText(String.valueOf(user.getPoint()));
-        ((TextView) findViewById(R.id.text_driver_account)).setText(user.getDriver() == 1 ? "등록" : "미등록");
+        ((TextView) findViewById(R.id.text_driver_account)).setText(user.getDriver() ? "등록" : "미등록");
         findViewById(R.id.button_back_account).setOnClickListener(v -> onBackPressed());
     }
 }

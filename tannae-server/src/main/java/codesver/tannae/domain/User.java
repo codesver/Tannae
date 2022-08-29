@@ -29,8 +29,8 @@ public class User {
     @Column(length = 14, nullable = false)
     private String rrn;
 
-    @Column(length = 1, nullable = false)
-    private Integer gender;
+    @Column(length = 1, nullable = false, columnDefinition = "TINYINT")
+    private Boolean gender;
 
     @Column(length = 30, nullable = false)
     private String email;
@@ -38,11 +38,11 @@ public class User {
     @Column(length = 13, nullable = false)
     private String phone;
 
-    @Column(nullable = false)
-    private Integer driver;
+    @Column(length = 1, nullable = false, columnDefinition = "TINYINT")
+    private Boolean driver;
 
-    @Column(nullable = false)
-    private Integer board;
+    @Column(length = 1, nullable = false, columnDefinition = "TINYINT")
+    private Boolean board;
 
     @Column(nullable = false)
     private Integer point;

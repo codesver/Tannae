@@ -24,11 +24,11 @@ public class InnerDB {
                 .putString("pw", user.getPw())
                 .putString("name", user.getName())
                 .putString("rrn", user.getRrn())
-                .putInt("gender", user.getGender())
+                .putBoolean("gender", user.getGender())
                 .putString("email", user.getEmail())
                 .putString("phone", user.getPhone())
-                .putInt("driver", user.getDriver())
-                .putInt("board", user.getBoard())
+                .putBoolean("driver", user.getDriver())
+                .putBoolean("board", user.getBoard())
                 .putInt("point", user.getPoint())
                 .putFloat("score", user.getScore())
                 .putBoolean("exist", true)
@@ -43,11 +43,11 @@ public class InnerDB {
         String pw = sp.getString("pw", null);
         String name = sp.getString("name", null);
         String rrn = sp.getString("rrn", null);
-        int gender = sp.getInt("gender", 1);
+        boolean gender = sp.getBoolean("gender", false);
         String email = sp.getString("email", null);
         String phone = sp.getString("phone", null);
-        int driver = sp.getInt("driver", 0);
-        int board = sp.getInt("board", 0);
+        boolean driver = sp.getBoolean("driver", false);
+        boolean board = sp.getBoolean("board", false);
         int point = sp.getInt("point", 0);
         float score = sp.getFloat("score", 0.0f);
 

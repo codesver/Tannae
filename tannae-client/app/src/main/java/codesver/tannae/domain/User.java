@@ -7,18 +7,18 @@ public class User {
     private String pw;
     private String name;
     private String rrn;
-    private Integer gender;
+    private Boolean gender;
     private String email;
     private String phone;
-    private Integer driver;
-    private Integer board;
+    private Boolean driver;
+    private Boolean board;
     private Integer point;
     private Float score;
 
     public User() {
     }
 
-    public User(Integer usn, String id, String pw, String name, String rrn, Integer gender, String email, String phone, Integer driver, Integer board, Integer point, Float score) {
+    public User(Integer usn, String id, String pw, String name, String rrn, Boolean gender, String email, String phone, Boolean driver, Boolean board, Integer point, Float score) {
         this.usn = usn;
         this.id = id;
         this.pw = pw;
@@ -53,7 +53,7 @@ public class User {
         return rrn;
     }
 
-    public Integer getGender() {
+    public Boolean getGender() {
         return gender;
     }
 
@@ -65,11 +65,11 @@ public class User {
         return phone;
     }
 
-    public Integer getDriver() {
+    public Boolean getDriver() {
         return driver;
     }
 
-    public Integer getBoard() {
+    public Boolean getBoard() {
         return board;
     }
 
