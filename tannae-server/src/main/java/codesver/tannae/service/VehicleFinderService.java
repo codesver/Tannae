@@ -1,5 +1,6 @@
 package codesver.tannae.service;
 
+import codesver.tannae.domain.User;
 import codesver.tannae.domain.Vehicle;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.repository.vehicle.VehicleRepository;
@@ -24,7 +25,7 @@ public class VehicleFinderService {
     }
 
     private Optional<Vehicle> findWalkingVehicle(ServiceRequestDTO dto) {
-        List<Vehicle> vehicles = vehicleRepository.findWalkingVehicles(false, 0);
+        List<Vehicle> vehicles = vehicleRepository.findWalkingVehicles(true, 0);
         return vehicles.isEmpty() ? Optional.empty() : findNearestVehicle(vehicles, dto);
     }
 
