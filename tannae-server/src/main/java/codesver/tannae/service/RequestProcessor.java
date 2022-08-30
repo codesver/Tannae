@@ -40,26 +40,27 @@ public class RequestProcessor {
             // 2. Kakao Api
             JSONObject response = requester.request(summary);
             JSONObject result = response.getJSONArray("routes").getJSONObject(0);
-            JSONObject tempSummary = result.getJSONObject("summary");
+            JSONObject info = result.getJSONObject("summary");
 
             if ((int) result.get("result_code") == 0) {
-                Process process = new Process();
-                process.setSummary(summary.toString());
-                process.setFare(tempSummary.getJSONObject("fare").getInt("taxi"));
-                process.setDistance(tempSummary.getInt("distance"));
-                process.setDuration(tempSummary.getInt("duration"));
-                process.setGender(dto.getGender());
-                process.setShare(dto.getShare());
-                process.setVehicle(vehicle.get());
-
+                Process process = createProcess(dto, vehicle.get(), summary, info);
+                // Update process
+                // Update vehicle vehicleRepository.addNum(vehicle.get().getVsn());
                 return new FlagWith<>(1, process);
             } else return new FlagWith<>(-1);
-
-//            vehicleRepository.addNum(vehicle.get().getVsn());
-            // Update Vehicle and Process
-            // Request API
-            // Return process
         } else return new FlagWith<>(0);
+    }
+
+    private Process createProcess(ServiceRequestDTO dto, Vehicle vehicle, JSONObject summary, JSONObject info) {
+        Process process = new Process();
+        process.setSummary(summary.toString());
+        process.setFare(info.getJSONObject("fare").getInt("taxi"));
+        process.setDistance(info.getInt("distance"));
+        process.setDuration(info.getInt("duration"));
+        process.setGender(dto.getGender());
+        process.setShare(dto.getShare());
+        process.setVehicle(vehicle);
+        return process;
     }
 
     private JSONObject createSummary(Vehicle vehicle, ServiceRequestDTO dto) {
