@@ -26,14 +26,9 @@ public class ServiceController {
 
     @PostMapping("/request")
     public ServiceResponseDTO request(@RequestBody ServiceRequestDTO requestDTO) {
-        log.info("[CONTROLLER-SERVICE : REQUEST] /service/request body={}", requestDTO);
+        log.info("[CONTROLLER-SERVICE : REQUEST => STEP 1] /service/request body={}", requestDTO);
         Optional<Process> process = processor.processRequest(requestDTO);
-        ServiceResponseDTO responseDTO = new ServiceResponseDTO();
-        if (process.isPresent()) {
-            responseDTO.setExist(true);
-            responseDTO.setProcess(process.get());
-        }
-        return responseDTO;
+        return new ServiceResponseDTO();
     }
 
     @MessageMapping("/hello")

@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 public class ServiceResponseDTO {
 
-    private boolean exist;
+    private int flag;
     private Process process;
 }

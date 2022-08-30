@@ -19,8 +19,6 @@ public class QVehicle extends EntityPathBase<Vehicle> {
 
     public static final QVehicle vehicle = new QVehicle("vehicle");
 
-    public final BooleanPath gender = createBoolean("gender");
-
     public final NumberPath<Double> latitude = createNumber("latitude", Double.class);
 
     public final NumberPath<Double> longitude = createNumber("longitude", Double.class);
@@ -28,8 +26,6 @@ public class QVehicle extends EntityPathBase<Vehicle> {
     public final NumberPath<Integer> num = createNumber("num", Integer.class);
 
     public final BooleanPath run = createBoolean("run");
-
-    public final BooleanPath share = createBoolean("share");
 
     public final StringPath usn = createString("usn");
 
