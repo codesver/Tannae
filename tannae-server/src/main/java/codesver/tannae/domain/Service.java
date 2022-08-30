@@ -11,27 +11,31 @@ import javax.persistence.*;
 @Table
 @NoArgsConstructor
 @AllArgsConstructor
-public class Vehicle {
+public class Service {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer vsn;
+    private Integer ssn;
 
-    @Column(length = 10, nullable = false)
-    private String vrn;
-
-    @Column(nullable = false)
-    private Double longitude;
+    @Column(length = 1000, nullable = false)
+    private String summary;
 
     @Column(nullable = false)
-    private Double latitude;
+    private Integer fare;
 
     @Column(nullable = false)
-    private Integer num;
+    private Integer distance;
+
+    @Column(nullable = false)
+    private Integer duration;
 
     @Column(length = 1, columnDefinition = "TINYINT", nullable = false)
-    private Boolean run;
+    private Boolean gender;
 
-    @Column
-    private String usn;
+    @Column(length = 1, columnDefinition = "TINYINT", nullable = false)
+    private Boolean share;
+
+    @OneToOne
+    @JoinColumn
+    private Vehicle vehicle;
 }
