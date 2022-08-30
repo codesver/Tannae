@@ -1,5 +1,6 @@
 package codesver.tannae.controller;
 
+import codesver.tannae.domain.FlagWith;
 import codesver.tannae.domain.Process;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.dto.ServiceResponseDTO;
@@ -13,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
-
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -27,8 +26,11 @@ public class ServiceController {
     @PostMapping("/request")
     public ServiceResponseDTO request(@RequestBody ServiceRequestDTO requestDTO) {
         log.info("[CONTROLLER-SERVICE : REQUEST => STEP 1] /service/request body={}", requestDTO);
-        Optional<Process> process = processor.processRequest(requestDTO);
-        return new ServiceResponseDTO();
+        FlagWith<Process> process = processor.processRequest(requestDTO);
+        ServiceResponseDTO response = new ServiceResponseDTO();
+        response.setFlag(process.getFlag());
+        response.setProcess(process.get());
+        return response;
     }
 
     @MessageMapping("/hello")

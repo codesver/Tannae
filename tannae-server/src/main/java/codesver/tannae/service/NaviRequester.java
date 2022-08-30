@@ -1,12 +1,14 @@
 package codesver.tannae.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -23,11 +25,7 @@ public class NaviRequester {
     }
 
     public JSONObject request(JSONObject body) {
-        HttpEntity<JSONObject> request = new HttpEntity<>(body, headers);
-        return rest.postForEntity(url, request, JSONObject.class).getBody();
-    }
-
-    private void createBody() {
-
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body.toMap(), headers);
+        return new JSONObject(rest.postForEntity(url, entity, String.class).getBody());
     }
 }
