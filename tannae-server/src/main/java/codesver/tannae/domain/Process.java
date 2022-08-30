@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Table
 @NoArgsConstructor
 @AllArgsConstructor
-public class Service {
+public class Process {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
