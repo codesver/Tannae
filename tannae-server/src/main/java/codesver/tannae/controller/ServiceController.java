@@ -2,7 +2,7 @@ package codesver.tannae.controller;
 
 import codesver.tannae.domain.Vehicle;
 import codesver.tannae.dto.ServiceRequestDTO;
-import codesver.tannae.service.VehicleFinderService;
+import codesver.tannae.service.VehicleFinder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -21,7 +21,7 @@ import java.util.Optional;
 public class ServiceController {
 
     private final SimpMessageSendingOperations smso;
-    private final VehicleFinderService finder;
+    private final VehicleFinder finder;
 
     @PostMapping("/request")
     public void request(@RequestBody ServiceRequestDTO dto) {

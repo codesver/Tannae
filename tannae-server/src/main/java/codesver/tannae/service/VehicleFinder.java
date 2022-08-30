@@ -1,6 +1,5 @@
 package codesver.tannae.service;
 
-import codesver.tannae.domain.User;
 import codesver.tannae.domain.Vehicle;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.repository.vehicle.VehicleRepository;
@@ -14,7 +13,7 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class VehicleFinderService {
+public class VehicleFinder {
 
     private final VehicleRepository vehicleRepository;
 
