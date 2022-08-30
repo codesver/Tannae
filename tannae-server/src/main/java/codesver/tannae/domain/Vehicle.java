@@ -35,9 +35,6 @@ public class Vehicle {
     @Column(length = 1, columnDefinition = "TINYINT")
     private Boolean share;
 
-    @Column(length = 1, columnDefinition = "TINYINT")
-    private Boolean gender;
-
 //    @OneToOne
 //    @JoinColumn(name = "usn")
     @Column
