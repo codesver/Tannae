@@ -38,7 +38,8 @@ public class Vehicle {
     @Column(length = 1, columnDefinition = "TINYINT")
     private Boolean gender;
 
-    @OneToOne
-    @JoinColumn(name = "usn")
-    private User user;
+//    @OneToOne
+//    @JoinColumn(name = "usn")
+    @Column
+    private String usn;
 }

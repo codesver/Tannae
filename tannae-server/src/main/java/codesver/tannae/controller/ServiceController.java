@@ -2,6 +2,7 @@ package codesver.tannae.controller;
 
 import codesver.tannae.domain.Vehicle;
 import codesver.tannae.dto.ServiceRequestDTO;
+import codesver.tannae.dto.ServiceResponseDTO;
 import codesver.tannae.service.VehicleFinder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,7 @@ public class ServiceController {
     private final VehicleFinder finder;
 
     @PostMapping("/request")
-    public void request(@RequestBody ServiceRequestDTO dto) {
+    public ServiceResponseDTO request(@RequestBody ServiceRequestDTO dto) {
         log.info("[CONTROLLER-SERVICE : REQUEST] /service/request body={}", dto);
         Optional<Vehicle> vehicle = finder.findVehicle(dto);
         if (vehicle.isPresent()) {
@@ -32,8 +33,9 @@ public class ServiceController {
             // Update database
             // Create response data
             // return
+            return new ServiceResponseDTO();
         } else {
-            // return response data
+            return new ServiceResponseDTO();
         }
     }
 

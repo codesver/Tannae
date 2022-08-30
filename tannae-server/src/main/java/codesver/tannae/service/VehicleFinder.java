@@ -19,8 +19,7 @@ public class VehicleFinder {
 
     public Optional<Vehicle> findVehicle(ServiceRequestDTO dto) {
         log.info("[SERVICE-VEHICLE-FINDER : FIND_VEHICLE] Finding vehicle to user={}", dto.getId());
-        Boolean share = dto.getShare();
-        return share ? findRunningVehicle(dto) : findWalkingVehicle(dto);
+        return dto.getShare() ? findRunningVehicle(dto) : findWalkingVehicle(dto);
     }
 
     private Optional<Vehicle> findWalkingVehicle(ServiceRequestDTO dto) {

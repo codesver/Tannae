@@ -1,8 +1,10 @@
 package codesver.tannae.dto;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class ServiceRequestDTO {
 
     private Integer usn;
