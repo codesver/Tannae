@@ -16,9 +16,11 @@ import java.util.Optional;
 public class RequestProcessor {
 
     private final ProcessRepository processRepository;
+    private final NaviRequester requester;
     private final VehicleFinder finder;
 
     public Optional<Process> processRequest(ServiceRequestDTO dto) {
+        log.info("[SERVICE-REQUEST-PROCESS : PROCESS_REQUEST] Processing new request={}", dto);
         return dto.getShare() ? processShareRequest(dto) : processNonShareRequest(dto);
     }
 
@@ -28,5 +30,11 @@ public class RequestProcessor {
 
     private Optional<Process> processNonShareRequest(ServiceRequestDTO dto) {
         Optional<Vehicle> vehicle = finder.findVehicle(dto);
+        if (vehicle.isPresent()) {
+            // Kakao api
+            // Update Vehicle and Process
+            // Return process
+            return Optional.of(new Process());
+        } else return Optional.empty();
     }
 }

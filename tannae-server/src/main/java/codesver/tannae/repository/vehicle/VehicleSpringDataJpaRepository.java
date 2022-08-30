@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface VehicleSpringDataJpaRepository extends JpaRepository<Vehicle, Integer> {
 
-    List<Vehicle> findVehiclesByRunAndNum(Boolean run, Integer num);
+    List<Vehicle> findVehiclesByRunAndNum(boolean run, int num);
 }

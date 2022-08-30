@@ -2,6 +2,7 @@ package codesver.tannae.controller;
 
 import codesver.tannae.domain.Process;
 import codesver.tannae.dto.ServiceRequestDTO;
+import codesver.tannae.dto.ServiceResponseDTO;
 import codesver.tannae.service.RequestProcessor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,18 +25,15 @@ public class ServiceController {
     private final RequestProcessor processor;
 
     @PostMapping("/request")
-    public void request(@RequestBody ServiceRequestDTO dto) {
-        log.info("[CONTROLLER-SERVICE : REQUEST] /service/request body={}", dto);
-        Optional<Process> process = processor.processRequest(dto);
-//        if (vehicle.isPresent()) {
-//            // Kakao api communication
-//            // Update database
-//            // Create response data
-//            // return
-//            return new ServiceResponseDTO();
-//        } else {
-//            return new ServiceResponseDTO();
-//        }
+    public ServiceResponseDTO request(@RequestBody ServiceRequestDTO requestDTO) {
+        log.info("[CONTROLLER-SERVICE : REQUEST] /service/request body={}", requestDTO);
+        Optional<Process> process = processor.processRequest(requestDTO);
+        ServiceResponseDTO responseDTO = new ServiceResponseDTO();
+        if (process.isPresent()) {
+            responseDTO.setExist(true);
+            responseDTO.setProcess(process.get());
+        }
+        return responseDTO;
     }
 
     @MessageMapping("/hello")

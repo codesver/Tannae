@@ -18,17 +18,9 @@ public class VehicleFinder {
     private final VehicleRepository vehicleRepository;
 
     public Optional<Vehicle> findVehicle(ServiceRequestDTO dto) {
-        log.info("[SERVICE-VEHICLE-FINDER : FIND_VEHICLE] Finding vehicle to user={}", dto.getId());
-        return dto.getShare() ? findRunningVehicle(dto) : findWalkingVehicle(dto);
-    }
-
-    private Optional<Vehicle> findWalkingVehicle(ServiceRequestDTO dto) {
-        List<Vehicle> vehicles = vehicleRepository.findWalkingVehicles(true, 0);
+        log.info("[SERVICE-VEHICLE-FINDER : FIND_VEHICLE] Finding vehicle for user={}", dto.getId());
+        List<Vehicle> vehicles = vehicleRepository.findNewVehicle(true, 0);
         return vehicles.isEmpty() ? Optional.empty() : findNearestVehicle(vehicles, dto);
-    }
-
-    private Optional<Vehicle> findRunningVehicle(ServiceRequestDTO dto) {
-        return Optional.empty();
     }
 
     private Optional<Vehicle> findNearestVehicle(List<Vehicle> vehicles, ServiceRequestDTO dto) {

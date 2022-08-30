@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface VehicleRepository {
 
-    List<Vehicle> findWalkingVehicles(Boolean run, Integer num);
+    List<Vehicle> findNewVehicle(boolean run, int num);
 }

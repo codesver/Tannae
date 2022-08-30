@@ -16,8 +16,7 @@ public class VehicleJpaRepository implements VehicleRepository {
 
     private final VehicleSpringDataJpaRepository repository;
 
-    @Override
-    public List<Vehicle> findWalkingVehicles(Boolean run, Integer num) {
+    public List<Vehicle> findNewVehicle(boolean run, int num) {
         return repository.findVehiclesByRunAndNum(run, num);
     }
 }
