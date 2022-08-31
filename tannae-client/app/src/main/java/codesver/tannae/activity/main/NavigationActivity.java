@@ -14,8 +14,12 @@ import androidx.appcompat.widget.SwitchCompat;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import codesver.tannae.R;
 import codesver.tannae.dto.ServiceRequestDTO;
+import codesver.tannae.dto.ServiceResponseDTO;
 import codesver.tannae.network.Network;
 import codesver.tannae.service.InnerDB;
 import codesver.tannae.service.Toaster;
@@ -73,20 +77,37 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     private void requestByServer(ServiceRequestDTO dto) {
-        Network.service.checkAvailable(dto).enqueue(new Callback<Boolean>() {
+        Network.service.request(dto).enqueue(new Callback<ServiceResponseDTO>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                setMap();
-                setViews();
-                setEventListeners();
+            public void onResponse(Call<ServiceResponseDTO> call, Response<ServiceResponseDTO> response) {
+                ServiceResponseDTO res = response.body();
+                responseHandler(res);
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<ServiceResponseDTO> call, Throwable t) {
                 Toaster.toast(NavigationActivity.this, "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
                 startActivity(new Intent(NavigationActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
         });
+    }
+
+    private void responseHandler(ServiceResponseDTO dto) {
+        int flag = dto.getFlag();
+
+        if (flag == -2) {
+            Toaster.toast(NavigationActivity.this, "교통 혼잡으로 이용 가능한 차량이 없습니다.\n다음에 다시 이용해주세요.");
+            startActivity(new Intent(NavigationActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        } else if (flag == -1) {
+            Toaster.toast(NavigationActivity.this, "이용 가능한 차량이 없습니다.\n다음에 다시 이용해주세요.");
+            startActivity(new Intent(NavigationActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        } else if (flag == 1) {
+            Toaster.toast(NavigationActivity.this, "차량이 배차 되었습니다.\n출발지에서 대기해주세요.");
+            setMap();
+            setViews();
+            setEventListeners();
+            connectStomp(dto);
+        }
     }
 
     private void setMap() {
@@ -119,17 +140,23 @@ public class NavigationActivity extends AppCompatActivity {
 
     }
 
-    private void connectStomp() {
+    private void connectStomp(ServiceResponseDTO dto) {
         stomp = Stomp.over(Stomp.ConnectionProvider.OKHTTP, "ws://" + Network.ip + "/service");
         stomp.connect();
 
-        Disposable subscribe = stomp.topic("/sub/vehicle/1").subscribe(topicMessage -> {
+        Disposable subscribe = stomp.topic("/sub/vehicle/" + dto.getVsn()).subscribe(topicMessage -> {
             runOnUiThread(() -> {
                 String payload = topicMessage.getPayload();
                 Toaster.toast(NavigationActivity.this, payload);
             });
         });
 
-        stomp.send("/pub/hello", "HELLO SPRING!!!").subscribe();
+        JSONObject data;
+        try {
+            data = new JSONObject().put("flag", 0);
+            stomp.send("/pub/connected", data.toString()).subscribe();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

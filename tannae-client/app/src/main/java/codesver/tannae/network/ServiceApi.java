@@ -3,6 +3,7 @@ package codesver.tannae.network;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.dto.FoundAccountDTO;
 import codesver.tannae.dto.LoginDTO;
+import codesver.tannae.dto.ServiceResponseDTO;
 import codesver.tannae.dto.SignUpUserDTO;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -32,5 +33,5 @@ public interface ServiceApi {
     Call<Integer> charge(@Path("usn") Integer usn, @Query("point") Integer point);
 
     @POST("/service/request")
-    Call<Boolean> checkAvailable(@Body ServiceRequestDTO dto);
+    Call<ServiceResponseDTO> request(@Body ServiceRequestDTO dto);
 }
