@@ -72,13 +72,18 @@ public class RequestProcessor {
     }
 
     private JSONArray createPath(JSONArray sections) {
+        log.info("[SERVICE-REQUEST-PROCESSOR : CREATE PATH] Creating path");
         JSONArray path = new JSONArray();
         for (int i = 0; i < sections.length(); i++) {
             JSONObject section = sections.getJSONObject(i);
             JSONArray guides = section.getJSONArray("guides");
-            for (int j = 0; j < guides.length(); j++) {
+            for (int j = 0; j < guides.length() - 1; j++) {
                 JSONObject guide = guides.getJSONObject(j);
                 path.put(new JSONObject().put("x", guide.get("x")).put("y", guide.get("y")));
+                if (i == sections.length() - 1) {
+                    guide = guides.getJSONObject(j + 1);
+                    path.put(new JSONObject().put("x", guide.get("x")).put("y", guide.get("y")));
+                }
             }
         }
         return path;
