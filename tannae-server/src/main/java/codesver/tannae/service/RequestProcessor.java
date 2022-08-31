@@ -40,7 +40,7 @@ public class RequestProcessor {
             JSONObject summary = editor.createSummary(vehicle.get(), dto);
             JSONObject response = requester.request(summary);
             return processResult(dto, vehicle.get(), summary, response);
-        } else return new DRO<>(0);
+        } else return new DRO<>(-1);
     }
 
     private DRO<Process> processResult(ServiceRequestDTO dto, Vehicle vehicle, JSONObject summary, JSONObject response) {
@@ -54,7 +54,7 @@ public class RequestProcessor {
             processRepository.save(process);
             vehicleRepository.addNum(vehicle.getVsn());
             return new DRO<>(1, process, createPath(sections));
-        } else return new DRO<>(-1);
+        } else return new DRO<>(-2);
     }
 
     private Process createProcess(ServiceRequestDTO dto, Vehicle vehicle, JSONObject summary, JSONObject info) {
