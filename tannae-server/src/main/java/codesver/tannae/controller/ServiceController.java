@@ -1,12 +1,13 @@
 package codesver.tannae.controller;
 
-import codesver.tannae.domain.FlagWith;
+import codesver.tannae.domain.DRO;
 import codesver.tannae.domain.Process;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.dto.ServiceResponseDTO;
 import codesver.tannae.service.RequestProcessor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,11 +27,10 @@ public class ServiceController {
     @PostMapping("/request")
     public ServiceResponseDTO request(@RequestBody ServiceRequestDTO requestDTO) {
         log.info("[CONTROLLER-SERVICE : REQUEST] /service/request body={}", requestDTO);
-        FlagWith<Process> process = processor.processRequest(requestDTO);
-        ServiceResponseDTO response = new ServiceResponseDTO();
-        response.setFlag(process.getFlag());
-        response.setProcess(process.get());
-        return response;
+        DRO<Process> dro = processor.processRequest(requestDTO);
+        Process process = dro.get();
+        return dro.getFlag() > 0 ? new ServiceResponseDTO(dro.getFlag(), process.getVehicle().getVsn(), process.getSummary(), dro.getPath().toString(),
+                process.getFare(), process.getDistance(), process.getDuration()) : new ServiceResponseDTO(dro.getFlag());
     }
 
     @MessageMapping("/hello")

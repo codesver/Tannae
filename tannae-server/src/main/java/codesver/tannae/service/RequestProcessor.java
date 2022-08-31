@@ -1,6 +1,6 @@
 package codesver.tannae.service;
 
-import codesver.tannae.domain.FlagWith;
+import codesver.tannae.domain.DRO;
 import codesver.tannae.domain.Process;
 import codesver.tannae.domain.Vehicle;
 import codesver.tannae.dto.ServiceRequestDTO;
@@ -8,6 +8,7 @@ import codesver.tannae.repository.process.ProcessRepository;
 import codesver.tannae.repository.vehicle.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -22,38 +23,39 @@ public class RequestProcessor {
     private final VehicleFinder finder;
     private final SummaryEditor editor;
 
-    public FlagWith<Process> processRequest(ServiceRequestDTO dto) {
+    public DRO<Process> processRequest(ServiceRequestDTO dto) {
         log.info("[SERVICE-REQUEST-PROCESSOR : PROCESS_REQUEST] Processing new request={}", dto);
         return dto.getShare() ? processShareRequest(dto) : processNonShareRequest(dto);
     }
 
-    private FlagWith<Process> processShareRequest(ServiceRequestDTO dto) {
+    private DRO<Process> processShareRequest(ServiceRequestDTO dto) {
         log.info("[SERVICE-REQUEST-PROCESSOR : PROCESS_SHARE_REQUEST] Processing request share={}", true);
-        return new FlagWith<>(0);
+        return new DRO<>(0);
     }
 
-    private FlagWith<Process> processNonShareRequest(ServiceRequestDTO dto) {
+    private DRO<Process> processNonShareRequest(ServiceRequestDTO dto) {
         log.info("[SERVICE-REQUEST-PROCESSOR : PROCESS_NON_SHARE_REQUEST] : Processing request share={}", false);
-        FlagWith<Vehicle> vehicle = finder.findVehicle(dto);
+        DRO<Vehicle> vehicle = finder.findVehicle(dto);
         if (vehicle.isPresent()) {
             JSONObject summary = editor.createSummary(vehicle.get(), dto);
             JSONObject response = requester.request(summary);
             return processResult(dto, vehicle.get(), summary, response);
-        } else return new FlagWith<>(0);
+        } else return new DRO<>(0);
     }
 
-    private FlagWith<Process> processResult(ServiceRequestDTO dto, Vehicle vehicle, JSONObject summary, JSONObject response) {
+    private DRO<Process> processResult(ServiceRequestDTO dto, Vehicle vehicle, JSONObject summary, JSONObject response) {
         log.info("[SERVICE-REQUEST-PROCESSOR : PROCESS_RESULT] Processing result from navigation detail api. Response={}", response);
         JSONObject result = response.getJSONArray("routes").getJSONObject(0);
 
         if ((int) result.get("result_code") == 0) {
-            editor.editSummary(summary, result.getJSONArray("sections"));
+            JSONArray sections = result.getJSONArray("sections");
+            editor.editSummary(summary, sections);
             JSONObject info = result.getJSONObject("summary");
             Process process = createProcess(dto, vehicle, summary, info);
             processRepository.save(process);
             vehicleRepository.addNum(vehicle.getVsn());
-            return new FlagWith<>(1, process);
-        } else return new FlagWith<>(-1);
+            return new DRO<>(1, process, createPath(sections));
+        } else return new DRO<>(-1);
     }
 
     private Process createProcess(ServiceRequestDTO dto, Vehicle vehicle, JSONObject summary, JSONObject info) {
@@ -67,5 +69,19 @@ public class RequestProcessor {
         process.setShare(dto.getShare());
         process.setVehicle(vehicle);
         return process;
+    }
+
+    private JSONArray createPath(JSONArray sections) {
+        JSONArray path = new JSONArray();
+        for (int i = 0; i < sections.length(); i++) {
+            JSONObject section = sections.getJSONObject(i);
+            JSONArray guides = section.getJSONArray("guides");
+            for (int j = 0; j < guides.length(); j++) {
+                JSONObject guide = guides.getJSONObject(j);
+                guide = new JSONObject().put("x", guide.get("x")).put("y", guide.get("y"));
+                path.put(guide);
+            }
+        }
+        return path;
     }
 }
