@@ -78,8 +78,7 @@ public class RequestProcessor {
             JSONArray guides = section.getJSONArray("guides");
             for (int j = 0; j < guides.length(); j++) {
                 JSONObject guide = guides.getJSONObject(j);
-                guide = new JSONObject().put("x", guide.get("x")).put("y", guide.get("y"));
-                path.put(guide);
+                path.put(new JSONObject().put("x", guide.get("x")).put("y", guide.get("y")));
             }
         }
         return path;
