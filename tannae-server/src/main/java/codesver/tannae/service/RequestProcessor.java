@@ -23,15 +23,17 @@ public class RequestProcessor {
     private final SummaryEditor editor;
 
     public FlagWith<Process> processRequest(ServiceRequestDTO dto) {
-        log.info("[SERVICE-REQUEST-PROCESS : PROCESS_REQUEST] Processing new request={}", dto);
+        log.info("[SERVICE-REQUEST-PROCESSOR : PROCESS_REQUEST] Processing new request={}", dto);
         return dto.getShare() ? processShareRequest(dto) : processNonShareRequest(dto);
     }
 
     private FlagWith<Process> processShareRequest(ServiceRequestDTO dto) {
+        log.info("[SERVICE-REQUEST-PROCESSOR : PROCESS_SHARE_REQUEST] Processing request share={}", true);
         return new FlagWith<>(0);
     }
 
     private FlagWith<Process> processNonShareRequest(ServiceRequestDTO dto) {
+        log.info("[SERVICE-REQUEST-PROCESSOR : PROCESS_NON_SHARE_REQUEST] : Processing request share={}", false);
         FlagWith<Vehicle> vehicle = finder.findVehicle(dto);
         if (vehicle.isPresent()) {
             JSONObject summary = editor.createSummary(vehicle.get(), dto);
@@ -41,6 +43,7 @@ public class RequestProcessor {
     }
 
     private FlagWith<Process> processResult(ServiceRequestDTO dto, Vehicle vehicle, JSONObject summary, JSONObject response) {
+        log.info("[SERVICE-REQUEST-PROCESSOR : PROCESS_RESULT] Processing result from navigation detail api. Response={}", response);
         JSONObject result = response.getJSONArray("routes").getJSONObject(0);
 
         if ((int) result.get("result_code") == 0) {
@@ -54,6 +57,7 @@ public class RequestProcessor {
     }
 
     private Process createProcess(ServiceRequestDTO dto, Vehicle vehicle, JSONObject summary, JSONObject info) {
+        log.info("[SERVICE-REQUEST-PROCESSOR : CREATE_PROCESS] Creating process entity. USN={} VSN={}", dto.getUsn(), vehicle.getVsn());
         Process process = new Process();
         process.setSummary(summary.toString());
         process.setFare(info.getJSONObject("fare").getInt("taxi"));

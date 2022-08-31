@@ -25,6 +25,7 @@ public class NaviRequester {
     }
 
     public JSONObject request(JSONObject body) {
+        log.info("[SERVICE-NAVI-REQUESTER : REQUEST] Request navigation details={}", body);
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body.toMap(), headers);
         return new JSONObject(rest.postForEntity(url, entity, String.class).getBody());
     }

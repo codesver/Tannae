@@ -24,6 +24,7 @@ public class VehicleFinder {
     }
 
     private FlagWith<Vehicle> findNearestVehicle(List<Vehicle> vehicles, ServiceRequestDTO dto) {
+        log.info("[SERVICE-VEHICLE-FINDER : FIND_NEAREST_VEHICLE] Finding nearest vehicle for user={}", dto.getId());
         double distance = Double.MAX_VALUE;
         double latitude = dto.getOriginLatitude();
         double longitude = dto.getOriginLongitude();

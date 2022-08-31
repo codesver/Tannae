@@ -16,6 +16,7 @@ public class ProcessJpaRepository implements ProcessRepository {
 
     @Override
     public void save(Process process) {
+        log.info("[REPOSITORY-PROCESS : SAVE] Saving new process={}", process);
         repository.save(process);
     }
 }

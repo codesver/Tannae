@@ -15,14 +15,15 @@ public class SummaryEditor {
 
     public JSONObject createSummary(Vehicle vehicle, ServiceRequestDTO dto) {
         log.info("[SERVICE-SUMMARY-EDITOR : CREATE_SUMMARY] Creating new summary");
-        JSONObject origin = putPoint("vehicle", vehicle.getLongitude(), vehicle.getLatitude(), -1, 0, 0, false);
-        JSONObject destination = putPoint(dto.getDestination(), dto.getDestinationLongitude(), dto.getDestinationLatitude(), dto.getUsn(), 0, 0, false);
-        JSONObject waypoint = putPoint(dto.getOrigin(), dto.getOriginLongitude(), dto.getOriginLatitude(), dto.getUsn(), 0, 0, false);
+        JSONObject origin = createPoint("vehicle", vehicle.getLongitude(), vehicle.getLatitude(), -1, 0, 0, false);
+        JSONObject destination = createPoint(dto.getDestination(), dto.getDestinationLongitude(), dto.getDestinationLatitude(), dto.getUsn(), 0, 0, false);
+        JSONObject waypoint = createPoint(dto.getOrigin(), dto.getOriginLongitude(), dto.getOriginLatitude(), dto.getUsn(), 0, 0, false);
         JSONArray waypoints = new JSONArray().put(waypoint);
         return new JSONObject().put("origin", origin).put("destination", destination).put("waypoints", waypoints);
     }
 
     public void editSummary(JSONObject summary, JSONArray sections) {
+        log.info("[SERVICE-SUMMARY-EDITOR : EDIT_SUMMARY] Editing summary");
         JSONObject toWaypoint = sections.getJSONObject(0);
         JSONObject toDestination = sections.getJSONObject(1);
 
@@ -36,7 +37,9 @@ public class SummaryEditor {
                 .put("duration", toDestination.get("duration"));
     }
 
-    private JSONObject putPoint(String name, double x, double y, int usn, int distance, int duration, boolean passed) {
+    private JSONObject createPoint(String name, double x, double y, int usn, int distance, int duration, boolean passed) {
+        log.info("[SERVICE-SUMMARY-EDITOR : CREATE_POINT] Creating new point NAME={} X={} Y={} USN={} DISTANCE={} DURATION={} PASSED={}",
+                name, x, y, usn, distance, duration, passed);
         return new JSONObject().put("name", name)
                 .put("x", x).put("y", y)
                 .put("usn", usn).put("distance", distance).put("duration", duration)

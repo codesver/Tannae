@@ -24,6 +24,7 @@ public class VehicleJpaRepository implements VehicleRepository {
 
     @Override
     public void addNum(int vsn) {
+        log.info("[REPOSITORY-VEHICLE : ADD_NUM] Adding num value to vsn={}", vsn);
         Optional<Vehicle> byVsn = repository.findByVsn(vsn);
         Vehicle vehicle = byVsn.get();
         vehicle.setNum(vehicle.getNum() + 1);
