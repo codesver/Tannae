@@ -5,6 +5,7 @@ import codesver.tannae.domain.Process;
 import codesver.tannae.domain.Vehicle;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.repository.process.ProcessRepository;
+import codesver.tannae.repository.user.UserRepository;
 import codesver.tannae.repository.vehicle.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ public class RequestProcessor {
 
     private final ProcessRepository processRepository;
     private final VehicleRepository vehicleRepository;
+    private final UserRepository userRepository;
     private final NaviRequester requester;
     private final VehicleFinder finder;
     private final SummaryEditor editor;
@@ -53,6 +55,7 @@ public class RequestProcessor {
             Process process = createProcess(dto, vehicle, summary, result.getJSONObject("summary"));
             processRepository.save(process);
             vehicleRepository.addNum(vehicle.getVsn());
+            userRepository.changeBoardState(dto.getUsn());
             return new DRO<>(1, process, createPath(sections));
         } else return new DRO<>(-2);
     }

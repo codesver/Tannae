@@ -55,4 +55,11 @@ public class UserJpaRepository implements UserRepository {
         user.setPoint(charged);
         return charged;
     }
+
+    @Override
+    public void changeBoardState(Integer usn) {
+        Optional<User> userOptional = repository.findUserByUsn(usn);
+        User user = userOptional.get();
+        user.setBoard(true);
+    }
 }

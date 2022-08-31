@@ -17,4 +17,6 @@ public interface UserRepository {
     Optional<User> findByIdPw(String id, String pw);
 
     Integer chargePoint(Integer usn, Integer point);
+
+    void changeBoardState(Integer usn);
 }
