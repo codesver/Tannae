@@ -25,7 +25,7 @@ public class ServiceController {
 
     @PostMapping("/request")
     public ServiceResponseDTO request(@RequestBody ServiceRequestDTO requestDTO) {
-        log.info("[CONTROLLER-SERVICE : REQUEST => STEP 1] /service/request body={}", requestDTO);
+        log.info("[CONTROLLER-SERVICE : REQUEST] /service/request body={}", requestDTO);
         FlagWith<Process> process = processor.processRequest(requestDTO);
         ServiceResponseDTO response = new ServiceResponseDTO();
         response.setFlag(process.getFlag());

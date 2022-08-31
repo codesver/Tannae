@@ -15,9 +15,9 @@ public class SummaryEditor {
 
     public JSONObject createSummary(Vehicle vehicle, ServiceRequestDTO dto) {
         log.info("[SERVICE-SUMMARY-EDITOR : CREATE_SUMMARY] Creating new summary");
-        JSONObject origin = putPoint("vehicle", vehicle.getLongitude(), vehicle.getLatitude(), -1, 0, 0);
-        JSONObject destination = putPoint(dto.getDestination(), dto.getDestinationLongitude(), dto.getDestinationLatitude(), dto.getUsn(), 0, 0);
-        JSONObject waypoint = putPoint(dto.getOrigin(), dto.getOriginLongitude(), dto.getOriginLatitude(), dto.getUsn(), 0, 0);
+        JSONObject origin = putPoint("vehicle", vehicle.getLongitude(), vehicle.getLatitude(), -1, 0, 0, false);
+        JSONObject destination = putPoint(dto.getDestination(), dto.getDestinationLongitude(), dto.getDestinationLatitude(), dto.getUsn(), 0, 0, false);
+        JSONObject waypoint = putPoint(dto.getOrigin(), dto.getOriginLongitude(), dto.getOriginLatitude(), dto.getUsn(), 0, 0, false);
         JSONArray waypoints = new JSONArray().put(waypoint);
         return new JSONObject().put("origin", origin).put("destination", destination).put("waypoints", waypoints);
     }
@@ -36,9 +36,10 @@ public class SummaryEditor {
                 .put("duration", toDestination.get("duration"));
     }
 
-    private JSONObject putPoint(String name, double x, double y, int usn, int distance, int duration) {
+    private JSONObject putPoint(String name, double x, double y, int usn, int distance, int duration, boolean passed) {
         return new JSONObject().put("name", name)
                 .put("x", x).put("y", y)
-                .put("usn", usn).put("distance", distance).put("duration", duration);
+                .put("usn", usn).put("distance", distance).put("duration", duration)
+                .put("passed", passed);
     }
 }
