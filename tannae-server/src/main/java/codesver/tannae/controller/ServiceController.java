@@ -7,7 +7,10 @@ import codesver.tannae.dto.ServiceResponseDTO;
 import codesver.tannae.service.RequestProcessor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
+import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,8 +35,9 @@ public class ServiceController {
                 : new ServiceResponseDTO(dro.getFlag());
     }
 
-    @MessageMapping("/hello")
-    public void message() {
-        smso.convertAndSend("/sub/vehicle/1", "HELLO STOMP");
+    @MessageMapping("/request")
+    public void request(@Payload String payload) {
+        JSONObject message = new JSONObject(payload);
+        smso.convertAndSend("/sub/vehicle/" + message.getInt("vsn"), message.toString());
     }
 }

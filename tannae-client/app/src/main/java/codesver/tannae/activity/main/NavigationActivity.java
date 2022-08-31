@@ -157,7 +157,7 @@ public class NavigationActivity extends AppCompatActivity {
                     .put("vsn", dto.getVsn())
                     .put("summary", dto.getSummary())
                     .put("path", dto.getPath());
-            stomp.send("/pub/connected", data.toString()).subscribe();
+            stomp.send("/pub/request", data.toString()).subscribe();
         } catch (JSONException e) {
             e.printStackTrace();
         }
