@@ -49,8 +49,50 @@ public class NavigationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
-        bringExtras();
-        request();
+        if (getIntent().getBooleanExtra("driverState", true))
+            onCreateDriver();
+        else
+            onCreatePassenger();
+    }
+
+    private void onCreateDriver() {
+        setMap();
+        setViews();
+        setEventListeners();
+
+    }
+
+    private void onCreatePassenger() {
+
+    }
+
+    private void setMap() {
+        mapView = new MapView(this);
+        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(35.1761175, 126.9058167), true);
+        mapView.setZoomLevel(2, true);
+        mapViewContainer = findViewById(R.id.frame_layout_navigation);
+        mapViewContainer.addView(mapView);
+    }
+
+    private void setViews() {
+        buttonTransfer = findViewById(R.id.button_transfer_navigation);
+        buttonEnd = findViewById(R.id.button_end_navigation);
+        buttonBack = findViewById(R.id.button_back_navigation);
+        textPath = findViewById(R.id.text_path_navigation);
+        switchDrive = findViewById(R.id.switch_drive_navigation);
+    }
+
+    private void setEventListeners() {
+
+    }
+
+    private void setVisibility() {
+        if (!driverState) {
+            buttonBack.setVisibility(View.INVISIBLE);
+            buttonTransfer.setVisibility(View.INVISIBLE);
+            buttonEnd.setVisibility(View.INVISIBLE);
+            switchDrive.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void bringExtras() {
@@ -106,48 +148,28 @@ public class NavigationActivity extends AppCompatActivity {
             setMap();
             setViews();
             setEventListeners();
-            connectStomp(dto);
+            connectStompForPassengers(dto);
         }
     }
 
-    private void setMap() {
-        mapView = new MapView(this);
-        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(35.1761175, 126.9058167), true);
-        mapView.setZoomLevel(2, true);
-        mapViewContainer = findViewById(R.id.frame_layout_navigation);
-        mapViewContainer.addView(mapView);
+    private void connectStompForDriver() {
+        stomp = Stomp.over(Stomp.ConnectionProvider.OKHTTP, "ws://" + Network.ip + "/service");
+        stomp.connect();
+
+        Disposable subscribe = stomp.topic("/sub/vehicle/" + InnerDB.getter(getApplicationContext()).getInt("vsn", 0)).subscribe(topicMessage -> {
+            runOnUiThread(() -> {
+
+            });
+        });
     }
 
-    private void setViews() {
-        buttonTransfer = findViewById(R.id.button_transfer_navigation);
-        buttonEnd = findViewById(R.id.button_end_navigation);
-        buttonBack = findViewById(R.id.button_back_navigation);
-        textPath = findViewById(R.id.text_path_navigation);
-        switchDrive = findViewById(R.id.switch_drive_navigation);
-        setVisibility();
-    }
-
-    private void setVisibility() {
-        if (!driverState) {
-            buttonBack.setVisibility(View.INVISIBLE);
-            buttonTransfer.setVisibility(View.INVISIBLE);
-            buttonEnd.setVisibility(View.INVISIBLE);
-            switchDrive.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    private void setEventListeners() {
-
-    }
-
-    private void connectStomp(ServiceResponseDTO dto) {
+    private void connectStompForPassengers(ServiceResponseDTO dto) {
         stomp = Stomp.over(Stomp.ConnectionProvider.OKHTTP, "ws://" + Network.ip + "/service");
         stomp.connect();
 
         Disposable subscribe = stomp.topic("/sub/vehicle/" + dto.getVsn()).subscribe(topicMessage -> {
             runOnUiThread(() -> {
-                String payload = topicMessage.getPayload();
-                Toaster.toast(NavigationActivity.this, payload);
+
             });
         });
 
