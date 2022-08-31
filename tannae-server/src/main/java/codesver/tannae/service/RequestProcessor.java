@@ -44,7 +44,7 @@ public class RequestProcessor {
 
             if ((int) result.get("result_code") == 0) {
                 Process process = createProcess(dto, vehicle.get(), summary, info);
-                // Update process
+                processRepository.save(process);
                 // Update vehicle vehicleRepository.addNum(vehicle.get().getVsn());
                 return new FlagWith<>(1, process);
             } else return new FlagWith<>(-1);
@@ -71,6 +71,7 @@ public class RequestProcessor {
         origin.put("name", "vehicle");
         origin.put("x", vehicle.getLongitude());
         origin.put("y", vehicle.getLatitude());
+        origin.put("usn", -1);
 
         destination.put("name", dto.getDestination());
         destination.put("x", dto.getDestinationLongitude());

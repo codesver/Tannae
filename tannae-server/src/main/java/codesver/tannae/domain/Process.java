@@ -36,6 +36,6 @@ public class Process {
     private Boolean share;
 
     @OneToOne
-    @JoinColumn
+    @JoinColumn(name = "vsn")
     private Vehicle vehicle;
 }
