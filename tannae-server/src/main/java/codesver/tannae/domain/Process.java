@@ -15,7 +15,7 @@ public class Process {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer ssn;
+    private Integer psn;
 
     @Column(length = 1000, nullable = false)
     private String summary;

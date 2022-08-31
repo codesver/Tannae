@@ -30,9 +30,9 @@ public class QProcess extends EntityPathBase<Process> {
 
     public final BooleanPath gender = createBoolean("gender");
 
-    public final BooleanPath share = createBoolean("share");
+    public final NumberPath<Integer> psn = createNumber("psn", Integer.class);
 
-    public final NumberPath<Integer> ssn = createNumber("ssn", Integer.class);
+    public final BooleanPath share = createBoolean("share");
 
     public final StringPath summary = createString("summary");
 
