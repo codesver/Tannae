@@ -49,7 +49,7 @@ public class NavigationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
-        if (getIntent().getBooleanExtra("driverState", true))
+        if (getIntent().getBooleanExtra("driver", true))
             onCreateDriver();
         else
             onCreatePassenger();
@@ -59,7 +59,7 @@ public class NavigationActivity extends AppCompatActivity {
         setMap();
         setViews();
         setEventListeners();
-
+        
     }
 
     private void onCreatePassenger() {

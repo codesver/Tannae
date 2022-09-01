@@ -14,6 +14,7 @@ import net.daum.mf.map.api.MapView;
 
 import codesver.tannae.R;
 import codesver.tannae.activity.menu.MenuActivity;
+import codesver.tannae.service.InnerDB;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void request() {
         mapViewContainer.removeView(mapView);
-        startActivity(new Intent(MainActivity.this, RequestActivity.class));
+        boolean driver = InnerDB.getter(getApplicationContext()).getBoolean("driver", false);
+        startActivity(new Intent(MainActivity.this, driver ? NavigationActivity.class : RequestActivity.class).putExtra("driver", driver));
     }
 
     @Override
