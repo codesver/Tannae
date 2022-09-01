@@ -28,7 +28,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import ua.naiksoftware.stomp.Stomp;
-import ua.naiksoftware.stomp.StompClient;
 
 public class NavigationActivity extends AppCompatActivity {
 
@@ -42,28 +41,100 @@ public class NavigationActivity extends AppCompatActivity {
     private boolean driverState, shareState;
     private String origin, destination;
     private double originLatitude, originLongitude, destinationLatitude, destinationLongitude;
+    private ServiceResponseDTO responseDTO;
 
-    private StompClient stomp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
-        if (getIntent().getBooleanExtra("driver", true))
-            onCreateDriver();
-        else
-            onCreatePassenger();
+        if (getIntent().getBooleanExtra("driver", true)) onCreateDriver();
+        else onCreatePassenger();
     }
 
     private void onCreateDriver() {
-        setMap();
-        setViews();
-        setEventListeners();
-
+        setting();
+        connectStomp(InnerDB.getter(getApplicationContext()).getInt("vsn", 0));
     }
 
     private void onCreatePassenger() {
+        bringExtras();
+        request();
+        sendResponseBack();
+    }
 
+    private void connectStomp(int vsn) {
+        Network.stomp = Stomp.over(Stomp.ConnectionProvider.OKHTTP, "ws://" + Network.ip + "/service");
+        Network.stomp.connect();
+
+        Disposable subscribe = Network.stomp.topic("/sub/vehicle/" + vsn).subscribe(topicMessage -> {
+            runOnUiThread(() -> {
+
+            });
+        });
+
+        Network.stomp.send("/pub/connect", InnerDB.getter(getApplicationContext()).getString("id", "")).subscribe();
+    }
+
+    private void request() {
+        SharedPreferences getter = InnerDB.getter(getApplicationContext());
+        int usn = getter.getInt("usn", 0);
+        String id = getter.getString("id", null);
+        boolean gender = getter.getBoolean("gender", true);
+        ServiceRequestDTO dto = new ServiceRequestDTO(usn, id, gender, origin, destination, originLatitude, originLongitude, destinationLatitude, destinationLongitude, shareState);
+        requestByServer(dto);
+    }
+
+    private void requestByServer(ServiceRequestDTO dto) {
+        Network.service.request(dto).enqueue(new Callback<ServiceResponseDTO>() {
+            @Override
+            public void onResponse(Call<ServiceResponseDTO> call, Response<ServiceResponseDTO> response) {
+                responseDTO = response.body();
+                responseHandler();
+            }
+
+            @Override
+            public void onFailure(Call<ServiceResponseDTO> call, Throwable t) {
+                Toaster.toast(NavigationActivity.this, "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
+                startActivity(new Intent(NavigationActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            }
+        });
+    }
+
+    private void responseHandler() {
+        int flag = responseDTO.getFlag();
+
+        if (flag == -2) {
+            Toaster.toast(NavigationActivity.this, "교통 혼잡으로 이용 가능한 차량이 없습니다.\n다음에 다시 이용해주세요.");
+            startActivity(new Intent(NavigationActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        } else if (flag == -1) {
+            Toaster.toast(NavigationActivity.this, "이용 가능한 차량이 없습니다.\n다음에 다시 이용해주세요.");
+            startActivity(new Intent(NavigationActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        } else if (flag == 1) {
+            Toaster.toast(NavigationActivity.this, "차량이 배차 되었습니다.\n출발지에서 대기해주세요.");
+            setting();
+            setVisibility();
+            connectStomp(responseDTO.getVsn());
+        }
+    }
+
+    private void sendResponseBack() {
+        JSONObject data;
+        try {
+            data = new JSONObject().put("flag", 0)
+                    .put("vsn", responseDTO.getVsn())
+                    .put("summary", responseDTO.getSummary())
+                    .put("path", responseDTO.getPath());
+            Network.stomp.send("/pub/request", data.toString()).subscribe();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setting() {
+        setMap();
+        setViews();
+        setEventListeners();
     }
 
     private void setMap() {
@@ -86,102 +157,21 @@ public class NavigationActivity extends AppCompatActivity {
 
     }
 
-    private void setVisibility() {
-        if (!driverState) {
-            buttonBack.setVisibility(View.INVISIBLE);
-            buttonTransfer.setVisibility(View.INVISIBLE);
-            buttonEnd.setVisibility(View.INVISIBLE);
-            switchDrive.setVisibility(View.INVISIBLE);
-        }
-    }
-
     private void bringExtras() {
         Intent intent = getIntent();
-        driverState = intent.getBooleanExtra("driverState", true);
-        if (!driverState) {
-            shareState = intent.getBooleanExtra("shareState", false);
-            origin = intent.getStringExtra("origin");
-            destination = intent.getStringExtra("destination");
-            originLatitude = intent.getDoubleExtra("originLatitude", 0);
-            originLongitude = intent.getDoubleExtra("originLongitude", 0);
-            destinationLatitude = intent.getDoubleExtra("destinationLatitude", 0);
-            destinationLongitude = intent.getDoubleExtra("destinationLongitude", 0);
-        }
+        shareState = intent.getBooleanExtra("shareState", false);
+        origin = intent.getStringExtra("origin");
+        destination = intent.getStringExtra("destination");
+        originLatitude = intent.getDoubleExtra("originLatitude", 0);
+        originLongitude = intent.getDoubleExtra("originLongitude", 0);
+        destinationLatitude = intent.getDoubleExtra("destinationLatitude", 0);
+        destinationLongitude = intent.getDoubleExtra("destinationLongitude", 0);
     }
 
-    private void request() {
-        SharedPreferences getter = InnerDB.getter(getApplicationContext());
-        int usn = getter.getInt("usn", 0);
-        String id = getter.getString("id", null);
-        boolean gender = getter.getBoolean("gender", true);
-        ServiceRequestDTO dto = new ServiceRequestDTO(usn, id, gender, origin, destination, originLatitude, originLongitude, destinationLatitude, destinationLongitude, shareState);
-        requestByServer(dto);
-    }
-
-    private void requestByServer(ServiceRequestDTO dto) {
-        Network.service.request(dto).enqueue(new Callback<ServiceResponseDTO>() {
-            @Override
-            public void onResponse(Call<ServiceResponseDTO> call, Response<ServiceResponseDTO> response) {
-                ServiceResponseDTO res = response.body();
-                responseHandler(res);
-            }
-
-            @Override
-            public void onFailure(Call<ServiceResponseDTO> call, Throwable t) {
-                Toaster.toast(NavigationActivity.this, "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
-                startActivity(new Intent(NavigationActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-            }
-        });
-    }
-
-    private void responseHandler(ServiceResponseDTO dto) {
-        int flag = dto.getFlag();
-
-        if (flag == -2) {
-            Toaster.toast(NavigationActivity.this, "교통 혼잡으로 이용 가능한 차량이 없습니다.\n다음에 다시 이용해주세요.");
-            startActivity(new Intent(NavigationActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-        } else if (flag == -1) {
-            Toaster.toast(NavigationActivity.this, "이용 가능한 차량이 없습니다.\n다음에 다시 이용해주세요.");
-            startActivity(new Intent(NavigationActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-        } else if (flag == 1) {
-            Toaster.toast(NavigationActivity.this, "차량이 배차 되었습니다.\n출발지에서 대기해주세요.");
-            setMap();
-            setViews();
-            setEventListeners();
-            connectStompForPassengers(dto);
-        }
-    }
-
-    private void connectStompForDriver() {
-        stomp = Stomp.over(Stomp.ConnectionProvider.OKHTTP, "ws://" + Network.ip + "/service");
-        stomp.connect();
-
-        Disposable subscribe = stomp.topic("/sub/vehicle/" + InnerDB.getter(getApplicationContext()).getInt("vsn", 0)).subscribe(topicMessage -> {
-            runOnUiThread(() -> {
-
-            });
-        });
-    }
-
-    private void connectStompForPassengers(ServiceResponseDTO dto) {
-        stomp = Stomp.over(Stomp.ConnectionProvider.OKHTTP, "ws://" + Network.ip + "/service");
-        stomp.connect();
-
-        Disposable subscribe = stomp.topic("/sub/vehicle/" + dto.getVsn()).subscribe(topicMessage -> {
-            runOnUiThread(() -> {
-
-            });
-        });
-
-        JSONObject data;
-        try {
-            data = new JSONObject().put("flag", 0)
-                    .put("vsn", dto.getVsn())
-                    .put("summary", dto.getSummary())
-                    .put("path", dto.getPath());
-            stomp.send("/pub/request", data.toString()).subscribe();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    private void setVisibility() {
+        buttonBack.setVisibility(View.INVISIBLE);
+        buttonTransfer.setVisibility(View.INVISIBLE);
+        buttonEnd.setVisibility(View.INVISIBLE);
+        switchDrive.setVisibility(View.INVISIBLE);
     }
 }
