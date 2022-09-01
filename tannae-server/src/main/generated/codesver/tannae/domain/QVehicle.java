@@ -27,7 +27,7 @@ public class QVehicle extends EntityPathBase<Vehicle> {
 
     public final BooleanPath run = createBoolean("run");
 
-    public final StringPath usn = createString("usn");
+    public final NumberPath<Integer> usn = createNumber("usn", Integer.class);
 
     public final StringPath vrn = createString("vrn");
 

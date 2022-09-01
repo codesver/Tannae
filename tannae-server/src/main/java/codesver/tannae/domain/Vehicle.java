@@ -33,5 +33,5 @@ public class Vehicle {
     private Boolean run;
 
     @Column
-    private String usn;
+    private Integer usn;
 }

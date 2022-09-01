@@ -8,6 +8,8 @@ import java.util.Optional;
 
 public interface VehicleSpringDataJpaRepository extends JpaRepository<Vehicle, Integer> {
 
+    Optional<Vehicle> findVehicleByUsn(Integer usn);
+
     List<Vehicle> findVehiclesByRunAndNum(boolean run, int num);
 
     Optional<Vehicle> findByVsn(int vsn);

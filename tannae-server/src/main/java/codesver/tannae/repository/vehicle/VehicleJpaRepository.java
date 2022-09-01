@@ -18,7 +18,14 @@ public class VehicleJpaRepository implements VehicleRepository {
     private final VehicleSpringDataJpaRepository repository;
 
     @Override
+    public Optional<Vehicle> findVehicleByUsn(Integer usn) {
+        log.info("[REPOSITORY-VEHICLE : FIND_VEHICLE_BY_USN] Finding vehicle by usn={}", usn);
+        return repository.findVehicleByUsn(usn);
+    }
+
+    @Override
     public List<Vehicle> findNewVehicle(boolean run, int num) {
+        log.info("[REPOSITORY-VEHICLE : FIND_NEW_VEHICLE] Finding new vehicle");
         return repository.findVehiclesByRunAndNum(run, num);
     }
 

@@ -9,5 +9,6 @@ import lombok.Getter;
 public class LoginDTO {
 
     private User user;
+    private Integer vsn;
     private boolean exist;
 }

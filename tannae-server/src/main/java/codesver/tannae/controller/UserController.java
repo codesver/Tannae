@@ -1,10 +1,12 @@
 package codesver.tannae.controller;
 
 import codesver.tannae.domain.User;
+import codesver.tannae.domain.Vehicle;
 import codesver.tannae.dto.FoundAccountDTO;
 import codesver.tannae.dto.LoginDTO;
 import codesver.tannae.dto.SignUpUserDTO;
 import codesver.tannae.repository.user.UserRepository;
+import codesver.tannae.repository.vehicle.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,7 @@ import java.util.Optional;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final VehicleRepository vehicleRepository;
 
     @GetMapping("/check-id")
     public Boolean checkId(@RequestParam String id) {
@@ -49,7 +52,12 @@ public class UserController {
     public LoginDTO login(@RequestParam String id, @RequestParam String pw) {
         log.info("[CONTROLLER-USER : LOGIN] /users/login?id={}&pw={}", id, pw);
         Optional<User> loggedUser = userRepository.findByIdPw(id, pw);
-        return new LoginDTO(loggedUser.orElse(new User()), loggedUser.isPresent());
+        if (loggedUser.isPresent()) {
+            User user = loggedUser.get();
+            int vsn = user.getDriver() ? vehicleRepository.findVehicleByUsn(user.getUsn()).get().getVsn() : 0;
+            return new LoginDTO(user, vsn, true);
+        }
+        return new LoginDTO(null, 0, false);
     }
 
     @PatchMapping("/{usn}/charge")
