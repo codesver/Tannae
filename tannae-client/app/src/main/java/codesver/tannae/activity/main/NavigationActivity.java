@@ -38,7 +38,7 @@ public class NavigationActivity extends AppCompatActivity {
     private MapView mapView;
     private ViewGroup mapViewContainer;
 
-    private boolean driverState, shareState;
+    private boolean shareState;
     private String origin, destination;
     private double originLatitude, originLongitude, destinationLatitude, destinationLongitude;
     private ServiceResponseDTO responseDTO;
@@ -60,7 +60,6 @@ public class NavigationActivity extends AppCompatActivity {
     private void onCreatePassenger() {
         bringExtras();
         request();
-        sendResponseBack();
     }
 
     private void connectStomp(int vsn) {
@@ -69,7 +68,8 @@ public class NavigationActivity extends AppCompatActivity {
 
         Disposable subscribe = Network.stomp.topic("/sub/vehicle/" + vsn).subscribe(topicMessage -> {
             runOnUiThread(() -> {
-
+                String payload = topicMessage.getPayload();
+                Toaster.toast(getApplicationContext(), payload);
             });
         });
 
@@ -115,6 +115,7 @@ public class NavigationActivity extends AppCompatActivity {
             setting();
             setVisibility();
             connectStomp(responseDTO.getVsn());
+            sendResponseBack();
         }
     }
 

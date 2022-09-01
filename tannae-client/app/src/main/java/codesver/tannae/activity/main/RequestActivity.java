@@ -84,7 +84,7 @@ public class RequestActivity extends AppCompatActivity implements MapView.MapVie
                     .putExtra("destinationLatitude", destinationLatitude)
                     .putExtra("destinationLongitude", destinationLongitude)
                     .putExtra("shareState", shareState)
-                    .putExtra("driverState", false));
+                    .putExtra("driver", false));
         }
     }
 

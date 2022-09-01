@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (login.exist()) {
                     if (!exist) InnerDB.saveUser(getApplicationContext(), login.getUser());
                     if (login.getUser().getDriver())
-                        InnerDB.setter(getApplicationContext()).putInt("vsn", login.getVsn());
+                        InnerDB.setter(getApplicationContext()).putInt("vsn", login.getVsn()).apply();
                     Toaster.toast(LoginActivity.this, id + "님 반갑습니다!");
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 } else {
