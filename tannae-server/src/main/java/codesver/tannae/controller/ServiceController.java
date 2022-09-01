@@ -35,6 +35,11 @@ public class ServiceController {
                 : new ServiceResponseDTO(dro.getFlag());
     }
 
+    @MessageMapping("/connect")
+    public void connect(@Payload String id) {
+        log.info("[SOCKET-CONTROLLER-SERVICE : CONNECT] User {} is connected to STOMP", id);
+    }
+
     @MessageMapping("/request")
     public void request(@Payload String payload) {
         log.info("[SOCKET-CONTROLLER-SERVICE : REQUEST] Request={}", payload);
