@@ -59,7 +59,7 @@ public class NavigationActivity extends AppCompatActivity {
         setMap();
         setViews();
         setEventListeners();
-        
+
     }
 
     private void onCreatePassenger() {
