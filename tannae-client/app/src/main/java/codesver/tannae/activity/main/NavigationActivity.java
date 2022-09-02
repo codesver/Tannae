@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -155,11 +156,22 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     private void setEventListeners() {
-        buttonBack.setOnClickListener(v -> {
-            if (switchRun.isChecked())
-                Toaster.toast(getApplicationContext(), "운행중에는 화면을 전환할 수 없습니다.");
-            else
-                onBackPressed();
+        buttonBack.setOnClickListener(v -> onBackPressed());
+
+        switchRun.setOnCheckedChangeListener((buttonView, isChecked) -> switchRunByServer(isChecked));
+    }
+
+    private void switchRunByServer(boolean isChecked) {
+        Network.service.switchRun(InnerDB.getter(getApplicationContext()).getInt("vsn", 0), isChecked).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                    
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+
+            }
         });
     }
 
@@ -179,5 +191,13 @@ public class NavigationActivity extends AppCompatActivity {
         buttonTransfer.setVisibility(View.INVISIBLE);
         buttonEnd.setVisibility(View.INVISIBLE);
         switchRun.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (switchRun.isChecked())
+            Toaster.toast(getApplicationContext(), "운행중에는 화면을 전환할 수 없습니다.");
+        else
+            super.onBackPressed();
     }
 }
