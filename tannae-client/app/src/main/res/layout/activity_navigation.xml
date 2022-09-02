@@ -38,7 +38,7 @@
                 android:textStyle="bold" />
 
             <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switch_drive_navigation"
+                android:id="@+id/switch_run_navigation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="운행"

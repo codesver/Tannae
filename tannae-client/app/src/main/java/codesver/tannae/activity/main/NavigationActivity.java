@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,7 +33,7 @@ public class NavigationActivity extends AppCompatActivity {
 
     private Button buttonTransfer, buttonEnd, buttonBack;
     private TextView textPath;
-    private SwitchCompat switchDrive;
+    private SwitchCompat switchRun;
 
     private MapView mapView;
     private ViewGroup mapViewContainer;
@@ -152,12 +151,12 @@ public class NavigationActivity extends AppCompatActivity {
         buttonEnd = findViewById(R.id.button_end_navigation);
         buttonBack = findViewById(R.id.button_back_navigation);
         textPath = findViewById(R.id.text_path_navigation);
-        switchDrive = findViewById(R.id.switch_drive_navigation);
+        switchRun = findViewById(R.id.switch_run_navigation);
     }
 
     private void setEventListeners() {
         buttonBack.setOnClickListener(v -> {
-            if (switchDrive.isChecked())
+            if (switchRun.isChecked())
                 Toaster.toast(getApplicationContext(), "운행중에는 화면을 전환할 수 없습니다.");
             else
                 onBackPressed();
@@ -179,6 +178,6 @@ public class NavigationActivity extends AppCompatActivity {
         buttonBack.setVisibility(View.INVISIBLE);
         buttonTransfer.setVisibility(View.INVISIBLE);
         buttonEnd.setVisibility(View.INVISIBLE);
-        switchDrive.setVisibility(View.INVISIBLE);
+        switchRun.setVisibility(View.INVISIBLE);
     }
 }
