@@ -3,9 +3,7 @@ package codesver.tannae.controller;
 import codesver.tannae.repository.vehicle.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -14,5 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class VehicleController {
 
     private final VehicleRepository vehicleRepository;
-    
+
+    @PatchMapping("/{vsn}/switch-run")
+    public Boolean switchRun(@PathVariable Integer vsn, @RequestParam Boolean run) {
+        vehicleRepository.switchRun(vsn, run);
+        return true;
+    }
 }

@@ -36,4 +36,10 @@ public class VehicleJpaRepository implements VehicleRepository {
         Vehicle vehicle = byVsn.get();
         vehicle.setNum(vehicle.getNum() + 1);
     }
+
+    @Override
+    public void switchRun(int vsn, boolean run) {
+        Optional<Vehicle> vehicle = repository.findById(vsn);
+        vehicle.get().setRun(run);
+    }
 }
