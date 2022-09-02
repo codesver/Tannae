@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -155,7 +156,12 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     private void setEventListeners() {
-
+        buttonBack.setOnClickListener(v -> {
+            if (switchDrive.isChecked())
+                Toaster.toast(getApplicationContext(), "운행중에는 화면을 전환할 수 없습니다.");
+            else
+                onBackPressed();
+        });
     }
 
     private void bringExtras() {
