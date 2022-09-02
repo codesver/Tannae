@@ -157,7 +157,6 @@ public class NavigationActivity extends AppCompatActivity {
 
     private void setEventListeners() {
         buttonBack.setOnClickListener(v -> onBackPressed());
-
         switchRun.setOnCheckedChangeListener((buttonView, isChecked) -> switchRunByServer(isChecked));
     }
 
@@ -165,7 +164,7 @@ public class NavigationActivity extends AppCompatActivity {
         Network.service.switchRun(InnerDB.getter(getApplicationContext()).getInt("vsn", 0), isChecked).enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                    
+                    Toaster.toast(NavigationActivity.this, response.body() ? "운행이 활성화되었습니다." : "운행이 비활성화 되었습니다.");
             }
 
             @Override
