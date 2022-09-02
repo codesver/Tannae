@@ -1,7 +1,9 @@
 package codesver.tannae.controller;
 
+import codesver.tannae.repository.vehicle.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,5 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class VehicleController {
 
+    private final VehicleRepository vehicleRepository;
     
 }
