@@ -197,7 +197,9 @@ public class NavigationActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (switchRun.isChecked())
             Toaster.toast(getApplicationContext(), "운행중에는 화면을 전환할 수 없습니다.");
-        else
+        else{
+            mapViewContainer.removeView(mapView);
             super.onBackPressed();
+        }
     }
 }
