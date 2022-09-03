@@ -81,28 +81,58 @@ public class NavigationActivity extends AppCompatActivity {
 
     private void mainProcess(String payload) throws JSONException {
         JSONObject data = new JSONObject(payload);
+        SharedPreferences getter = InnerDB.getter(getApplicationContext());
 
         int flag = data.getInt("flag");
-        boolean driver = InnerDB.getter(getApplicationContext()).getBoolean("driver", false);
+        int usn = data.getInt("usn");
+        int innerUsn = getter.getInt("usn", 0);
+        boolean type = data.getBoolean("type");
+        boolean driver = getter.getBoolean("driver", false);
+        String toast = "";
 
         switch (flag) {
             case 0: {   // When vehicle arrives at point
-
+                if (driver) {
+                    toast = "주요 지점에 도착하였습니다.\n" + (type ? "탑승자가 탑승할 때까지 기다려주세요." : "탑승자가 내릴 때까지 기다려 주세요.");
+                } else {
+                    if (usn == innerUsn) {
+                        toast = type ? "차량이 도착하였습니다.\n탑승해주세요." : "목적지에 도착하였습니다.\n하차해주세요.";
+                    } else {
+                        toast = "주요 지점에 도착하였습니다.\n" + (type ? "탑승자가 탑승할 때까지 기다려주세요." : "탑승자가 내릴 때까지 기다려 주세요.");
+                    }
+                }
+                break;
             }
             case 1: {   // Non-share user match
                 if (driver) {
-
+                    toast = "미동승 탑승자 요청이 들어왔습니다.\n탑승자의 출발지로 이동해주세요.";
                 } else {
-
+                    toast = "차량이 배차되었습니다.\n탑승 지점에서 기다려주세요.";
                 }
+                break;
             }
             case 2: {   // Share user new match
-
+                if (driver) {
+                    toast = "동승 탑승자 요청이 들어왔습니다.\n탑승자의 출발지로 이동해주세요.";
+                } else {
+                    toast = "차량이 배차되었습니다.\n탑승 지점에서 기다려주세요.";
+                }
+                break;
             }
             case 3: {   // Share user match
-
+                if (driver) {
+                    toast = "추가 탑승자 요청이 들어왔습니다.\n경로가 수정됩니다.";
+                } else {
+                    if (usn == innerUsn) {
+                        toast = "차량이 배차되었습니다.\n탑승 지점에서 기다려주세요.";
+                    } else {
+                        toast = "고객님의 이용 차량에 동승자가 추가되었습니다.";
+                    }
+                }
+                break;
             }
         }
+        Toaster.toast(getApplicationContext(), toast);
     }
 
     private void request() {
@@ -140,7 +170,6 @@ public class NavigationActivity extends AppCompatActivity {
             Toaster.toast(NavigationActivity.this, "이용 가능한 차량이 없습니다.\n다음에 다시 이용해주세요.");
             startActivity(new Intent(NavigationActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         } else if (flag == 1) {
-            Toaster.toast(NavigationActivity.this, "차량이 배차 되었습니다.\n출발지에서 대기해주세요.");
             setting();
             setVisibility();
             connectStomp(responseDTO.getVsn());
@@ -154,6 +183,7 @@ public class NavigationActivity extends AppCompatActivity {
             data = new JSONObject().put("flag", 1)
                     .put("vsn", responseDTO.getVsn())
                     .put("usn", responseDTO.getUsn())
+                    .put("type", false)
                     .put("summary", responseDTO.getSummary())
                     .put("path", responseDTO.getPath());
             Network.stomp.send("/pub/request", data.toString()).subscribe();
