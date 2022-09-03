@@ -38,7 +38,7 @@ import ua.naiksoftware.stomp.Stomp;
 public class NavigationActivity extends AppCompatActivity {
 
     private Button buttonTransfer, buttonEnd, buttonBack;
-    private TextView textPath;
+    private TextView textCurrentPath, textNextPath;
     private SwitchCompat switchRun;
 
     private MapView mapView;
@@ -144,6 +144,7 @@ public class NavigationActivity extends AppCompatActivity {
         }
 
         buttonTransfer.setEnabled(true);
+        buttonTransfer.setTextColor(Color.parseColor("#127CEA"));
         Toaster.toast(getApplicationContext(), toast);
         drawPath(path);
         drawMainPoints(summary);
@@ -182,12 +183,19 @@ public class NavigationActivity extends AppCompatActivity {
             double latitude = point.getDouble("y");
             if (!point.getBoolean("passed")) {
                 count++;
-                mapView.addCircle(new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude), 15,
-                        Color.argb(255, 18, 124, 234), Color.argb(255, 18, 124, 234)));
-                if (count == 2) {
-                    textPath.setTextColor(Color.parseColor("#000000"));
-                    textPath.setText(point.getString("name"));
-                }
+                if (count == 1) {
+                    mapView.addCircle(new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude), 15,
+                            Color.argb(255, 18, 124, 234), Color.argb(255, 18, 124, 234)));
+                    textCurrentPath.setText(point.getString("name"));
+                    textCurrentPath.setTextColor(Color.parseColor("#000000"));
+                } else if (count == 2) {
+                    mapView.addCircle(new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude), 15,
+                            Color.argb(255, 18, 124, 234), Color.argb(255, 18, 124, 234)));
+                    textNextPath.setTextColor(Color.parseColor("#000000"));
+                    textNextPath.setText(point.getString("name"));
+                } else
+                    mapView.addCircle(new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude), 15,
+                            Color.argb(255, 0, 0, 0), Color.argb(255, 0, 0, 0)));
             }
         }
 
@@ -268,7 +276,8 @@ public class NavigationActivity extends AppCompatActivity {
         buttonTransfer = findViewById(R.id.button_transfer_navigation);
         buttonEnd = findViewById(R.id.button_end_navigation);
         buttonBack = findViewById(R.id.button_back_navigation);
-        textPath = findViewById(R.id.text_path_navigation);
+        textCurrentPath = findViewById(R.id.text_current_path_navigation);
+        textNextPath = findViewById(R.id.text_next_path_navigation);
         switchRun = findViewById(R.id.switch_run_navigation);
     }
 
@@ -303,10 +312,11 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     private void setVisibility() {
-        buttonBack.setVisibility(View.INVISIBLE);
-        buttonTransfer.setVisibility(View.INVISIBLE);
-        buttonEnd.setVisibility(View.INVISIBLE);
-        switchRun.setVisibility(View.INVISIBLE);
+        buttonBack.setVisibility(View.GONE);
+        buttonTransfer.setVisibility(View.GONE);
+        buttonEnd.setVisibility(View.GONE);
+        switchRun.setVisibility(View.GONE);
+        findViewById(R.id.linear_layout_buttons_navigation).setVisibility(View.GONE);
     }
 
     @Override

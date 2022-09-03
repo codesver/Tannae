@@ -28,14 +28,59 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/text_path_navigation"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="현재 탑승가 없습니다."
-                android:textColor="@color/gray"
-                android:textStyle="bold" />
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="현재 경유지 : "
+                        android:textColor="@color/main"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/text_current_path_navigation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="현재 탑승자가 없습니다."
+                        android:textColor="@color/gray"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="다음 경유지 : "
+                        android:textColor="@color/main"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/text_next_path_navigation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="현재 탑승자가 없습니다."
+                        android:textColor="@color/gray"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switch_run_navigation"
@@ -47,45 +92,33 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linear_layout_buttons_navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
             <Button
                 android:id="@+id/button_transfer_navigation"
                 style="@style/Widget.Button.TextButton"
                 android:layout_width="wrap_content"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:enabled="false"
                 android:text="경유"
                 android:textColor="@color/gray"
                 android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
             <Button
                 android:id="@+id/button_end_navigation"
                 style="@style/Widget.Button.TextButton"
                 android:layout_width="wrap_content"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:enabled="false"
                 android:text="요금 정산"
                 android:textColor="@color/gray"
                 android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
 
         </LinearLayout>
 
