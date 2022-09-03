@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import net.daum.mf.map.api.CameraUpdateFactory;
+import net.daum.mf.map.api.MapCircle;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapPointBounds;
 import net.daum.mf.map.api.MapPolyline;
@@ -95,7 +96,6 @@ public class NavigationActivity extends AppCompatActivity {
         JSONObject summary = new JSONObject(data.getString("summary"));
         JSONArray path = new JSONArray(data.getString("path"));
 
-
         int innerUsn = getter.getInt("usn", 0);
         boolean driver = getter.getBoolean("driver", false);
         String toast = "";
@@ -142,8 +142,11 @@ public class NavigationActivity extends AppCompatActivity {
                 break;
             }
         }
+
+        buttonTransfer.setEnabled(true);
         Toaster.toast(getApplicationContext(), toast);
         drawPath(path);
+        drawMainPoints(summary);
     }
 
     private void drawPath(JSONArray path) throws JSONException {
@@ -163,6 +166,31 @@ public class NavigationActivity extends AppCompatActivity {
         mapView.addPolyline(polyline);
         MapPointBounds bounds = new MapPointBounds(polyline.getMapPoints());
         mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(bounds, 100));
+    }
+
+    private void drawMainPoints(JSONObject summary) throws JSONException {
+        JSONArray points = new JSONArray().put(new JSONObject(summary.getString("origin")));
+        JSONArray waypoints = new JSONArray(summary.getString("waypoints"));
+        for (int i = 0; i < waypoints.length(); i++) points.put(waypoints.getJSONObject(i));
+        points.put(new JSONObject(summary.getString("destination")));
+
+        int count = 0;
+
+        for (int i = 0; i < points.length(); i++) {
+            JSONObject point = points.getJSONObject(i);
+            double longitude = point.getDouble("x");
+            double latitude = point.getDouble("y");
+            if (!point.getBoolean("passed")) {
+                count++;
+                mapView.addCircle(new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude), 15,
+                        Color.argb(255, 18, 124, 234), Color.argb(255, 18, 124, 234)));
+                if (count == 2) {
+                    textPath.setTextColor(Color.parseColor("#000000"));
+                    textPath.setText(point.getString("name"));
+                }
+            }
+        }
+
     }
 
     private void request() {
