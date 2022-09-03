@@ -2,6 +2,7 @@ package codesver.tannae.activity.main;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,13 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
+import net.daum.mf.map.api.CameraUpdateFactory;
 import net.daum.mf.map.api.MapPoint;
+import net.daum.mf.map.api.MapPointBounds;
+import net.daum.mf.map.api.MapPolyline;
 import net.daum.mf.map.api.MapView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -84,9 +89,14 @@ public class NavigationActivity extends AppCompatActivity {
         SharedPreferences getter = InnerDB.getter(getApplicationContext());
 
         int flag = data.getInt("flag");
+        int vsn = data.getInt("vsn");
         int usn = data.getInt("usn");
-        int innerUsn = getter.getInt("usn", 0);
         boolean type = data.getBoolean("type");
+        JSONObject summary = new JSONObject(data.getString("summary"));
+        JSONArray path = new JSONArray(data.getString("path"));
+
+
+        int innerUsn = getter.getInt("usn", 0);
         boolean driver = getter.getBoolean("driver", false);
         String toast = "";
 
@@ -133,6 +143,26 @@ public class NavigationActivity extends AppCompatActivity {
             }
         }
         Toaster.toast(getApplicationContext(), toast);
+        drawPath(path);
+    }
+
+    private void drawPath(JSONArray path) throws JSONException {
+        mapView.removeAllPolylines();
+        mapView.removeAllCircles();
+
+        MapPolyline polyline = new MapPolyline();
+        polyline.setLineColor(Color.argb(255, 240, 128, 128));
+
+        for (int i = 0; i < path.length(); i++) {
+            JSONObject point = path.getJSONObject(i);
+            double longitude = point.getDouble("x");
+            double latitude = point.getDouble("y");
+            polyline.addPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude));
+        }
+
+        mapView.addPolyline(polyline);
+        MapPointBounds bounds = new MapPointBounds(polyline.getMapPoints());
+        mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(bounds, 100));
     }
 
     private void request() {
