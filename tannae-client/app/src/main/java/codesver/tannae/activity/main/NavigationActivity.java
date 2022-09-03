@@ -153,6 +153,7 @@ public class NavigationActivity extends AppCompatActivity {
         try {
             data = new JSONObject().put("flag", 1)
                     .put("vsn", responseDTO.getVsn())
+                    .put("usn", responseDTO.getUsn())
                     .put("summary", responseDTO.getSummary())
                     .put("path", responseDTO.getPath());
             Network.stomp.send("/pub/request", data.toString()).subscribe();
