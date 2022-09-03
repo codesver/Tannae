@@ -44,6 +44,6 @@ public class ServiceController {
     public void request(@Payload String payload) {
         log.info("[SOCKET-CONTROLLER-SERVICE : REQUEST] Request={}", payload);
         JSONObject message = new JSONObject(payload);
-        smso.convertAndSend("/sub/vehicle/" + message.getInt("vsn"), "SUCCESS");
+        smso.convertAndSend("/sub/vehicle/" + message.getInt("vsn"), message.toString());
     }
 }
