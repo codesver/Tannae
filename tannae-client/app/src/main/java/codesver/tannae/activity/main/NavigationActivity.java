@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,7 +18,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import codesver.tannae.R;
-import codesver.tannae.activity.menu.PointActivity;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.dto.ServiceResponseDTO;
 import codesver.tannae.network.Network;
@@ -70,12 +68,41 @@ public class NavigationActivity extends AppCompatActivity {
 
         Disposable subscribe = Network.stomp.topic("/sub/vehicle/" + vsn).subscribe(topicMessage -> {
             runOnUiThread(() -> {
-                String payload = topicMessage.getPayload();
-                Toaster.toast(getApplicationContext(), payload);
+                try {
+                    mainProcess(topicMessage.getPayload());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             });
         });
 
         Network.stomp.send("/pub/connect", InnerDB.getter(getApplicationContext()).getString("id", "")).subscribe();
+    }
+
+    private void mainProcess(String payload) throws JSONException {
+        JSONObject data = new JSONObject(payload);
+
+        int flag = data.getInt("flag");
+        boolean driver = InnerDB.getter(getApplicationContext()).getBoolean("driver", false);
+
+        switch (flag) {
+            case 0: {   // When vehicle arrives at point
+
+            }
+            case 1: {   // Non-share user match
+                if (driver) {
+
+                } else {
+
+                }
+            }
+            case 2: {   // Share user new match
+
+            }
+            case 3: {   // Share user match
+
+            }
+        }
     }
 
     private void request() {
@@ -124,7 +151,7 @@ public class NavigationActivity extends AppCompatActivity {
     private void sendResponseBack() {
         JSONObject data;
         try {
-            data = new JSONObject().put("flag", 0)
+            data = new JSONObject().put("flag", 1)
                     .put("vsn", responseDTO.getVsn())
                     .put("summary", responseDTO.getSummary())
                     .put("path", responseDTO.getPath());
@@ -165,7 +192,7 @@ public class NavigationActivity extends AppCompatActivity {
         Network.service.switchRun(InnerDB.getter(getApplicationContext()).getInt("vsn", 0), isChecked).enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                    Toaster.toast(NavigationActivity.this, response.body() ? "운행이 활성화되었습니다." : "운행이 비활성화 되었습니다.");
+                Toaster.toast(NavigationActivity.this, response.body() ? "운행이 활성화되었습니다." : "운행이 비활성화 되었습니다.");
             }
 
             @Override
@@ -197,7 +224,7 @@ public class NavigationActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (switchRun.isChecked())
             Toaster.toast(getApplicationContext(), "운행중에는 화면을 전환할 수 없습니다.");
-        else{
+        else {
             mapViewContainer.removeView(mapView);
             super.onBackPressed();
         }
