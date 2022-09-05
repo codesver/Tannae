@@ -39,6 +39,7 @@ public class VehicleJpaRepository implements VehicleRepository {
 
     @Override
     public void switchRun(int vsn, boolean run) {
+        log.info("[REPOSITORY-VEHICLE : SWITCH_RUN] Switched run state of vehicle={} to {}", vsn, run);
         Optional<Vehicle> vehicle = repository.findById(vsn);
         vehicle.get().setRun(run);
     }
