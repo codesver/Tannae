@@ -22,12 +22,26 @@ public class ProcessFinder {
         List<Process> processes = processRepository.findByGenderShare(dto.getGender(), dto.getShare());
         if (processes.isEmpty()) {
             return new DRO<>(2);
+        } else {
+            sortProcessList(processes, dto.getOriginLatitude(), dto.getOriginLongitude());
+            
+
+
+            return null;
         }
+    }
 
+    private void sortProcessList(List<Process> processes, double originLatitude, double originLongitude) {
+        log.info("[SERVICE-PROCESS-FINDER : SORT_PROCESS_LIST] Sorting processes by length between vehicle and origin");
+        processes.sort((processA, processB) -> {
+            Double vehicleLatitudeA = processA.getVehicle().getLatitude();
+            Double vehicleLongitudeA = processA.getVehicle().getLongitude();
+            Double vehicleLatitudeB = processB.getVehicle().getLatitude();
+            Double vehicleLongitudeB = processB.getVehicle().getLongitude();
 
-
-
-
-        return null;
+            double lengthA = Math.pow(vehicleLatitudeA - originLatitude, 2) + Math.pow(vehicleLongitudeA - originLongitude, 2);
+            double lengthB = Math.pow(vehicleLatitudeB - originLatitude, 2) + Math.pow(vehicleLongitudeB - originLongitude, 2);
+            return lengthA == lengthB ? 0 : (lengthA - lengthB < 0 ? -1 : 1);
+        });
     }
 }
