@@ -22,7 +22,8 @@ public class RequestProcessor {
     private final VehicleRepository vehicleRepository;
     private final UserRepository userRepository;
     private final NaviRequester requester;
-    private final VehicleFinder finder;
+    private final VehicleFinder vehicleFinder;
+    private final ProcessFinder processFinder;
     private final SummaryEditor editor;
 
     public DRO<Process> processRequest(ServiceRequestDTO dto) {
@@ -31,13 +32,18 @@ public class RequestProcessor {
     }
 
     private DRO<Process> processShareRequest(ServiceRequestDTO dto) {
-        log.info("[SERVICE-REQUEST-PROCESSOR : PROCESS_SHARE_REQUEST] Processing request share={}", true);
+        log.info("[SERVICE-REQUEST-PROCESSOR : PROCESS_SHARE_REQUEST] Processing request gender={} share={}", dto.getGender(), true);
+
+        // 1. Find processes available from database : search * from process where gender = same and share = true
+        // 2. Check if user request can be included in process path
+        // 3. Select nearest vehicle from available path
+        // 4. return
         return new DRO<>(0);
     }
 
     private DRO<Process> processNonShareRequest(ServiceRequestDTO dto) {
         log.info("[SERVICE-REQUEST-PROCESSOR : PROCESS_NON_SHARE_REQUEST] : Processing request share={}", false);
-        DRO<Vehicle> vehicle = finder.findVehicle(dto);
+        DRO<Vehicle> vehicle = vehicleFinder.findVehicle(dto);
         if (vehicle.isPresent()) {
             JSONObject summary = editor.createSummary(vehicle.get(), dto);
             JSONObject response = requester.request(summary);
