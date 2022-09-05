@@ -29,7 +29,7 @@ public class RequestActivity extends AppCompatActivity implements MapView.MapVie
     private MapPoint center;
     private MapReverseGeoCoder mapGeoCoder;
 
-    private boolean locationType = true, shareState;
+    private boolean locationType = true, shareState = true;
     private String origin, destination;
     private double originLongitude, originLatitude, destinationLongitude, destinationLatitude;
     private boolean originSelected, destinationSelected;
