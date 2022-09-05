@@ -75,15 +75,15 @@ public class RequestProcessor {
     }
 
     private JSONArray createGuider(JSONArray sections, JSONArray path) {
-        log.info("[SERVICE-REQUEST-PROCESSOR : CREATE PATH] Creating path");
+        log.info("[SERVICE-REQUEST-PROCESSOR : CREATE PATH] Creating guider");
         JSONArray guider = new JSONArray();
         for (int i = 0; i < sections.length(); i++) {
             JSONObject section = sections.getJSONObject(i);
             JSONArray guides = section.getJSONArray("guides");
             for (int j = 0; j < guides.length() - 1; j++) {
-                JSONObject guide = j == 0 ? path.getJSONObject(j) : guides.getJSONObject(j);
+                JSONObject guide = j == 0 ? path.getJSONObject(i) : guides.getJSONObject(j);
                 guider.put(new JSONObject().put("x", guide.get("x")).put("y", guide.get("y")));
-                if (i == sections.length() - 1) {
+                if (i == sections.length() - 1 && j == guides.length() - 1) {
                     guide = path.getJSONObject(path.length() - 1);
                     guider.put(new JSONObject().put("x", guide.get("x")).put("y", guide.get("y")));
                 }
