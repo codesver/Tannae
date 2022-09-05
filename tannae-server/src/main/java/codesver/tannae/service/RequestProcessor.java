@@ -83,7 +83,7 @@ public class RequestProcessor {
             for (int j = 0; j < guides.length() - 1; j++) {
                 JSONObject guide = j == 0 ? path.getJSONObject(i) : guides.getJSONObject(j);
                 guider.put(new JSONObject().put("x", guide.get("x")).put("y", guide.get("y")));
-                if (i == sections.length() - 1 && j == guides.length() - 1) {
+                if (i == sections.length() - 1 && j == guides.length() - 2) {
                     guide = path.getJSONObject(path.length() - 1);
                     guider.put(new JSONObject().put("x", guide.get("x")).put("y", guide.get("y")));
                 }
