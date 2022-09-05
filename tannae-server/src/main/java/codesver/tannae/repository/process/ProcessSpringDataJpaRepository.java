@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface ProcessSpringDataJpaRepository extends JpaRepository<Process, Integer> {
 
-    List<Process> findProcessesByGenderAndShare(boolean gender, boolean share);
+    List<Process> findProcessesByGenderAndShareAndVehicle_NumLessThan(boolean gender, boolean share, int num);
 }
