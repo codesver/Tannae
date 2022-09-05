@@ -143,7 +143,7 @@ public class NavigationActivity extends AppCompatActivity {
             }
         }
 
-
+        switchRun.setEnabled(false);
         buttonTransfer.setEnabled(true);
         buttonTransfer.setTextColor(Color.parseColor("#127CEA"));
         Toaster.toast(getApplicationContext(), toast);
@@ -279,6 +279,11 @@ public class NavigationActivity extends AppCompatActivity {
     private void setEventListeners() {
         buttonBack.setOnClickListener(v -> onBackPressed());
         switchRun.setOnCheckedChangeListener((buttonView, isChecked) -> switchRunByServer(isChecked));
+        buttonTransfer.setOnClickListener(v -> transfer());
+    }
+
+    private void transfer() {
+        Network.stomp.send("/pub/transfer", String.valueOf(InnerDB.getter(getApplicationContext()).getInt("vsn", 0))).subscribe();
     }
 
     private void switchRunByServer(boolean isChecked) {
