@@ -18,13 +18,13 @@ public class ProcessJpaRepository implements ProcessRepository {
 
     @Override
     public void save(Process process) {
-        log.info("[REPOSITORY-PROCESS : SAVE] Saving new process={}", process);
+        log.info("[REPOSITORY-PROCESS : SAVE] INSERT INTO PROCESS VALUES({})", process);
         repository.save(process);
     }
 
     @Override
     public List<Process> findByGenderShare(boolean gender, boolean share) {
-        log.info("[REPOSITORY-PROCESS : FIND_BY_GENDER_SHARE]");
+        log.info("[REPOSITORY-PROCESS : FIND_BY_GENDER_SHARE] SELECT * FROM PROCESS WHERE GENDER={} AND SHARE={}", gender, share);
         return repository.findProcessesByGenderAndShare(gender, share);
     }
 }

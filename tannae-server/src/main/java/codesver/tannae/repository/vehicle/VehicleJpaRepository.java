@@ -19,19 +19,19 @@ public class VehicleJpaRepository implements VehicleRepository {
 
     @Override
     public Optional<Vehicle> findVehicleByUsn(Integer usn) {
-        log.info("[REPOSITORY-VEHICLE : FIND_VEHICLE_BY_USN] Finding vehicle by usn={}", usn);
+        log.info("[REPOSITORY-VEHICLE : FIND_VEHICLE_BY_USN] SELECT * FROM VEHICLE WHERE USN={}", usn);
         return repository.findVehicleByUsn(usn);
     }
 
     @Override
     public List<Vehicle> findNewVehicle(boolean run, int num) {
-        log.info("[REPOSITORY-VEHICLE : FIND_NEW_VEHICLE] Finding new vehicle");
+        log.info("[REPOSITORY-VEHICLE : FIND_NEW_VEHICLE] SELECT * FROM VEHICLE WHERE RUN={} AND NUM={}", run, num);
         return repository.findVehiclesByRunAndNum(run, num);
     }
 
     @Override
     public void addNum(int vsn) {
-        log.info("[REPOSITORY-VEHICLE : ADD_NUM] Adding num value to vsn={}", vsn);
+        log.info("[REPOSITORY-VEHICLE : ADD_NUM] UPDATE VEHICLE SET NUM = NUM + 1 WHERE VSN={}", vsn);
         Optional<Vehicle> byVsn = repository.findByVsn(vsn);
         Vehicle vehicle = byVsn.get();
         vehicle.setNum(vehicle.getNum() + 1);
@@ -39,7 +39,7 @@ public class VehicleJpaRepository implements VehicleRepository {
 
     @Override
     public void switchRun(int vsn, boolean run) {
-        log.info("[REPOSITORY-VEHICLE : SWITCH_RUN] Switched run state of vehicle={} to {}", vsn, run);
+        log.info("[REPOSITORY-VEHICLE : SWITCH_RUN] UPDATE VEHICLE SET RUN={} WHERE VSN={}", run, vsn);
         Optional<Vehicle> vehicle = repository.findById(vsn);
         vehicle.get().setRun(run);
     }
