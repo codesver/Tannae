@@ -26,6 +26,11 @@ public class DRO<T> {
         this.guider = guides;
     }
 
+    public DRO<T> setFlag(int flag) {
+        this.flag = flag;
+        return this;
+    }
+
     public int getFlag() {
         return flag;
     }

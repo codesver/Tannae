@@ -33,8 +33,10 @@ public class RequestProcessor {
 
     private DRO<Process> processShareRequest(ServiceRequestDTO dto) {
         log.info("[SERVICE-REQUEST-PROCESSOR : PROCESS_SHARE_REQUEST] Processing request gender={} share={}", dto.getGender(), true);
-
-        // 1. Find processes available from database : search * from process where gender = same and share = true
+        DRO<Process> dro = processFinder.findProcess(dto);
+        if (dro.getFlag() == 2) {
+            return processNonShareRequest(dto);
+        }
         // 2. Check if user request can be included in process path
         // 3. Select nearest vehicle from available path
         // 4. return
@@ -63,12 +65,12 @@ public class RequestProcessor {
             processRepository.save(process);
             vehicleRepository.addNum(vehicle.getVsn());
             userRepository.changeBoardState(dto.getUsn());
-            return new DRO<>(1, process, createGuider(sections, path));
+            return new DRO<>(1, process, createGuider(sections, path)).setFlag(dto.getShare() ? 2 : 1);
         } else return new DRO<>(-2);
     }
 
     private Process createProcess(ServiceRequestDTO dto, Vehicle vehicle, JSONArray path, JSONObject info) {
-        log.info("[SERVICE-REQUEST-PROCESSOR : CREATE_PROCESS] Creating process entity. USN={} VSN={}", dto.getUsn(), vehicle.getVsn());
+        log.info("[SERVICE-REQUEST-PROCESSOR : CREATE_PROCESS] Creating process entity USN={} VSN={}", dto.getUsn(), vehicle.getVsn());
         Process process = new Process();
         process.setPath(path.toString());
         process.setFare(info.getJSONObject("fare").getInt("taxi"));

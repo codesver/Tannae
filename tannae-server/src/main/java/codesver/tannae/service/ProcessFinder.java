@@ -20,6 +20,14 @@ public class ProcessFinder {
     public DRO<Process> findProcess(ServiceRequestDTO dto) {
         log.info("[SERVICE-PROCESS-FINDER : FIND_PROCESSES] Find processes gender={} share={}", dto.getGender(), dto.getShare());
         List<Process> processes = processRepository.findByGenderShare(dto.getGender(), dto.getShare());
+        if (processes.isEmpty()) {
+            return new DRO<>(2);
+        }
+
+
+
+
+
         return null;
     }
 }
