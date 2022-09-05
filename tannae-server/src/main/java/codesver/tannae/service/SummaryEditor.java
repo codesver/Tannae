@@ -37,6 +37,13 @@ public class SummaryEditor {
                 .put("duration", toDestination.get("duration"));
     }
 
+    public JSONArray summaryToPath(JSONObject summary) {
+        log.info("[SERVICE-SUMMARY-EDITOR : SUMMARY_TO_PATH] Changing summary to path");
+        return new JSONArray().put(summary.getJSONObject("origin"))
+                .putAll(summary.getJSONArray("waypoints"))
+                .put(summary.getJSONObject("destination"));
+    }
+
     private JSONObject createPoint(String name, double x, double y, int usn, int distance, int duration, boolean passed) {
         log.info("[SERVICE-SUMMARY-EDITOR : CREATE_POINT] Creating new point NAME={} X={} Y={} USN={} DISTANCE={} DURATION={} PASSED={}",
                 name, x, y, usn, distance, duration, passed);

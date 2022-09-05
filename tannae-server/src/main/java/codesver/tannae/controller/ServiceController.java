@@ -31,7 +31,7 @@ public class ServiceController {
         log.info("[CONTROLLER-SERVICE : REQUEST] /service/request body={}", requestDTO);
         DRO<Process> dro = processor.processRequest(requestDTO);
         Process process = dro.get();
-        return dro.getFlag() > 0 ? new ServiceResponseDTO(dro.getFlag(), process.getVehicle().getVsn(), requestDTO.getUsn(), process.getSummary(), dro.getPath().toString())
+        return dro.getFlag() > 0 ? new ServiceResponseDTO(dro.getFlag(), process.getVehicle().getVsn(), requestDTO.getUsn(), process.getPath(), dro.getGuider().toString())
                 : new ServiceResponseDTO(dro.getFlag());
     }
 

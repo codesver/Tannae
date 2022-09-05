@@ -5,8 +5,8 @@ public class ServiceResponseDTO {
     private int flag;
     private int vsn;
     private int usn;
-    private String summary;
     private String path;
+    private String guider;
 
     public int getFlag() {
         return flag;
@@ -20,11 +20,11 @@ public class ServiceResponseDTO {
         return usn;
     }
 
-    public String getSummary() {
-        return summary;
-    }
-
     public String getPath() {
         return path;
+    }
+
+    public String getGuider() {
+        return guider;
     }
 }

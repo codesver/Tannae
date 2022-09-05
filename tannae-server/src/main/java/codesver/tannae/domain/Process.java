@@ -18,7 +18,7 @@ public class Process {
     private Integer psn;
 
     @Column(length = 1000, nullable = false)
-    private String summary;
+    private String path;
 
     @Column(nullable = false)
     private Integer fare;

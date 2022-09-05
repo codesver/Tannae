@@ -52,18 +52,19 @@ public class RequestProcessor {
         if ((int) result.get("result_code") == 0) {
             JSONArray sections = result.getJSONArray("sections");
             editor.editSummary(summary, sections);
-            Process process = createProcess(dto, vehicle, summary, result.getJSONObject("summary"));
+            JSONArray path = editor.summaryToPath(summary);
+            Process process = createProcess(dto, vehicle, path, result.getJSONObject("summary"));
             processRepository.save(process);
             vehicleRepository.addNum(vehicle.getVsn());
             userRepository.changeBoardState(dto.getUsn());
-            return new DRO<>(1, process, createPath(sections));
+            return new DRO<>(1, process, createGuider(sections, path));
         } else return new DRO<>(-2);
     }
 
-    private Process createProcess(ServiceRequestDTO dto, Vehicle vehicle, JSONObject summary, JSONObject info) {
+    private Process createProcess(ServiceRequestDTO dto, Vehicle vehicle, JSONArray path, JSONObject info) {
         log.info("[SERVICE-REQUEST-PROCESSOR : CREATE_PROCESS] Creating process entity. USN={} VSN={}", dto.getUsn(), vehicle.getVsn());
         Process process = new Process();
-        process.setSummary(summary.toString());
+        process.setPath(path.toString());
         process.setFare(info.getJSONObject("fare").getInt("taxi"));
         process.setDistance(info.getInt("distance"));
         process.setDuration(info.getInt("duration"));
@@ -73,21 +74,21 @@ public class RequestProcessor {
         return process;
     }
 
-    private JSONArray createPath(JSONArray sections) {
+    private JSONArray createGuider(JSONArray sections, JSONArray path) {
         log.info("[SERVICE-REQUEST-PROCESSOR : CREATE PATH] Creating path");
-        JSONArray path = new JSONArray();
+        JSONArray guider = new JSONArray();
         for (int i = 0; i < sections.length(); i++) {
             JSONObject section = sections.getJSONObject(i);
             JSONArray guides = section.getJSONArray("guides");
             for (int j = 0; j < guides.length() - 1; j++) {
-                JSONObject guide = guides.getJSONObject(j);
-                path.put(new JSONObject().put("x", guide.get("x")).put("y", guide.get("y")));
+                JSONObject guide = j == 0 ? path.getJSONObject(j) : guides.getJSONObject(j);
+                guider.put(new JSONObject().put("x", guide.get("x")).put("y", guide.get("y")));
                 if (i == sections.length() - 1) {
-                    guide = guides.getJSONObject(j + 1);
-                    path.put(new JSONObject().put("x", guide.get("x")).put("y", guide.get("y")));
+                    guide = path.getJSONObject(path.length() - 1);
+                    guider.put(new JSONObject().put("x", guide.get("x")).put("y", guide.get("y")));
                 }
             }
         }
-        return path;
+        return guider;
     }
 }

@@ -93,8 +93,8 @@ public class NavigationActivity extends AppCompatActivity {
         int vsn = data.getInt("vsn");
         int usn = data.getInt("usn");
         boolean type = data.getBoolean("type");
-        JSONObject summary = new JSONObject(data.getString("summary"));
         JSONArray path = new JSONArray(data.getString("path"));
+        JSONArray guider = new JSONArray(data.getString("guider"));
 
         int innerUsn = getter.getInt("usn", 0);
         boolean driver = getter.getBoolean("driver", false);
@@ -143,22 +143,23 @@ public class NavigationActivity extends AppCompatActivity {
             }
         }
 
+
         buttonTransfer.setEnabled(true);
         buttonTransfer.setTextColor(Color.parseColor("#127CEA"));
         Toaster.toast(getApplicationContext(), toast);
+        drawGuide(guider);
         drawPath(path);
-        drawMainPoints(summary);
     }
 
-    private void drawPath(JSONArray path) throws JSONException {
+    private void drawGuide(JSONArray guider) throws JSONException {
         mapView.removeAllPolylines();
         mapView.removeAllCircles();
 
         MapPolyline polyline = new MapPolyline();
         polyline.setLineColor(Color.argb(255, 240, 128, 128));
 
-        for (int i = 0; i < path.length(); i++) {
-            JSONObject point = path.getJSONObject(i);
+        for (int i = 0; i < guider.length(); i++) {
+            JSONObject point = guider.getJSONObject(i);
             double longitude = point.getDouble("x");
             double latitude = point.getDouble("y");
             polyline.addPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude));
@@ -169,16 +170,11 @@ public class NavigationActivity extends AppCompatActivity {
         mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(bounds, 100));
     }
 
-    private void drawMainPoints(JSONObject summary) throws JSONException {
-        JSONArray points = new JSONArray().put(new JSONObject(summary.getString("origin")));
-        JSONArray waypoints = new JSONArray(summary.getString("waypoints"));
-        for (int i = 0; i < waypoints.length(); i++) points.put(waypoints.getJSONObject(i));
-        points.put(new JSONObject(summary.getString("destination")));
-
+    private void drawPath(JSONArray path) throws JSONException {
         int count = 0;
 
-        for (int i = 0; i < points.length(); i++) {
-            JSONObject point = points.getJSONObject(i);
+        for (int i = 0; i < path.length(); i++) {
+            JSONObject point = path.getJSONObject(i);
             double longitude = point.getDouble("x");
             double latitude = point.getDouble("y");
             if (!point.getBoolean("passed")) {
@@ -198,7 +194,6 @@ public class NavigationActivity extends AppCompatActivity {
                             Color.argb(255, 0, 0, 0), Color.argb(255, 0, 0, 0)));
             }
         }
-
     }
 
     private void request() {
@@ -250,8 +245,8 @@ public class NavigationActivity extends AppCompatActivity {
                     .put("vsn", responseDTO.getVsn())
                     .put("usn", responseDTO.getUsn())
                     .put("type", false)
-                    .put("summary", responseDTO.getSummary())
-                    .put("path", responseDTO.getPath());
+                    .put("path", responseDTO.getPath())
+                    .put("guider", responseDTO.getGuider());
             Network.stomp.send("/pub/request", data.toString()).subscribe();
         } catch (JSONException e) {
             e.printStackTrace();
