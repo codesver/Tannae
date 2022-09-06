@@ -85,6 +85,8 @@ public class ProcessManager {
             JSONObject frontPoint = path.getJSONObject(i);
             JSONObject backPoint = path.getJSONObject(i + 1);
 
+            if (frontPoint.getBoolean("passed")) continue;
+
             double fx = frontPoint.getDouble("x");
             double fy = frontPoint.getDouble("y");
             double bx = backPoint.getDouble("x");
