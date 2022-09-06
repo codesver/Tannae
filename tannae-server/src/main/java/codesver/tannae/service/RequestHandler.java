@@ -72,7 +72,7 @@ public class RequestHandler {
 
         if (resultCode == 0) {
             JSONArray sections = result.getJSONArray("sections");
-            editor.editSummary(summary, sections);
+            editor.editSummary(summary, sections, result);
             JSONArray path = editor.pathFromSummary(summary);
             Process process = manager.createProcess(dto, vehicle, path, result.getJSONObject("summary"));
             processRepository.save(process);

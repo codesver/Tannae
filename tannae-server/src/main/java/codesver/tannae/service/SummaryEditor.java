@@ -26,20 +26,27 @@ public class SummaryEditor {
         return summary;
     }
 
-    public void editSummary(JSONObject summary, JSONArray sections) {
+    public void editSummary(JSONObject summary, JSONArray sections, JSONObject result) {
         log.info("[SERVICE-SUMMARY-EDITOR {} : EDIT_SUMMARY] Editing summary", Thread.currentThread().getId());
 
         JSONObject toWaypoint = sections.getJSONObject(0);
         JSONObject toDestination = sections.getJSONObject(1);
 
+        int fare = result.getJSONObject("summary").getJSONObject("fare").getInt("taxi");
+        int distance = result.getJSONObject("summary").getInt("distance");
+
+        log.info("FARE={} DISTANCE={}", fare, distance);
+
         summary.getJSONArray("waypoints")
                 .getJSONObject(0)
-                .put("distance", toWaypoint.get("distance"))
-                .put("duration", toWaypoint.get("duration"));
+                .put("fare", (int) (toWaypoint.getInt("distance") / Double.valueOf(distance) * fare))
+                .put("distance", toWaypoint.getInt("distance"))
+                .put("duration", toWaypoint.getInt("duration"));
 
         summary.getJSONObject("destination")
-                .put("distance", toDestination.get("distance"))
-                .put("duration", toDestination.get("duration"));
+                .put("fare", (int) (toDestination.getInt("distance") / Double.valueOf(distance) * fare))
+                .put("distance", toDestination.getInt("distance"))
+                .put("duration", toDestination.getInt("duration"));
 
         log.info("[SERVICE-SUMMARY-EDITOR {} : EDIT_SUMMARY_RESULT] Summary edited={}", Thread.currentThread().getId(), summary);
     }
@@ -60,7 +67,7 @@ public class SummaryEditor {
                 Thread.currentThread().getId(), name, x, y, usn, distance, duration);
 
         JSONObject point = new JSONObject().put("name", name)
-                .put("x", x).put("y", y)
+                .put("x", x).put("y", y).put("fare", 0)
                 .put("usn", usn).put("distance", distance).put("duration", duration);
 
         log.info("[SERVICE-SUMMARY-EDITOR {} : CREATE_POINT_RESULT] New point created", Thread.currentThread().getId());
