@@ -40,19 +40,13 @@ public class ProcessManager {
         log.info("[SERVICE-PROCESS-MANAGER {} : FIND_PROCESSES] Find processes gender={} share={}", Thread.currentThread().getId(), dto.getGender(), dto.getShare());
 
         List<Process> processes = processRepository.findByGenderShare(dto.getGender(), dto.getShare());
-        if (processes.isEmpty()) {
-            return new DRO<>(2);
-        } else {
+        if (!processes.isEmpty()) {
             sortProcessList(processes, dto.getOriginLatitude(), dto.getOriginLongitude());
-            for (Process process : processes) {
-                if (availableCoordinate(dto, process)) {
-                    // Edit process path (add new request)
-                    // update vehicle num
-                    // update process path
-                }
-            }
-            return new DRO<>(2);
+            for (Process process : processes)
+                if (availableCoordinate(dto, process))
+                    return new DRO<>(3, process);
         }
+        return new DRO<>(2);
     }
 
     private void sortProcessList(List<Process> processes, double originLatitude, double originLongitude) {
