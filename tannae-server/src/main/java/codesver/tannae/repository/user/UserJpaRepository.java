@@ -19,32 +19,41 @@ public class UserJpaRepository implements UserRepository {
     @Override
     public int countById(String id) {
         log.info("[REPOSITORY-USER : COUNT_BY_ID] SELECT (*) FROM USER WHERE ID={}", id);
-        return repository.countUserById(id);
+        int counted = repository.countUserById(id);
+        log.info("[REPOSITORY-USER : COUNT_BY_ID_RESULT] COUNT={}", counted);
+        return counted;
     }
 
     @Override
     public int countByPrivate(String name, String rrn) {
         log.info("[REPOSITORY-USER : COUNT_BY_PRIVATE] SELECT (*) FROM USER WHERE NAME={} AND RRN={}", name, rrn);
-        return repository.countUserByRrn(rrn);
+        int counted = repository.countUserByRrn(rrn);
+        log.info("[REPOSITORY-USER : COUNT_BY_PRIVATE_RESULT] COUNT={}", counted);
+        return counted;
     }
 
     @Override
     public boolean save(User user) {
         log.info("[REPOSITORY-USER : SAVE] INSERT INTO USER VALUES({})", user);
         repository.save(user);
+        log.info("[REPOSITORY-USER : SAVE_RESULT] SAVED");
         return true;
     }
 
     @Override
     public Optional<User> findByNameRrn(String name, String rrn) {
         log.info("[REPOSITORY-USER : FIND_BY_NAME_RRN] SELECT * FROM USER WHERE NAME={} AND RRN={}", name, rrn);
-        return repository.findUserByNameAndRrn(name, rrn);
+        Optional<User> optionalUser = repository.findUserByNameAndRrn(name, rrn);
+        log.info("[REPOSITORY-USER : FIND_BY_NAME_RRN_RESULT] FOUND USER={}", optionalUser.orElse(null));
+        return optionalUser;
     }
 
     @Override
     public Optional<User> findByIdPw(String id, String pw) {
         log.info("[REPOSITORY-USER : FIND_BY_ID_PW] SELECT * FROM USER WHERE ID={} AND PW={}", id, pw);
-        return repository.findUserByIdAndPw(id, pw);
+        Optional<User> optionalUser = repository.findUserByIdAndPw(id, pw);
+        log.info("[REPOSITORY-USER : FIND_BY_ID_PW_RESULT] FOUND USER={}", optionalUser.orElse(null));
+        return optionalUser;
     }
 
     @Override
@@ -53,6 +62,7 @@ public class UserJpaRepository implements UserRepository {
         User user = repository.findUserByUsn(usn).orElse(new User());
         int charged = user.getPoint() + point;
         user.setPoint(charged);
+        log.info("[REPOSITORY-USER : CHARGE_POINT_RESULT] CURRENT POINT={}", charged);
         return charged;
     }
 
@@ -62,5 +72,6 @@ public class UserJpaRepository implements UserRepository {
         Optional<User> userOptional = repository.findUserByUsn(usn);
         User user = userOptional.get();
         user.setBoard(true);
+        log.info("[REPOSITORY-USER : CHANGE_BOARD_STATE_RESULT] BOARD STATE={}", true);
     }
 }

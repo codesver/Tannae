@@ -20,13 +20,17 @@ public class VehicleJpaRepository implements VehicleRepository {
     @Override
     public Optional<Vehicle> findVehicleByUsn(Integer usn) {
         log.info("[REPOSITORY-VEHICLE : FIND_VEHICLE_BY_USN] SELECT * FROM VEHICLE WHERE USN={}", usn);
-        return repository.findVehicleByUsn(usn);
+        Optional<Vehicle> optionalVehicle = repository.findVehicleByUsn(usn);
+        log.info("[REPOSITORY-VEHICLE : FIND_VEHICLE_BY_USN_RESULT] FOUND VEHICLE={}", optionalVehicle.orElse(null));
+        return optionalVehicle;
     }
 
     @Override
     public List<Vehicle> findNewVehicle(boolean run, int num) {
         log.info("[REPOSITORY-VEHICLE : FIND_NEW_VEHICLE] SELECT * FROM VEHICLE WHERE RUN={} AND NUM={}", run, num);
-        return repository.findVehiclesByRunAndNum(run, num);
+        List<Vehicle> vehicles = repository.findVehiclesByRunAndNum(run, num);
+        log.info("[REPOSITORY-VEHICLE : FIND_NEW_VEHICLE_RESULT] FOUND VEHICLE NUM={}", vehicles.size());
+        return vehicles;
     }
 
     @Override
@@ -35,6 +39,7 @@ public class VehicleJpaRepository implements VehicleRepository {
         Optional<Vehicle> byVsn = repository.findByVsn(vsn);
         Vehicle vehicle = byVsn.get();
         vehicle.setNum(vehicle.getNum() + 1);
+        log.info("[REPOSITORY-VEHICLE : ADD_NUM_RESULT] CURRENT NUM={}", vehicle.getNum());
     }
 
     @Override
@@ -42,5 +47,6 @@ public class VehicleJpaRepository implements VehicleRepository {
         log.info("[REPOSITORY-VEHICLE : SWITCH_RUN] UPDATE VEHICLE SET RUN={} WHERE VSN={}", run, vsn);
         Optional<Vehicle> vehicle = repository.findById(vsn);
         vehicle.get().setRun(run);
+        log.info("[REPOSITORY-VEHICLE : SWITCH_RUN_RESULT] RUN STATE={}", run);
     }
 }
