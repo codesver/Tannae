@@ -15,7 +15,7 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ProcessFinder {
+public class ProcessManager {
 
     private final ProcessRepository processRepository;
 

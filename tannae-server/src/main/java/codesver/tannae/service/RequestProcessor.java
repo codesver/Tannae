@@ -23,7 +23,7 @@ public class RequestProcessor {
     private final UserRepository userRepository;
     private final NaviRequester requester;
     private final VehicleFinder vehicleFinder;
-    private final ProcessFinder processFinder;
+    private final ProcessManager processManager;
     private final SummaryEditor editor;
 
     public DRO<Process> processRequest(ServiceRequestDTO dto) {
@@ -33,7 +33,7 @@ public class RequestProcessor {
 
     private DRO<Process> processShareRequest(ServiceRequestDTO dto) {
         log.info("[SERVICE-REQUEST-PROCESSOR : PROCESS_SHARE_REQUEST] Processing request gender={} share={}", dto.getGender(), true);
-        DRO<Process> dro = processFinder.findProcess(dto);
+        DRO<Process> dro = processManager.findProcess(dto);
         if (dro.getFlag() == 2) {
             return processNonShareRequest(dto);
         }
