@@ -20,15 +20,12 @@ public class ProcessManager {
 
     private final ProcessRepository processRepository;
 
-    public Process createProcess(ServiceRequestDTO dto, Vehicle vehicle, JSONArray path, JSONObject info) {
+    public Process createProcess(ServiceRequestDTO dto, Vehicle vehicle, JSONArray path) {
         log.info("[SERVICE-PROCESS-MANAGER {} : CREATE_PROCESS] Creating process entity USN={} VSN={}", Thread.currentThread().getId(), dto.getUsn(), vehicle.getVsn());
 
         Process process = new Process();
         process.setPath(path.toString());
         process.setPassed(-1);
-        process.setFare(info.getJSONObject("fare").getInt("taxi"));
-        process.setDistance(info.getInt("distance"));
-        process.setDuration(info.getInt("duration"));
         process.setGender(dto.getGender());
         process.setShare(dto.getShare());
         process.setVehicle(vehicle);

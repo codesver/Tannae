@@ -23,15 +23,6 @@ public class Process {
     @Column(nullable = false)
     private Integer passed;
 
-    @Column(nullable = false)
-    private Integer fare;
-
-    @Column(nullable = false)
-    private Integer distance;
-
-    @Column(nullable = false)
-    private Integer duration;
-
     @Column(length = 1, columnDefinition = "TINYINT", nullable = false)
     private Boolean gender;
 

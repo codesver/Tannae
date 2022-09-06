@@ -74,7 +74,7 @@ public class RequestHandler {
             JSONArray sections = result.getJSONArray("sections");
             editor.editSummary(summary, sections, result);
             JSONArray path = editor.pathFromSummary(summary);
-            Process process = manager.createProcess(dto, vehicle, path, result.getJSONObject("summary"));
+            Process process = manager.createProcess(dto, vehicle, path);
             processRepository.save(process);
             vehicleRepository.addNum(vehicle.getVsn());
             userRepository.changeBoardState(dto.getUsn());
