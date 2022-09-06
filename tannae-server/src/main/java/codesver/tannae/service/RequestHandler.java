@@ -41,11 +41,10 @@ public class RequestHandler {
         DRO<Process> dro = manager.findProcess(dto);
         if (dro.getFlag() == 2) {
             return handleNonShareRequest(dto);
+        } else {
+            // Start coding here
+            return new DRO<>(0);
         }
-        // 2. Check if user request can be included in process path
-        // 3. Select nearest vehicle from available path
-        // 4. return
-        return new DRO<>(0);
     }
 
     private DRO<Process> handleNonShareRequest(ServiceRequestDTO dto) {
