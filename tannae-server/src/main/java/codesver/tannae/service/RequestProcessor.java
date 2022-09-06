@@ -61,7 +61,7 @@ public class RequestProcessor {
         if ((int) result.get("result_code") == 0) {
             JSONArray sections = result.getJSONArray("sections");
             editor.editSummary(summary, sections);
-            JSONArray path = editor.summaryToPath(summary);
+            JSONArray path = editor.pathFromSummary(summary);
             Process process = createProcess(dto, vehicle, path, result.getJSONObject("summary"));
             processRepository.save(process);
             vehicleRepository.addNum(vehicle.getVsn());

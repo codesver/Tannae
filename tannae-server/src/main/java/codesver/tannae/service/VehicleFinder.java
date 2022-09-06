@@ -20,7 +20,9 @@ public class VehicleFinder {
     public DRO<Vehicle> findVehicle(ServiceRequestDTO dto) {
         log.info("[SERVICE-VEHICLE-FINDER : FIND_VEHICLE] Finding vehicle for user={}", dto.getId());
         List<Vehicle> vehicles = vehicleRepository.findNewVehicle(true, 0);
-        return vehicles.isEmpty() ? new DRO<>(0) : findNearestVehicle(vehicles, dto);
+        DRO<Vehicle> dro = vehicles.isEmpty() ? new DRO<>(0) : findNearestVehicle(vehicles, dto);
+        log.info("[SERVICE-VEHICLE-FINDER : FIND_VEHICLE_RESULT] Founded vehicle={}", dro.isPresent() ? dro.get() : "Not founded");
+        return dro;
     }
 
     private DRO<Vehicle> findNearestVehicle(List<Vehicle> vehicles, ServiceRequestDTO dto) {
@@ -37,7 +39,7 @@ public class VehicleFinder {
                 distance = vehicleDistance;
             }
         }
-
+        log.info("[SERVICE-VEHICLE-FINDER : FIND_NEAREST_VEHICLE_RESULT] Nearest vehicle={}", nearestVehicle);
         return new DRO<>(1, nearestVehicle);
     }
 }

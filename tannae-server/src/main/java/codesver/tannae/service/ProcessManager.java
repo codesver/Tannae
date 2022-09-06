@@ -97,17 +97,19 @@ public class ProcessManager {
 
         double bpx = px - bx, bpy = py - by, bfx = fx - bx, bfy = fy - by;
         double backAngle = Math.toDegrees(Math.acos((bpx * bfx + bpy * bfy) / (Math.sqrt(Math.pow(bpx, 2) + Math.pow(bpy, 2)) * Math.sqrt(Math.pow(bfx, 2) + Math.pow(bfy, 2)))));
-
+        log.info("[SERVICE-PROCESS-FINDER : IS_INSIDE_RESULT] Front angle={} degrees, Back angle={} degrees", frontAngle, backAngle);
         return frontAngle < 30 && backAngle < 30;
     }
 
     private boolean destinationIsFurther(double ox, double oy, double dx, double dy, double fx, double fy) {
         log.info("[SERVICE-PROCESS-FINDER : DESTINATION_IS_FURTHER] Check if destination({}, {}) is further than origin({}, {}) from front point({}, {})", ox, oy, dx, dy, fx, fy);
+        log.info("[SERVICE-PROCESS-FINDER : DESTINATION_IS_FURTHER_RESULT]");
         return true;
     }
 
     private boolean isInsideAfterEndOfPath(double x, double y, double ex, double ey) {
         log.info("[SERVICE-PROCESS-FINDER : IS_INSIDE_AFTER_END_OF_PATH] Check if destination({}, {}) is allowed after end point({}, {})", x, y, ex, ey);
+        log.info("[SERVICE-PROCESS-FINDER : IS_INSIDE_AFTER_END_OF_PATH_RESULT]");
         return true;
     }
 }
