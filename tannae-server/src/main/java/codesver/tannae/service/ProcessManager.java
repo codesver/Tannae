@@ -51,7 +51,7 @@ public class ProcessManager {
                     // update process path
                 }
             }
-            return null;
+            return new DRO<>(2);
         }
     }
 
@@ -106,8 +106,9 @@ public class ProcessManager {
 
                         if (isInside(dx, dy, fx, fy, bx, by)) return true;
                     }
+                    JSONObject beforeEnd = path.getJSONObject(path.length() - 2);
                     JSONObject end = path.getJSONObject(path.length() - 1);
-                    return isInsideAfterEndOfPath(dx, dy, end.getDouble("x"), end.getDouble("y"));
+                    return isInsideAfterEndOfPath(dx, dy, beforeEnd.getDouble("x"), beforeEnd.getDouble("y"), end.getDouble("x"), end.getDouble("y"));
                 }
             }
         }
@@ -138,10 +139,15 @@ public class ProcessManager {
         return ofLength < dfLength;
     }
 
-    private boolean isInsideAfterEndOfPath(double x, double y, double ex, double ey) {
+    private boolean isInsideAfterEndOfPath(double px, double py, double bex, double bey, double ex, double ey) {
         log.info("[SERVICE-PROCESS-MANAGER {} : IS_INSIDE_AFTER_END_OF_PATH] Check if destination({}, {}) is allowed after end point({}, {})",
-                Thread.currentThread().getId(), x, y, ex, ey);
-        log.info("[SERVICE-PROCESS-MANAGER {} : IS_INSIDE_AFTER_END_OF_PATH_RESULT]", Thread.currentThread().getId());
-        return true;
+                Thread.currentThread().getId(), px, py, ex, ey);
+
+        double epx = px - ex, epy = py - ey;
+        double beex = ex - bex, beey = ey - bey;
+        double angle = Math.toDegrees((epx * beex + epy * beey) / (Math.sqrt(Math.pow(epx, 2) + Math.pow(epy, 2)) * Math.sqrt(Math.pow(beex, 2) + Math.pow(beey, 2))));
+
+        log.info("[SERVICE-PROCESS-MANAGER {} : IS_INSIDE_AFTER_END_OF_PATH_RESULT] End angle={}°", Thread.currentThread().getId(), angle);
+        return angle < 22.5;
     }
 }
