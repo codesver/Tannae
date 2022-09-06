@@ -19,6 +19,7 @@ import java.util.List;
 public class ProcessManager {
 
     private final ProcessRepository processRepository;
+    private final SummaryEditor editor;
 
     public Process createProcess(ServiceRequestDTO dto, Vehicle vehicle, JSONArray path) {
         log.info("[SERVICE-PROCESS-MANAGER {} : CREATE_PROCESS] Creating process entity USN={} VSN={}", Thread.currentThread().getId(), dto.getUsn(), vehicle.getVsn());
@@ -151,8 +152,8 @@ public class ProcessManager {
         log.info("[SERVICE-PROCESS-MANAGER {} : EDIT_PATH] Add origin and destination into path index {} and {}", Thread.currentThread().getId(), i, j);
 
         List<Object> list = path.toList();
-        list.add(j, new JSONObject().put("name", dto.getDestination()).put("x", dto.getDestinationLongitude()).put("y", dto.getDestinationLatitude()));
-        list.add(i, new JSONObject().put("name", dto.getOrigin()).put("x", dto.getOriginLongitude()).put("y", dto.getOriginLatitude()));
+        list.add(j, editor.createPoint(dto.getDestination(), dto.getDestinationLongitude(), dto.getOriginLatitude(), dto.getUsn()));
+        list.add(i, editor.createPoint(dto.getOrigin(), dto.getOriginLongitude(), dto.getOriginLatitude(), dto.getUsn()));
         process.setPath(new JSONArray(list).toString());
 
         log.info("[SERVICE-PROCESS-MANAGER {} : EDIT_PATH_RESULT] Process path edited={}", Thread.currentThread().getId(), process.getPath());
