@@ -45,7 +45,7 @@ public class ProcessManager {
         } else {
             sortProcessList(processes, dto.getOriginLatitude(), dto.getOriginLongitude());
             for (Process process : processes) {
-                if (availableCoordinate(dto, process)) {
+                if (availableCoordinate(dto, new JSONArray(process.getPath()))) {
                     // Edit process path (add new request)
                     // update vehicle num
                     // update process path
@@ -72,10 +72,9 @@ public class ProcessManager {
         log.info("[SERVICE-PROCESS-MANAGER {} : SORT_PROCESS_LIST_RESULT] Processes sorted", Thread.currentThread().getId());
     }
 
-    private boolean availableCoordinate(ServiceRequestDTO dto, Process process) {
-        log.info("[SERVICE-PROCESS-MANAGER {} : AVAILABLE_COORDINATE] Check if requested coordinate is available in path={}", Thread.currentThread().getId(), process.getPath());
+    private boolean availableCoordinate(ServiceRequestDTO dto, JSONArray path) {
+        log.info("[SERVICE-PROCESS-MANAGER {} : AVAILABLE_COORDINATE] Check if requested coordinate is available in path={}", Thread.currentThread().getId(), path);
 
-        JSONArray path = new JSONArray(process.getPath());
         Double ox = dto.getOriginLongitude();
         Double oy = dto.getOriginLatitude();
         Double dx = dto.getDestinationLongitude();
