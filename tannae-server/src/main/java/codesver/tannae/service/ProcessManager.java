@@ -25,6 +25,7 @@ public class ProcessManager {
 
         Process process = new Process();
         process.setPath(path.toString());
+        process.setPassed(-1);
         process.setFare(info.getJSONObject("fare").getInt("taxi"));
         process.setDistance(info.getInt("distance"));
         process.setDuration(info.getInt("duration"));
@@ -75,11 +76,9 @@ public class ProcessManager {
         Double dx = dto.getDestinationLongitude();
         Double dy = dto.getDestinationLatitude();
 
-        for (int i = 0; i < path.length() - 1; i++) {
+        for (int i = process.getPassed() + 1; i < path.length() - 1; i++) {
             JSONObject frontPoint = path.getJSONObject(i);
             JSONObject backPoint = path.getJSONObject(i + 1);
-
-            if (frontPoint.getBoolean("passed")) continue;
 
             double fx = frontPoint.getDouble("x");
             double fy = frontPoint.getDouble("y");

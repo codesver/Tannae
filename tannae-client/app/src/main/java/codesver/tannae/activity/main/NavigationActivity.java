@@ -95,6 +95,7 @@ public class NavigationActivity extends AppCompatActivity {
         boolean type = data.getBoolean("type");
         JSONArray path = new JSONArray(data.getString("path"));
         JSONArray guider = new JSONArray(data.getString("guider"));
+        int passed = data.getInt("passed");
 
         int innerUsn = getter.getInt("usn", 0);
         boolean driver = getter.getBoolean("driver", false);
@@ -148,7 +149,7 @@ public class NavigationActivity extends AppCompatActivity {
         buttonTransfer.setTextColor(Color.parseColor("#127CEA"));
         Toaster.toast(getApplicationContext(), toast);
         drawGuide(guider);
-        drawPath(path);
+        drawPath(path, passed);
     }
 
     private void drawGuide(JSONArray guider) throws JSONException {
@@ -170,29 +171,28 @@ public class NavigationActivity extends AppCompatActivity {
         mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(bounds, 100));
     }
 
-    private void drawPath(JSONArray path) throws JSONException {
+    private void drawPath(JSONArray path, int passed) throws JSONException {
         int count = 0;
 
-        for (int i = 0; i < path.length(); i++) {
+        for (int i = passed + 1; i < path.length(); i++) {
             JSONObject point = path.getJSONObject(i);
             double longitude = point.getDouble("x");
             double latitude = point.getDouble("y");
-            if (!point.getBoolean("passed")) {
-                count++;
-                if (count == 1) {
-                    mapView.addCircle(new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude), 15,
-                            Color.argb(255, 18, 124, 234), Color.argb(255, 18, 124, 234)));
-                    textCurrentPath.setText(point.getString("name"));
-                    textCurrentPath.setTextColor(Color.parseColor("#000000"));
-                } else if (count == 2) {
-                    mapView.addCircle(new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude), 15,
-                            Color.argb(255, 18, 124, 234), Color.argb(255, 18, 124, 234)));
-                    textNextPath.setTextColor(Color.parseColor("#000000"));
-                    textNextPath.setText(point.getString("name"));
-                } else
-                    mapView.addCircle(new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude), 15,
-                            Color.argb(255, 0, 0, 0), Color.argb(255, 0, 0, 0)));
-            }
+
+            count++;
+            if (count == 1) {
+                mapView.addCircle(new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude), 15,
+                        Color.argb(255, 18, 124, 234), Color.argb(255, 18, 124, 234)));
+                textCurrentPath.setText(point.getString("name"));
+                textCurrentPath.setTextColor(Color.parseColor("#000000"));
+            } else if (count == 2) {
+                mapView.addCircle(new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude), 15,
+                        Color.argb(255, 18, 124, 234), Color.argb(255, 18, 124, 234)));
+                textNextPath.setTextColor(Color.parseColor("#000000"));
+                textNextPath.setText(point.getString("name"));
+            } else
+                mapView.addCircle(new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude), 15,
+                        Color.argb(255, 0, 0, 0), Color.argb(255, 0, 0, 0)));
         }
     }
 
@@ -246,7 +246,8 @@ public class NavigationActivity extends AppCompatActivity {
                     .put("usn", responseDTO.getUsn())
                     .put("type", false)
                     .put("path", responseDTO.getPath())
-                    .put("guider", responseDTO.getGuider());
+                    .put("guider", responseDTO.getGuider())
+                    .put("passed", responseDTO.getPassed());
             Network.stomp.send("/pub/request", data.toString()).subscribe();
         } catch (JSONException e) {
             e.printStackTrace();

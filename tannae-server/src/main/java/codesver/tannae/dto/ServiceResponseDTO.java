@@ -16,6 +16,7 @@ public class ServiceResponseDTO {
     private int usn;
     private String path;
     private String guider;
+    private Integer passed;
 
     public ServiceResponseDTO(int flag) {
         this.flag = flag;

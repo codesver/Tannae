@@ -7,6 +7,7 @@ public class ServiceResponseDTO {
     private int usn;
     private String path;
     private String guider;
+    private Integer passed;
 
     public int getFlag() {
         return flag;
@@ -26,5 +27,9 @@ public class ServiceResponseDTO {
 
     public String getGuider() {
         return guider;
+    }
+
+    public Integer getPassed() {
+        return passed;
     }
 }

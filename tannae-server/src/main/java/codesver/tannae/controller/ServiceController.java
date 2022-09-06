@@ -30,7 +30,8 @@ public class ServiceController {
         log.info("[CONTROLLER-SERVICE {} : REQUEST ] /service/request body={}", Thread.currentThread().getId(), requestDTO);
         DRO<Process> dro = processor.handleRequest(requestDTO);
         Process process = dro.get();
-        return dro.getFlag() > 0 ? new ServiceResponseDTO(dro.getFlag(), process.getVehicle().getVsn(), requestDTO.getUsn(), process.getPath(), dro.getGuider().toString())
+        return dro.getFlag() > 0 ? new ServiceResponseDTO(dro.getFlag(), process.getVehicle().getVsn(), requestDTO.getUsn(),
+                process.getPath(), dro.getGuider().toString(), process.getPassed())
                 : new ServiceResponseDTO(dro.getFlag());
     }
 

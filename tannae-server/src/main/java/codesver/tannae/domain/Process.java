@@ -21,6 +21,9 @@ public class Process {
     private String path;
 
     @Column(nullable = false)
+    private Integer passed;
+
+    @Column(nullable = false)
     private Integer fare;
 
     @Column(nullable = false)
