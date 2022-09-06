@@ -45,7 +45,7 @@ public class ProcessManager {
         } else {
             sortProcessList(processes, dto.getOriginLatitude(), dto.getOriginLongitude());
             for (Process process : processes) {
-                if (availableCoordinate(dto, new JSONArray(process.getPath()))) {
+                if (availableCoordinate(dto, process)) {
                     // Edit process path (add new request)
                     // update vehicle num
                     // update process path
@@ -72,9 +72,10 @@ public class ProcessManager {
         log.info("[SERVICE-PROCESS-MANAGER {} : SORT_PROCESS_LIST_RESULT] Processes sorted", Thread.currentThread().getId());
     }
 
-    private boolean availableCoordinate(ServiceRequestDTO dto, JSONArray path) {
-        log.info("[SERVICE-PROCESS-MANAGER {} : AVAILABLE_COORDINATE] Check if requested coordinate is available in path={}", Thread.currentThread().getId(), path);
+    private boolean availableCoordinate(ServiceRequestDTO dto, Process process) {
+        log.info("[SERVICE-PROCESS-MANAGER {} : AVAILABLE_COORDINATE] Check if requested coordinate is available in path={}", Thread.currentThread().getId(), process.getPath());
 
+        JSONArray path = new JSONArray(process.getPath());
         Double ox = dto.getOriginLongitude();
         Double oy = dto.getOriginLatitude();
         Double dx = dto.getDestinationLongitude();
@@ -92,22 +93,24 @@ public class ProcessManager {
             double by = backPoint.getDouble("y");
 
             if (isInside(ox, oy, fx, fy, bx, by)) {
-                if (isInside(dx, dy, fx, fy, bx, by)) return destinationIsFurther(ox, oy, dx, dy, fx, fy);
-                else {
+                if (isInside(dx, dy, fx, fy, bx, by)) {
+                    if (destinationIsFurther(ox, oy, dx, dy, fx, fy)) {
+                        editPath(dto, process, path, i + 1, i + 1);
+                        return true;
+                    } else return false;
+                } else {
                     for (int j = i + 1; j < path.length() - 1; j++) {
                         frontPoint = path.getJSONObject(j);
                         backPoint = path.getJSONObject(j + 1);
-
-                        fx = frontPoint.getDouble("x");
-                        fy = frontPoint.getDouble("y");
-                        bx = backPoint.getDouble("x");
-                        by = backPoint.getDouble("y");
-
-                        if (isInside(dx, dy, fx, fy, bx, by)) return true;
+                        if (isInside(dx, dy, frontPoint.getDouble("x"), frontPoint.getDouble("y"), backPoint.getDouble("x"), backPoint.getDouble("y"))) {
+                            editPath(dto, process, path, i + 1, j + 1);
+                            return true;
+                        }
                     }
-                    JSONObject beforeEnd = path.getJSONObject(path.length() - 2);
-                    JSONObject end = path.getJSONObject(path.length() - 1);
-                    return isInsideAfterEndOfPath(dx, dy, beforeEnd.getDouble("x"), beforeEnd.getDouble("y"), end.getDouble("x"), end.getDouble("y"));
+                    if (isInsideAfterEndPoint(path, dx, dy)) {
+                        editPath(dto, process, path, i + 1, path.length());
+                        return true;
+                    }
                 }
             }
         }
@@ -138,15 +141,30 @@ public class ProcessManager {
         return ofLength < dfLength;
     }
 
-    private boolean isInsideAfterEndOfPath(double px, double py, double bex, double bey, double ex, double ey) {
-        log.info("[SERVICE-PROCESS-MANAGER {} : IS_INSIDE_AFTER_END_OF_PATH] Check if destination({}, {}) is allowed after end point({}, {})",
-                Thread.currentThread().getId(), px, py, ex, ey);
+    private boolean isInsideAfterEndPoint(JSONArray path, Double px, Double py) {
+        log.info("[SERVICE-PROCESS-MANAGER {} : IS_INSIDE_AFTER_END_POINT] Destination({}, {}) is inside area after end point", Thread.currentThread().getId(), px, py);
+        JSONObject beforeEnd = path.getJSONObject(path.length() - 2);
+        JSONObject end = path.getJSONObject(path.length() - 1);
+
+        double ex = end.getDouble("x"), ey = end.getDouble("y");
+        double bex = beforeEnd.getDouble("x"), bey = end.getDouble("y");
 
         double epx = px - ex, epy = py - ey;
         double beex = ex - bex, beey = ey - bey;
         double angle = Math.toDegrees((epx * beex + epy * beey) / (Math.sqrt(Math.pow(epx, 2) + Math.pow(epy, 2)) * Math.sqrt(Math.pow(beex, 2) + Math.pow(beey, 2))));
 
-        log.info("[SERVICE-PROCESS-MANAGER {} : IS_INSIDE_AFTER_END_OF_PATH_RESULT] End angle={}°", Thread.currentThread().getId(), angle);
+        log.info("[SERVICE-PROCESS-MANAGER {} : IS_INSIDE_AFTER_END_POINT] End point angle={}", Thread.currentThread().getId(), angle);
         return angle < 22.5;
+    }
+
+    private void editPath(ServiceRequestDTO dto, Process process, JSONArray path, int i, int j) {
+        log.info("[SERVICE-PROCESS-MANAGER {} : EDIT_PATH] Add origin and destination into path index {} and {}", Thread.currentThread().getId(), i, j);
+
+        List<Object> list = path.toList();
+        list.add(j, new JSONObject().put("name", dto.getDestination()).put("x", dto.getDestinationLongitude()).put("y", dto.getDestinationLatitude()));
+        list.add(i, new JSONObject().put("name", dto.getOrigin()).put("x", dto.getOriginLongitude()).put("y", dto.getOriginLatitude()));
+        process.setPath(new JSONArray(list).toString());
+
+        log.info("[SERVICE-PROCESS-MANAGER {} : EDIT_PATH_RESULT] Process path edited={}", Thread.currentThread().getId(), process.getPath());
     }
 }
