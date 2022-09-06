@@ -24,25 +24,25 @@ public class UserController {
 
     @GetMapping("/check-id")
     public Boolean checkId(@RequestParam String id) {
-        log.info("[CONTROLLER-USER : CHECK_ID] /users/check-id?id={}", id);
+        log.info("[CONTROLLER-USER {} : CHECK_ID] /users/check-id?id={}", Thread.currentThread().getId(), id);
         return userRepository.countById(id) == 0;
     }
 
     @GetMapping("/check-private")
     public Boolean checkPrivate(@RequestParam String name, @RequestParam String rrn) {
-        log.info("[CONTROLLER-USER : CHECK_PRIVATE] /users/check-private?name={}&rrn={}", name, rrn);
+        log.info("[CONTROLLER-USER {} : CHECK_PRIVATE] /users/check-private?name={}&rrn={}", Thread.currentThread().getId(), name, rrn);
         return userRepository.countByPrivate(name, rrn) == 0;
     }
 
     @PostMapping("/sign-up")
     public Boolean signUp(@RequestBody SignUpUserDTO dto) {
-        log.info("[CONTROLLER-USER : SIGN_UP] /users/sign-up body={}", dto);
+        log.info("[CONTROLLER-USER {}: SIGN_UP] /users/sign-up body={}", Thread.currentThread().getId(), dto);
         return userRepository.save(dto.toUser());
     }
 
     @GetMapping("/find-account")
     public FoundAccountDTO findAccount(@RequestParam String name, @RequestParam String rrn) {
-        log.info("[CONTROLLER-USER : FIND_ACCOUNT] /users/find-account?name={}&rrn={}", name, rrn);
+        log.info("[CONTROLLER-USER {}: FIND_ACCOUNT] /users/find-account?name={}&rrn={}", Thread.currentThread().getId(), name, rrn);
         Optional<User> foundUser = userRepository.findByNameRrn(name, rrn);
         User user = foundUser.orElse(new User());
         return new FoundAccountDTO(user.getId(), user.getPw(), foundUser.isPresent());
@@ -50,7 +50,7 @@ public class UserController {
 
     @GetMapping("/login")
     public LoginDTO login(@RequestParam String id, @RequestParam String pw) {
-        log.info("[CONTROLLER-USER : LOGIN] /users/login?id={}&pw={}", id, pw);
+        log.info("[CONTROLLER-USER {} : LOGIN] /users/login?id={}&pw={}", Thread.currentThread().getId(), id, pw);
         Optional<User> loggedUser = userRepository.findByIdPw(id, pw);
         if (loggedUser.isPresent()) {
             User user = loggedUser.get();
@@ -62,7 +62,7 @@ public class UserController {
 
     @PatchMapping("/{usn}/charge")
     public Integer charge(@PathVariable Integer usn, @RequestParam Integer point) {
-        log.info("[CONTROLLER-USER : CHARGE] /users/{}/point={}", usn, point);
+        log.info("[CONTROLLER-USER {} : CHARGE] /users/{}/point={}", Thread.currentThread().getId(), usn, point);
         return userRepository.chargePoint(usn, point);
     }
 }

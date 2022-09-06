@@ -18,15 +18,18 @@ public class VehicleFinder {
     private final VehicleRepository vehicleRepository;
 
     public DRO<Vehicle> findVehicle(ServiceRequestDTO dto) {
-        log.info("[SERVICE-VEHICLE-FINDER : FIND_VEHICLE] Finding vehicle for user={}", dto.getId());
+        log.info("[SERVICE-VEHICLE-FINDER {} : FIND_VEHICLE] Finding vehicle for user={}", Thread.currentThread().getId(), dto.getId());
+
         List<Vehicle> vehicles = vehicleRepository.findNewVehicle(true, 0);
         DRO<Vehicle> dro = vehicles.isEmpty() ? new DRO<>(0) : findNearestVehicle(vehicles, dto);
-        log.info("[SERVICE-VEHICLE-FINDER : FIND_VEHICLE_RESULT] Founded vehicle={}", dro.isPresent() ? dro.get() : "Not founded");
+
+        log.info("[SERVICE-VEHICLE-FINDER {} : FIND_VEHICLE_RESULT] Founded vehicle={}", Thread.currentThread().getId(), dro.isPresent() ? dro.get() : "Not founded");
         return dro;
     }
 
     private DRO<Vehicle> findNearestVehicle(List<Vehicle> vehicles, ServiceRequestDTO dto) {
-        log.info("[SERVICE-VEHICLE-FINDER : FIND_NEAREST_VEHICLE] Finding nearest vehicle for user={}", dto.getId());
+        log.info("[SERVICE-VEHICLE-FINDER {} : FIND_NEAREST_VEHICLE] Finding nearest vehicle for user={}", Thread.currentThread().getId(), dto.getId());
+
         double distance = Double.MAX_VALUE;
         double latitude = dto.getOriginLatitude();
         double longitude = dto.getOriginLongitude();
@@ -39,7 +42,8 @@ public class VehicleFinder {
                 distance = vehicleDistance;
             }
         }
-        log.info("[SERVICE-VEHICLE-FINDER : FIND_NEAREST_VEHICLE_RESULT] Nearest vehicle={}", nearestVehicle);
+
+        log.info("[SERVICE-VEHICLE-FINDER {} : FIND_NEAREST_VEHICLE_RESULT] Nearest vehicle={}", Thread.currentThread().getId(), nearestVehicle);
         return new DRO<>(1, nearestVehicle);
     }
 }

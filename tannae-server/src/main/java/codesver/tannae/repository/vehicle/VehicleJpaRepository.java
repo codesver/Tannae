@@ -19,34 +19,34 @@ public class VehicleJpaRepository implements VehicleRepository {
 
     @Override
     public Optional<Vehicle> findVehicleByUsn(Integer usn) {
-        log.info("[REPOSITORY-VEHICLE : FIND_VEHICLE_BY_USN] SELECT * FROM VEHICLE WHERE USN={}", usn);
+        log.info("[REPOSITORY-VEHICLE {} : FIND_VEHICLE_BY_USN] SELECT * FROM VEHICLE WHERE USN={}", Thread.currentThread().getId(), usn);
         Optional<Vehicle> optionalVehicle = repository.findVehicleByUsn(usn);
-        log.info("[REPOSITORY-VEHICLE : FIND_VEHICLE_BY_USN_RESULT] FOUND VEHICLE={}", optionalVehicle.orElse(null));
+        log.info("[REPOSITORY-VEHICLE {} : FIND_VEHICLE_BY_USN_RESULT] FOUND VEHICLE={}", Thread.currentThread().getId(), optionalVehicle.orElse(null));
         return optionalVehicle;
     }
 
     @Override
     public List<Vehicle> findNewVehicle(boolean run, int num) {
-        log.info("[REPOSITORY-VEHICLE : FIND_NEW_VEHICLE] SELECT * FROM VEHICLE WHERE RUN={} AND NUM={}", run, num);
+        log.info("[REPOSITORY-VEHICLE {} : FIND_NEW_VEHICLE] SELECT * FROM VEHICLE WHERE RUN={} AND NUM={}", Thread.currentThread().getId(), run, num);
         List<Vehicle> vehicles = repository.findVehiclesByRunAndNum(run, num);
-        log.info("[REPOSITORY-VEHICLE : FIND_NEW_VEHICLE_RESULT] FOUND VEHICLE NUM={}", vehicles.size());
+        log.info("[REPOSITORY-VEHICLE {} : FIND_NEW_VEHICLE_RESULT] FOUND VEHICLE NUM={}", Thread.currentThread().getId(), vehicles.size());
         return vehicles;
     }
 
     @Override
     public void addNum(int vsn) {
-        log.info("[REPOSITORY-VEHICLE : ADD_NUM] UPDATE VEHICLE SET NUM = NUM + 1 WHERE VSN={}", vsn);
+        log.info("[REPOSITORY-VEHICLE {} : ADD_NUM] UPDATE VEHICLE SET NUM = NUM + 1 WHERE VSN={}", Thread.currentThread().getId(), vsn);
         Optional<Vehicle> byVsn = repository.findByVsn(vsn);
         Vehicle vehicle = byVsn.get();
         vehicle.setNum(vehicle.getNum() + 1);
-        log.info("[REPOSITORY-VEHICLE : ADD_NUM_RESULT] CURRENT NUM={}", vehicle.getNum());
+        log.info("[REPOSITORY-VEHICLE {} : ADD_NUM_RESULT] CURRENT NUM={}", Thread.currentThread().getId(), vehicle.getNum());
     }
 
     @Override
     public void switchRun(int vsn, boolean run) {
-        log.info("[REPOSITORY-VEHICLE : SWITCH_RUN] UPDATE VEHICLE SET RUN={} WHERE VSN={}", run, vsn);
+        log.info("[REPOSITORY-VEHICLE {} : SWITCH_RUN] UPDATE VEHICLE SET RUN={} WHERE VSN={}", Thread.currentThread().getId(), run, vsn);
         Optional<Vehicle> vehicle = repository.findById(vsn);
         vehicle.get().setRun(run);
-        log.info("[REPOSITORY-VEHICLE : SWITCH_RUN_RESULT] RUN STATE={}", run);
+        log.info("[REPOSITORY-VEHICLE {} : SWITCH_RUN_RESULT] RUN STATE={}", Thread.currentThread().getId(), run);
     }
 }

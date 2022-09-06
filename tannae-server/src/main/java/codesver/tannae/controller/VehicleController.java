@@ -15,7 +15,7 @@ public class VehicleController {
 
     @PatchMapping("/{vsn}/switch-run")
     public Boolean switchRun(@PathVariable Integer vsn, @RequestParam Boolean run) {
-        log.info("[CONTROLLER-VEHICLE : SWITCH_RUN] /vehicles/{}/switch-run?run={}", vsn, run);
+        log.info("[CONTROLLER-VEHICLE {} : SWITCH_RUN] /vehicles/{}/switch-run?run={}", Thread.currentThread().getId(), vsn, run);
         vehicleRepository.switchRun(vsn, run);
         return run;
     }

@@ -18,16 +18,16 @@ public class ProcessJpaRepository implements ProcessRepository {
 
     @Override
     public void save(Process process) {
-        log.info("[REPOSITORY-PROCESS : SAVE] INSERT INTO PROCESS VALUES({})", process);
+        log.info("[REPOSITORY-PROCESS {} : SAVE] INSERT INTO PROCESS VALUES({})", Thread.currentThread().getId(), process);
         repository.save(process);
-        log.info("[REPOSITORY-PROCESS : SAVE_RESULT] SAVED");
+        log.info("[REPOSITORY-PROCESS {} : SAVE_RESULT] SAVED", Thread.currentThread().getId());
     }
 
     @Override
     public List<Process> findByGenderShare(boolean gender, boolean share) {
-        log.info("[REPOSITORY-PROCESS : FIND_BY_GENDER_SHARE] SELECT * FROM PROCESS p LEFT OUTER JOIN VEHICLE v ON p.vsn=? WHERE p.gender={} AND p.share={} and v.num < {}", gender, share, 3);
+        log.info("[REPOSITORY-PROCESS {} : FIND_BY_GENDER_SHARE] SELECT * FROM PROCESS p LEFT OUTER JOIN VEHICLE v ON p.vsn=? WHERE p.gender={} AND p.share={} and v.num < {}", Thread.currentThread().getId(), gender, share, 3);
         List<Process> processes = repository.findProcessesByGenderAndShareAndVehicle_NumLessThan(gender, share, 3);
-        log.info("[REPOSITORY-PROCESS : FIND_BY_GENDER_SHARE_RESULT] FOUND PROCESS NUM={}", processes.size());
+        log.info("[REPOSITORY-PROCESS {} : FIND_BY_GENDER_SHARE_RESULT] FOUND PROCESS NUM={}", Thread.currentThread().getId(), processes.size());
         return processes;
     }
 }
