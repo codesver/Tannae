@@ -90,9 +90,15 @@ public class ProcessManager {
         return false;
     }
 
-    private boolean isInside(double x, double y, double fx, double fy, double bx, double by) {
+    private boolean isInside(double px, double py, double fx, double fy, double bx, double by) {
         log.info("[SERVICE-PROCESS-FINDER : IS_INSIDE] Check if point is inside of single path");
-        return true;
+        double fpx = px - fx, fpy = py - fy, fbx = bx - fx, fby = by - fy;
+        double frontAngle = Math.toDegrees(Math.acos((fpx * fbx + fpy * fby) / (Math.sqrt(Math.pow(fpx, 2) + Math.pow(fpy, 2)) * Math.sqrt(Math.pow(fbx, 2) + Math.pow(fby, 2)))));
+
+        double bpx = px - bx, bpy = py - by, bfx = fx - bx, bfy = fy - by;
+        double backAngle = Math.toDegrees(Math.acos((bpx * bfx + bpy * bfy) / (Math.sqrt(Math.pow(bpx, 2) + Math.pow(bpy, 2)) * Math.sqrt(Math.pow(bfx, 2) + Math.pow(bfy, 2)))));
+
+        return frontAngle < 30 && backAngle < 30;
     }
 
     private boolean destinationIsFurther(double ox, double oy, double dx, double dy, double fx, double fy) {
