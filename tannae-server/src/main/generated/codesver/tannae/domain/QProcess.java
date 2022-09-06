@@ -22,12 +22,6 @@ public class QProcess extends EntityPathBase<Process> {
 
     public static final QProcess process = new QProcess("process");
 
-    public final NumberPath<Integer> distance = createNumber("distance", Integer.class);
-
-    public final NumberPath<Integer> duration = createNumber("duration", Integer.class);
-
-    public final NumberPath<Integer> fare = createNumber("fare", Integer.class);
-
     public final BooleanPath gender = createBoolean("gender");
 
     public final NumberPath<Integer> passed = createNumber("passed", Integer.class);
