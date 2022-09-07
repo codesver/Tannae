@@ -11,19 +11,18 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class SummaryEditor {
+public class PathEditor {
 
-    public JSONObject createSummary(Vehicle vehicle, ServiceRequestDTO dto) {
-        log.info("[SERVICE-SUMMARY-EDITOR {} : CREATE_SUMMARY] Creating new summary", Thread.currentThread().getId());
+    public JSONArray createPath(Vehicle vehicle, ServiceRequestDTO dto) {
+        log.info("[SERVICE-SUMMARY-EDITOR {} : CREATE_PATH] Creating new path", Thread.currentThread().getId());
 
-        JSONObject origin = createPoint("차량 시작 지점", vehicle.getLongitude(), vehicle.getLatitude(), -1);
-        JSONObject destination = createPoint(dto.getDestination(), dto.getDestinationLongitude(), dto.getDestinationLatitude(), dto.getUsn());
-        JSONObject waypoint = createPoint(dto.getOrigin(), dto.getOriginLongitude(), dto.getOriginLatitude(), dto.getUsn());
-        JSONArray waypoints = new JSONArray().put(waypoint);
-        JSONObject summary = new JSONObject().put("origin", origin).put("destination", destination).put("waypoints", waypoints);
+        JSONArray path = new JSONArray()
+                .put(createPoint("차량 시작 지점", vehicle.getLongitude(), vehicle.getLatitude(), -1))
+                .put(createPoint(dto.getOrigin(), dto.getOriginLongitude(), dto.getOriginLatitude(), dto.getUsn()))
+                .put(createPoint(dto.getDestination(), dto.getDestinationLongitude(), dto.getDestinationLatitude(), dto.getUsn()));
 
-        log.info("[SERVICE-SUMMARY-EDITOR {} : CREATE_SUMMARY_RESULT] New summary created={}", Thread.currentThread().getId(), summary);
-        return summary;
+        log.info("[SERVICE-SUMMARY-EDITOR {} : CREATE_PATH_RESULT] New path created={}", Thread.currentThread().getId(), path);
+        return path;
     }
 
     public void editSummary(JSONObject summary, JSONArray sections, JSONObject result) {

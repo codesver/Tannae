@@ -19,7 +19,7 @@ import java.util.List;
 public class ProcessManager {
 
     private final ProcessRepository processRepository;
-    private final SummaryEditor editor;
+    private final PathEditor editor;
 
     public Process createProcess(ServiceRequestDTO dto, Vehicle vehicle, JSONArray path) {
         log.info("[SERVICE-PROCESS-MANAGER {} : CREATE_PROCESS] Creating process entity USN={} VSN={}", Thread.currentThread().getId(), dto.getUsn(), vehicle.getVsn());

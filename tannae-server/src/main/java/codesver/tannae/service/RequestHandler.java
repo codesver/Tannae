@@ -25,7 +25,7 @@ public class RequestHandler {
     private final NaviRequester requester;
     private final VehicleFinder finder;
     private final ProcessManager manager;
-    private final SummaryEditor editor;
+    private final PathEditor editor;
     private final Guider guider;
 
     public DRO<Process> handleRequest(ServiceRequestDTO dto) {
@@ -57,7 +57,8 @@ public class RequestHandler {
         DRO<Process> dro;
 
         if (vehicle.isPresent()) {
-            JSONObject summary = editor.createSummary(vehicle.get(), dto);
+            JSONArray path = editor.createPath(vehicle.get(), dto);
+            JSONObject summary = editor.summaryFromPath(path, -1);
             JSONObject response = requester.request(summary);
             dro = handleNonShareResponse(dto, vehicle.get(), summary, response);
         } else dro = new DRO<>(-1);
@@ -77,6 +78,7 @@ public class RequestHandler {
             JSONArray sections = result.getJSONArray("sections");
             JSONArray path = editor.pathFromSummary(summary);
             editor.addResultToPath(path, sections, result);
+            // Code from here manager.addPathToProcessPath
         } else
             dro = new DRO<>(-2);
 
@@ -93,8 +95,9 @@ public class RequestHandler {
 
         if (resultCode == 0) {
             JSONArray sections = result.getJSONArray("sections");
-            editor.editSummary(summary, sections, result);
             JSONArray path = editor.pathFromSummary(summary);
+            editor.addResultToPath(path, sections, result);
+
             Process process = manager.createProcess(dto, vehicle, path);
             processRepository.save(process);
             vehicleRepository.addNum(vehicle.getVsn());
