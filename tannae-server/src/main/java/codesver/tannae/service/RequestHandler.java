@@ -97,12 +97,11 @@ public class RequestHandler {
             JSONArray sections = result.getJSONArray("sections");
             JSONArray path = editor.pathFromSummary(summary);
             editor.addResultToPath(path, sections, result);
-
             Process process = manager.createProcess(dto, vehicle, path);
             processRepository.save(process);
             vehicleRepository.addNum(vehicle.getVsn());
             userRepository.changeBoardState(dto.getUsn());
-            dro = new DRO<>(1, process, guider.createGuider(sections, path)).setFlag(dto.getShare() ? 2 : 1);
+            dro = new DRO<>(0, process, guider.createGuider(sections, path)).setFlag(dto.getShare() ? 2 : 1);
         } else dro = new DRO<>(-2);
 
         log.info("[SERVICE-REQUEST-HANDLER {} : HANDLE_NON_SHARE_RESPONSE_RESULT] Handled result={}", Thread.currentThread().getId(), resultCode == 0);
