@@ -73,6 +73,7 @@ public class ProcessManager {
         Double oy = dto.getOriginLatitude();
         Double dx = dto.getDestinationLongitude();
         Double dy = dto.getDestinationLatitude();
+        boolean isAvailable = false;
 
         for (int i = process.getPassed() + 1; i < path.length() - 1; i++) {
             JSONObject frontPoint = path.getJSONObject(i);
@@ -87,25 +88,28 @@ public class ProcessManager {
                 if (isInside(dx, dy, fx, fy, bx, by)) {
                     if (destinationIsFurther(ox, oy, dx, dy, fx, fy)) {
                         editPath(dto, process, path, i + 1, i + 1);
-                        return true;
-                    } else return false;
+                        isAvailable = true;
+                    }
                 } else {
                     for (int j = i + 1; j < path.length() - 1; j++) {
                         frontPoint = path.getJSONObject(j);
                         backPoint = path.getJSONObject(j + 1);
                         if (isInside(dx, dy, frontPoint.getDouble("x"), frontPoint.getDouble("y"), backPoint.getDouble("x"), backPoint.getDouble("y"))) {
                             editPath(dto, process, path, i + 1, j + 1);
-                            return true;
+                            isAvailable = true;
+                            break;
                         }
                     }
-                    if (isInsideAfterEndPoint(path, dx, dy)) {
+                    if (isInsideAfterEndPoint(path, dx, dy) && !isAvailable) {
                         editPath(dto, process, path, i + 1, path.length());
-                        return true;
+                        isAvailable = true;
                     }
                 }
             }
         }
-        return false;
+
+        log.info("[SERVICE-PROCESS-MANAGER {} : AVAILABLE_COORDINATE_RESULT] Requested coordinate is available={}", Thread.currentThread().getId(), isAvailable);
+        return isAvailable;
     }
 
     private boolean isInside(double px, double py, double fx, double fy, double bx, double by) {
