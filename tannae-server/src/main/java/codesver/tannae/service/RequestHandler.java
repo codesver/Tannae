@@ -36,7 +36,7 @@ public class RequestHandler {
     }
 
     private DRO<Process> handleShareRequest(ServiceRequestDTO dto) {
-        log.info("[SERVICE-REQUEST-HANDLER {} : PROCESS_SHARE_REQUEST] Handling share request gender={}", Thread.currentThread().getId(), dto.getGender());
+        log.info("[SERVICE-REQUEST-HANDLER {} : HANDLE_SHARE_REQUEST] Handling share request gender={}", Thread.currentThread().getId(), dto.getGender());
 
         DRO<Process> dro = manager.findProcess(dto);
         if (dro.getFlag() == 2) {
@@ -51,7 +51,7 @@ public class RequestHandler {
     }
 
     private DRO<Process> handleNonShareRequest(ServiceRequestDTO dto) {
-        log.info("[SERVICE-REQUEST-HANDLER {} : PROCESS_NON_SHARE_REQUEST] : Handling non share request", Thread.currentThread().getId());
+        log.info("[SERVICE-REQUEST-HANDLER {} : HANDLE_NON_SHARE_REQUEST] : Handling non share request", Thread.currentThread().getId());
 
         DRO<Vehicle> vehicle = finder.findVehicle(dto);
         DRO<Process> dro;
@@ -62,12 +62,21 @@ public class RequestHandler {
             dro = handleNonShareResponse(dto, vehicle.get(), summary, response);
         } else dro = new DRO<>(-1);
 
-        log.info("[SERVICE-REQUEST-HANDLER {} : PROCESS_NON_SHARE_REQUEST_RESULT] : Non share request handled={}", Thread.currentThread().getId(), vehicle.isPresent());
+        log.info("[SERVICE-REQUEST-HANDLER {} : HANDLE_NON_SHARE_REQUEST_RESULT] : Non share request handled={}", Thread.currentThread().getId(), vehicle.isPresent());
         return dro;
     }
 
+    private DRO<Process> handleShareResponse(ServiceRequestDTO dto, Process process, JSONObject summary, JSONObject response) {
+        log.info("[SERVICE-REQUEST-HANDLER {} : HANDLE_SHARE_RESPONSE]", Thread.currentThread().getId());
+
+
+
+        log.info("[SERVICE-REQUEST-HANDLER {} : HANDLE_SHARE_RESPONSE_RESULT] ", Thread.currentThread().getId());
+        return null;
+    }
+
     private DRO<Process> handleNonShareResponse(ServiceRequestDTO dto, Vehicle vehicle, JSONObject summary, JSONObject response) {
-        log.info("[SERVICE-REQUEST-HANDLER {} : PROCESS_RESULT] Handling result from navigation detail api", Thread.currentThread().getId());
+        log.info("[SERVICE-REQUEST-HANDLER {} : HANDLE_NON_SHARE_RESPONSE] Handling result from navigation detail api", Thread.currentThread().getId());
 
         JSONObject result = response.getJSONArray("routes").getJSONObject(0);
         int resultCode = result.getInt("result_code");
@@ -84,7 +93,7 @@ public class RequestHandler {
             dro = new DRO<>(1, process, guider.createGuider(sections, path)).setFlag(dto.getShare() ? 2 : 1);
         } else dro = new DRO<>(-2);
 
-        log.info("[SERVICE-REQUEST-HANDLER {} : PROCESS_RESULT_RESULT] Handled result={}", Thread.currentThread().getId(), resultCode == 0);
+        log.info("[SERVICE-REQUEST-HANDLER {} : HANDLE_NON_SHARE_RESPONSE_RESULT] Handled result={}", Thread.currentThread().getId(), resultCode == 0);
         return dro;
     }
 }
