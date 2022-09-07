@@ -48,6 +48,18 @@ public class ProcessManager {
         return new DRO<>(2);
     }
 
+    public void mergeResultToPath(Process process, JSONArray path) {
+        JSONArray totalPath = new JSONArray(process.getPath());
+        JSONArray mergedPath = new JSONArray();
+        Integer passed = process.getPassed();
+
+        for (int i = 0; i <= passed; i++)
+            mergedPath.put(totalPath.getJSONObject(i));
+        mergedPath.putAll(path);
+
+        process.setPath(mergedPath.toString());
+    }
+
     private void sortProcessList(List<Process> processes, double originLatitude, double originLongitude) {
         log.info("[SERVICE-PROCESS-MANAGER {} : SORT_PROCESS_LIST] Sorting processes by length between vehicle and origin", Thread.currentThread().getId());
 

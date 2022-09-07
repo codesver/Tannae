@@ -78,7 +78,7 @@ public class RequestHandler {
             JSONArray sections = result.getJSONArray("sections");
             JSONArray path = editor.pathFromSummary(summary);
             editor.addResultToPath(path, sections, result);
-            // Code from here manager.addPathToProcessPath
+            manager.mergeResultToPath(process, path);
         } else
             dro = new DRO<>(-2);
 
