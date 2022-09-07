@@ -59,14 +59,14 @@ public class RequestHandler {
         if (vehicle.isPresent()) {
             JSONObject summary = editor.createSummary(vehicle.get(), dto);
             JSONObject response = requester.request(summary);
-            dro = handleNonShareResult(dto, vehicle.get(), summary, response);
+            dro = handleNonShareResponse(dto, vehicle.get(), summary, response);
         } else dro = new DRO<>(-1);
 
         log.info("[SERVICE-REQUEST-HANDLER {} : PROCESS_NON_SHARE_REQUEST_RESULT] : Non share request handled={}", Thread.currentThread().getId(), vehicle.isPresent());
         return dro;
     }
 
-    private DRO<Process> handleNonShareResult(ServiceRequestDTO dto, Vehicle vehicle, JSONObject summary, JSONObject response) {
+    private DRO<Process> handleNonShareResponse(ServiceRequestDTO dto, Vehicle vehicle, JSONObject summary, JSONObject response) {
         log.info("[SERVICE-REQUEST-HANDLER {} : PROCESS_RESULT] Handling result from navigation detail api", Thread.currentThread().getId());
 
         JSONObject result = response.getJSONArray("routes").getJSONObject(0);
