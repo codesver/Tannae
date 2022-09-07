@@ -79,6 +79,7 @@ public class RequestHandler {
             JSONArray path = editor.pathFromSummary(summary);
             editor.addResultToPath(path, sections, result);
             manager.mergeResultToPath(process, path);
+            // Code from here (Update database)
         } else
             dro = new DRO<>(-2);
 
