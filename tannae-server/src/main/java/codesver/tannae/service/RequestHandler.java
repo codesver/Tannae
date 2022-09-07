@@ -75,7 +75,8 @@ public class RequestHandler {
 
         if (resultCode == 0) {
             JSONArray sections = result.getJSONArray("sections");
-            editor.editSummary(summary, sections, result);
+            JSONArray path = editor.pathFromSummary(summary);
+            editor.addResultToPath(path, sections, result);
         } else
             dro = new DRO<>(-2);
 

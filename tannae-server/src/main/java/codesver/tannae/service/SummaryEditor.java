@@ -35,8 +35,6 @@ public class SummaryEditor {
         int fare = result.getJSONObject("summary").getJSONObject("fare").getInt("taxi");
         int distance = result.getJSONObject("summary").getInt("distance");
 
-        log.info("FARE={} DISTANCE={}", fare, distance);
-
         summary.getJSONArray("waypoints")
                 .getJSONObject(0)
                 .put("fare", (int) (toWaypoint.getInt("distance") / (double) distance * fare))
@@ -49,6 +47,20 @@ public class SummaryEditor {
                 .put("duration", toDestination.getInt("duration"));
 
         log.info("[SERVICE-SUMMARY-EDITOR {} : EDIT_SUMMARY_RESULT] Summary edited={}", Thread.currentThread().getId(), summary);
+    }
+
+    public void addResultToPath(JSONArray path, JSONArray sections, JSONObject result) {
+        JSONObject summary = result.getJSONObject("summary");
+        int totalFare = summary.getJSONObject("fare").getInt("taxi");
+        int totalDistance = summary.getInt("distance");
+
+        for (int i = 1; i < path.length(); i++) {
+            JSONObject point = path.getJSONObject(i);
+            JSONObject toPoint = sections.getJSONObject(i - 1);
+            point.put("distance", toPoint.getInt("distance"));
+            point.put("duration", toPoint.getInt("duration"));
+            point.put("fare", (int) (point.getInt("distance") / (double) totalDistance * totalFare));
+        }
     }
 
     public JSONArray pathFromSummary(JSONObject summary) {
