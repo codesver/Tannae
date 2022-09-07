@@ -45,7 +45,7 @@ public class RequestHandler {
             Process process = dro.get();
             JSONObject summary = editor.summaryFromPath(new JSONArray(process.getPath()), process.getPassed());
             JSONObject response = requester.request(summary);
-            // Code from here handleShareResult
+            dro = handleShareResponse(dto, process, summary, response);
             return new DRO<>(0);
         }
     }
@@ -69,10 +69,18 @@ public class RequestHandler {
     private DRO<Process> handleShareResponse(ServiceRequestDTO dto, Process process, JSONObject summary, JSONObject response) {
         log.info("[SERVICE-REQUEST-HANDLER {} : HANDLE_SHARE_RESPONSE]", Thread.currentThread().getId());
 
+        JSONObject result = response.getJSONArray("routes").getJSONObject(0);
+        int resultCode = result.getInt("result_code");
+        DRO<Process> dro = null;
 
+        if (resultCode == 0) {
+            JSONArray sections = result.getJSONArray("sections");
+            editor.editSummary(summary, sections, result);
+        } else
+            dro = new DRO<>(-2);
 
         log.info("[SERVICE-REQUEST-HANDLER {} : HANDLE_SHARE_RESPONSE_RESULT] ", Thread.currentThread().getId());
-        return null;
+        return dro;
     }
 
     private DRO<Process> handleNonShareResponse(ServiceRequestDTO dto, Vehicle vehicle, JSONObject summary, JSONObject response) {
