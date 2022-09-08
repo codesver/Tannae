@@ -66,7 +66,13 @@ public class ServiceController {
         if (passed + 1 == path.length()) {
 
         } else {
-
+            data.put("flag", 0)
+                    .put("vsn", vsn)
+                    .put("usn", path.getJSONObject(passed).getInt("usn"))
+                    .put("type", path.getJSONObject(passed).getBoolean("type"))
+                    .put("path", path.toString())
+                    .put("passed", passed);
+            // Code from here -> Should add Guider attribute in Process table Or Client can send guider (When drawing guider save next guider)
         }
     }
 }
