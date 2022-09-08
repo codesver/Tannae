@@ -8,6 +8,7 @@ import codesver.tannae.repository.process.ProcessRepository;
 import codesver.tannae.service.RequestHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -54,5 +57,16 @@ public class ServiceController {
     public void transfer(@Payload String vsns) {
         log.info("[SOCKET-CONTROLLER-SERVICE {} : TRANSFER] Transfer vehicle {} to next point", Thread.currentThread().getId(), vsns);
         int vsn = Integer.parseInt(vsns);
+        Optional<Process> optionalProcess = processRepository.increasePassed(vsn);
+        Process process = optionalProcess.get();
+        JSONArray path = new JSONArray(process.getPath());
+        JSONObject data = new JSONObject();
+        Integer passed = process.getPassed();
+
+        if (passed + 1 == path.length()) {
+
+        } else {
+
+        }
     }
 }
