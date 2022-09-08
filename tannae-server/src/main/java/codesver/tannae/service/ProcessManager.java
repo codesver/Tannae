@@ -112,7 +112,7 @@ public class ProcessManager {
                             break;
                         }
                     }
-                    if (isInsideAfterEndPoint(path, dx, dy) && !isAvailable) {
+                    if (!isAvailable && isInsideAfterEndPoint(path, dx, dy)) {
                         editPath(dto, process, path, i + 1, path.length());
                         isAvailable = true;
                     }
@@ -168,7 +168,7 @@ public class ProcessManager {
         log.info("[SERVICE-PROCESS-MANAGER {} : EDIT_PATH] Add origin and destination into path index {} and {}", Thread.currentThread().getId(), i, j);
 
         List<Object> list = path.toList();
-        list.add(j, editor.createPoint(dto.getDestination(), dto.getDestinationLongitude(), dto.getOriginLatitude(), dto.getUsn()));
+        list.add(j, editor.createPoint(dto.getDestination(), dto.getDestinationLongitude(), dto.getDestinationLatitude(), dto.getUsn()));
         list.add(i, editor.createPoint(dto.getOrigin(), dto.getOriginLongitude(), dto.getOriginLatitude(), dto.getUsn()));
         process.setPath(new JSONArray(list).toString());
 

@@ -29,7 +29,7 @@ public class RequestHandler {
     private final Guider guider;
 
     public DRO<Process> handleRequest(ServiceRequestDTO dto) {
-        log.info("[SERVICE-REQUEST-HANDLER {} : PROCESS_REQUEST] Handling new request={}", Thread.currentThread().getId(), dto);
+        log.info("[SERVICE-REQUEST-HANDLER {} : PROCESS_REQUEST] Handling new request from={}", Thread.currentThread().getId(), dto.getId());
         DRO<Process> dro = dto.getShare() ? handleShareRequest(dto) : handleNonShareRequest(dto);
         log.info("[SERVICE-REQUEST-HANDLER {} : PROCESS_REQUEST_RESULT] RESPONSE DRO FLAG={}", Thread.currentThread().getId(), dro.getFlag());
         return dro;

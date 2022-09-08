@@ -43,7 +43,8 @@ public class VehicleFinder {
             }
         }
 
-        log.info("[SERVICE-VEHICLE-FINDER {} : FIND_NEAREST_VEHICLE_RESULT] Nearest vehicle={}", Thread.currentThread().getId(), nearestVehicle);
+        assert nearestVehicle != null;
+        log.info("[SERVICE-VEHICLE-FINDER {} : FIND_NEAREST_VEHICLE_RESULT] Nearest vehicle {}", Thread.currentThread().getId(), nearestVehicle.getVsn());
         return new DRO<>(1, nearestVehicle);
     }
 }

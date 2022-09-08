@@ -14,41 +14,20 @@ import org.springframework.stereotype.Service;
 public class PathEditor {
 
     public JSONArray createPath(Vehicle vehicle, ServiceRequestDTO dto) {
-        log.info("[SERVICE-SUMMARY-EDITOR {} : CREATE_PATH] Creating new path", Thread.currentThread().getId());
+        log.info("[SERVICE-PATH-EDITOR {} : CREATE_PATH] Creating new path", Thread.currentThread().getId());
 
         JSONArray path = new JSONArray()
                 .put(createPoint("차량 시작 지점", vehicle.getLongitude(), vehicle.getLatitude(), -1))
                 .put(createPoint(dto.getOrigin(), dto.getOriginLongitude(), dto.getOriginLatitude(), dto.getUsn()))
                 .put(createPoint(dto.getDestination(), dto.getDestinationLongitude(), dto.getDestinationLatitude(), dto.getUsn()));
 
-        log.info("[SERVICE-SUMMARY-EDITOR {} : CREATE_PATH_RESULT] New path created={}", Thread.currentThread().getId(), path);
+        log.info("[SERVICE-PATH-EDITOR {} : CREATE_PATH_RESULT] New path created={}", Thread.currentThread().getId(), path);
         return path;
     }
 
-    public void editSummary(JSONObject summary, JSONArray sections, JSONObject result) {
-        log.info("[SERVICE-SUMMARY-EDITOR {} : EDIT_SUMMARY] Editing summary", Thread.currentThread().getId());
-
-        JSONObject toWaypoint = sections.getJSONObject(0);
-        JSONObject toDestination = sections.getJSONObject(1);
-
-        int fare = result.getJSONObject("summary").getJSONObject("fare").getInt("taxi");
-        int distance = result.getJSONObject("summary").getInt("distance");
-
-        summary.getJSONArray("waypoints")
-                .getJSONObject(0)
-                .put("fare", (int) (toWaypoint.getInt("distance") / (double) distance * fare))
-                .put("distance", toWaypoint.getInt("distance"))
-                .put("duration", toWaypoint.getInt("duration"));
-
-        summary.getJSONObject("destination")
-                .put("fare", (int) (toDestination.getInt("distance") / (double) distance * fare))
-                .put("distance", toDestination.getInt("distance"))
-                .put("duration", toDestination.getInt("duration"));
-
-        log.info("[SERVICE-SUMMARY-EDITOR {} : EDIT_SUMMARY_RESULT] Summary edited={}", Thread.currentThread().getId(), summary);
-    }
-
     public void addResultToPath(JSONArray path, JSONArray sections, JSONObject result) {
+        log.info("[SERVICE-PATH-EDITOR {} : ADD_RESULT_TO_PATH] Adding result to path", Thread.currentThread().getId());
+
         JSONObject summary = result.getJSONObject("summary");
         int totalFare = summary.getJSONObject("fare").getInt("taxi");
         int totalDistance = summary.getInt("distance");
@@ -60,16 +39,18 @@ public class PathEditor {
             point.put("duration", toPoint.getInt("duration"));
             point.put("fare", (int) (point.getInt("distance") / (double) totalDistance * totalFare));
         }
+
+        log.info("[SERVICE-PATH-EDITOR {} : ADD_RESULT_TO_PATH_RESULT] Added result to path={}", Thread.currentThread().getId(), path);
     }
 
     public JSONArray pathFromSummary(JSONObject summary) {
-        log.info("[SERVICE-SUMMARY-EDITOR {} : SUMMARY_TO_PATH] Extracting path from summary", Thread.currentThread().getId());
+        log.info("[SERVICE-PATH-EDITOR {} : PATH_FROM_SUMMARY] Extracting path from summary", Thread.currentThread().getId());
 
         JSONArray path = new JSONArray().put(summary.getJSONObject("origin"))
                 .putAll(summary.getJSONArray("waypoints"))
                 .put(summary.getJSONObject("destination"));
 
-        log.info("[SERVICE-SUMMARY-EDITOR :{}  SUMMARY_TO_PATH_RESULT] Extracted path={}", Thread.currentThread().getId(), path);
+        log.info("[SERVICE-PATH-EDITOR :{}  PATH_FROM_SUMMARY_RESULT] Extracted path={}", Thread.currentThread().getId(), path);
         return path;
     }
 
