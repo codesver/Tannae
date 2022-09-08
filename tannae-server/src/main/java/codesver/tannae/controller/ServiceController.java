@@ -4,6 +4,7 @@ import codesver.tannae.domain.DRO;
 import codesver.tannae.domain.Process;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.dto.ServiceResponseDTO;
+import codesver.tannae.repository.process.ProcessRepository;
 import codesver.tannae.service.RequestHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,8 @@ public class ServiceController {
     private final SimpMessageSendingOperations smso;
     private final RequestHandler processor;
 
+    private final ProcessRepository processRepository;
+
     @PostMapping("/request")
     public ServiceResponseDTO request(@RequestBody ServiceRequestDTO requestDTO) {
         log.info("[CONTROLLER-SERVICE {} : REQUEST ] /service/request body={}", Thread.currentThread().getId(), requestDTO);
@@ -45,5 +48,12 @@ public class ServiceController {
         log.info("[SOCKET-CONTROLLER-SERVICE {} : REQUEST] Request={}", Thread.currentThread().getId(), payload);
         JSONObject message = new JSONObject(payload);
         smso.convertAndSend("/sub/vehicle/" + message.getInt("vsn"), message.toString());
+    }
+
+    @MessageMapping("/transfer")
+    public void transfer(@Payload String vsns) {
+        log.info("[SOCKET-CONTROLLER-SERVICE {} : TRANSFER] Transfer vehicle {} to next point", Thread.currentThread().getId(), vsns);
+        int vsn = Integer.parseInt(vsns);
+        processRepositor
     }
 }

@@ -37,4 +37,10 @@ public class ProcessJpaRepository implements ProcessRepository {
         Optional<Process> optionalProcess = repository.findProcessByPsn(process.getPsn());
         optionalProcess.orElse(null).setPath(process.getPath());
     }
+
+    @Override
+    public Optional<Process> findProcessByVsn(int vsn) {
+        
+        return Optional.empty();
+    }
 }

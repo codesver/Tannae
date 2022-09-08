@@ -11,4 +11,6 @@ public interface ProcessSpringDataJpaRepository extends JpaRepository<Process, I
     List<Process> findProcessesByGenderAndShareAndVehicle_NumLessThan(boolean gender, boolean share, int num);
 
     Optional<Process> findProcessByPsn(int psn);
+
+    Optional<Process> findProcessByVehicle_Vsn(int vsn);
 }
