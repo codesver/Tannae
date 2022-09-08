@@ -34,13 +34,15 @@ public class ProcessJpaRepository implements ProcessRepository {
 
     @Override
     public void updatePath(Process process) {
+        log.info("[REPOSITORY-PROCESS {} : UPDATE_PATH] UPDATE PROCESS SET PATH={} WHERE PSN={}", Thread.currentThread().getId(), process.getPath(), process.getPsn());
         Optional<Process> optionalProcess = repository.findProcessByPsn(process.getPsn());
-        optionalProcess.orElse(null).setPath(process.getPath());
+        optionalProcess.get().setPath(process.getPath());
+        log.info("[REPOSITORY-PROCESS {} : UPDATE_PATH_RESULT] UPDATED", Thread.currentThread().getId());
     }
 
     @Override
     public Optional<Process> findProcessByVsn(int vsn) {
-        
+
         return Optional.empty();
     }
 }
