@@ -230,7 +230,7 @@ public class NavigationActivity extends AppCompatActivity {
         } else if (flag == -1) {
             Toaster.toast(NavigationActivity.this, "이용 가능한 차량이 없습니다.\n다음에 다시 이용해주세요.");
             startActivity(new Intent(NavigationActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-        } else if (flag == 1) {
+        } else {
             setting();
             setVisibility();
             connectStomp(responseDTO.getVsn());
