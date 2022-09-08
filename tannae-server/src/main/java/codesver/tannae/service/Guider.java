@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class Guider {
 
     public JSONArray createGuider(JSONArray sections, JSONArray path) {
-        log.info("[SERVICE-GUIDER {} : CREATE PATH] Creating guider", Thread.currentThread().getId());
+        log.info("[SERVICE-GUIDER {} : CREATE_GUIDER] Creating guider", Thread.currentThread().getId());
 
         JSONArray guider = new JSONArray();
         for (int i = 0; i < sections.length(); i++) {
@@ -28,7 +28,7 @@ public class Guider {
             }
         }
 
-        log.info("[SERVICE-GUIDER {} : CREATE PATH_RESULT] Created guider={}", Thread.currentThread().getId(), guider);
+        log.info("[SERVICE-GUIDER {} : CREATE_GUIDER_RESULT] Created guider={}", Thread.currentThread().getId(), guider);
         return guider;
     }
 }
