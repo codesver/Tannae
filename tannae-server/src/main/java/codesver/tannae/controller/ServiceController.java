@@ -54,25 +54,31 @@ public class ServiceController {
     }
 
     @MessageMapping("/transfer")
-    public void transfer(@Payload String vsns) {
-        log.info("[SOCKET-CONTROLLER-SERVICE {} : TRANSFER] Transfer vehicle {} to next point", Thread.currentThread().getId(), vsns);
-        int vsn = Integer.parseInt(vsns);
+    public void transfer(@Payload String requestMessage) {
+        log.info("[SOCKET-CONTROLLER-SERVICE {} : TRANSFER] Transfer vehicle to next point", Thread.currentThread().getId());
+
+        JSONObject request = new JSONObject(requestMessage);
+        int vsn = request.getInt("vsn");
+        JSONArray guider = new JSONArray(request.getString("guider"));
+
+        // Change guider to new guider
+
         Optional<Process> optionalProcess = processRepository.increasePassed(vsn);
         Process process = optionalProcess.get();
         JSONArray path = new JSONArray(process.getPath());
-        JSONObject data = new JSONObject();
+        JSONObject response = new JSONObject();
         Integer passed = process.getPassed();
 
         if (passed + 1 == path.length()) {
 
         } else {
-            data.put("flag", 0)
+            response.put("flag", 0)
                     .put("vsn", vsn)
                     .put("usn", path.getJSONObject(passed).getInt("usn"))
                     .put("type", path.getJSONObject(passed).getBoolean("type"))
                     .put("path", path.toString())
+                    .put("guider", guider.toString())
                     .put("passed", passed);
-            // Code from here -> Should add Guider attribute in Process table Or Client can send guider (When drawing guider save next guider)
         }
     }
 }
