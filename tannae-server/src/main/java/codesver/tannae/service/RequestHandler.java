@@ -39,15 +39,15 @@ public class RequestHandler {
         log.info("[SERVICE-REQUEST-HANDLER {} : HANDLE_SHARE_REQUEST] Handling share request gender={}", Thread.currentThread().getId(), dto.getGender());
 
         DRO<Process> dro = manager.findProcess(dto);
-        if (dro.getFlag() == 2) {
-            return handleNonShareRequest(dto);
-        } else {
+        if (dro.getFlag() == 2)
+            dro = handleNonShareRequest(dto);
+        else {
             Process process = dro.get();
             JSONObject summary = editor.summaryFromPath(new JSONArray(process.getPath()), process.getPassed());
             JSONObject response = requester.request(summary);
             dro = handleShareResponse(dto, process, summary, response);
-            return new DRO<>(0);
         }
+        return dro;
     }
 
     private DRO<Process> handleNonShareRequest(ServiceRequestDTO dto) {
@@ -78,8 +78,11 @@ public class RequestHandler {
             JSONArray sections = result.getJSONArray("sections");
             JSONArray path = editor.pathFromSummary(summary);
             editor.addResultToPath(path, sections, result);
-            manager.mergeResultToPath(process, path);
-            // Code from here (Update database)
+            manager.mergePathToProcess(process, path);
+            processRepository.updatePath(process);
+            vehicleRepository.addNum(process.getVehicle().getVsn());
+            userRepository.changeBoardState(dto.getUsn());
+            dro = new DRO<>(3, process, guider.createGuider(sections, path));
         } else
             dro = new DRO<>(-2);
 

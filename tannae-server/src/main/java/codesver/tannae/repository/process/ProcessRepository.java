@@ -9,4 +9,6 @@ public interface ProcessRepository {
     void save(Process process);
 
     List<Process> findByGenderShare(boolean gender, boolean share);
+
+    void updatePath(Process process);
 }

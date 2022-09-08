@@ -48,7 +48,7 @@ public class ProcessManager {
         return new DRO<>(2);
     }
 
-    public void mergeResultToPath(Process process, JSONArray path) {
+    public void mergePathToProcess(Process process, JSONArray path) {
         JSONArray totalPath = new JSONArray(process.getPath());
         JSONArray mergedPath = new JSONArray();
         Integer passed = process.getPassed();

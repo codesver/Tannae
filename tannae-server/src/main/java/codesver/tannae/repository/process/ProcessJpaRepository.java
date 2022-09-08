@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Repository
@@ -29,5 +30,11 @@ public class ProcessJpaRepository implements ProcessRepository {
         List<Process> processes = repository.findProcessesByGenderAndShareAndVehicle_NumLessThan(gender, share, 3);
         log.info("[REPOSITORY-PROCESS {} : FIND_BY_GENDER_SHARE_RESULT] FOUND PROCESS NUM={}", Thread.currentThread().getId(), processes.size());
         return processes;
+    }
+
+    @Override
+    public void updatePath(Process process) {
+        Optional<Process> optionalProcess = repository.findProcessByPsn(process.getPsn());
+        optionalProcess.orElse(null).setPath(process.getPath());
     }
 }
