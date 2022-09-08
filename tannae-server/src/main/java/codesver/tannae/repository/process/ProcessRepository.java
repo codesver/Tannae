@@ -13,5 +13,5 @@ public interface ProcessRepository {
 
     void updatePath(Process process);
 
-    Optional<Process> findProcessByVsn(int vsn);
+    Optional<Process> increasePassed(int vsn);
 }

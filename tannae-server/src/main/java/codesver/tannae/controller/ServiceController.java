@@ -54,6 +54,5 @@ public class ServiceController {
     public void transfer(@Payload String vsns) {
         log.info("[SOCKET-CONTROLLER-SERVICE {} : TRANSFER] Transfer vehicle {} to next point", Thread.currentThread().getId(), vsns);
         int vsn = Integer.parseInt(vsns);
-        processRepositor
     }
 }

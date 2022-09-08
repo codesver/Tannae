@@ -41,9 +41,11 @@ public class ProcessJpaRepository implements ProcessRepository {
     }
 
     @Override
-    public Optional<Process> findProcessByVsn(int vsn) {
+    public Optional<Process> increasePassed(int vsn) {
         log.info("[REPOSITORY_PROCESS {} : FIND_PROCESS_BY_VSN] SELECT * FROM PROCESS WHERE VSN={}", Thread.currentThread().getId(), vsn);
         Optional<Process> optionalProcess = repository.findProcessByVehicle_Vsn(vsn);
+        Process process = optionalProcess.get();
+        process.setPassed(process.getPassed() + 1);
         log.info("[REPOSITORY_PROCESS {} : FIND_PROCESS_BY_VSN] FOUND PROCESS={}", Thread.currentThread().getId(), optionalProcess.get());
         return optionalProcess;
     }
