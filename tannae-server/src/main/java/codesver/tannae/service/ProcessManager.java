@@ -39,13 +39,22 @@ public class ProcessManager {
         log.info("[SERVICE-PROCESS-MANAGER {} : FIND_PROCESSES] Find processes gender={} share={}", Thread.currentThread().getId(), dto.getGender(), dto.getShare());
 
         List<Process> processes = processRepository.findByGenderShare(dto.getGender(), dto.getShare());
+        DRO<Process> processDRO = new DRO<>();
+
         if (!processes.isEmpty()) {
             sortProcessList(processes, dto.getOriginLatitude(), dto.getOriginLongitude());
             for (Process process : processes)
-                if (availableCoordinate(dto, process))
-                    return new DRO<>(3, process);
+                if (availableCoordinate(dto, process)) {
+                    processDRO = new DRO<>(3, process);
+                    break;
+                }
         }
-        return new DRO<>(2);
+
+        if (!processDRO.isPresent())
+            processDRO = new DRO<>(2);
+
+        log.info("[SERVICE-PROCESS-MANAGER {} : FIND_PROCESSES] Find processes gender={} share={}", Thread.currentThread().getId(), dto.getGender(), dto.getShare());
+        return processDRO;
     }
 
     public void mergePathToProcess(Process process, JSONArray path) {

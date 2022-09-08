@@ -67,11 +67,11 @@ public class UserJpaRepository implements UserRepository {
     }
 
     @Override
-    public void changeBoardState(Integer usn) {
+    public void changeBoardState(Integer usn, boolean state) {
         log.info("[REPOSITORY-USER {} : CHANGE_BOARD_STATE] UPDATE USER SET BOARD={} WHERE USN={}", Thread.currentThread().getId(), true, usn);
         Optional<User> userOptional = repository.findUserByUsn(usn);
         User user = userOptional.get();
-        user.setBoard(true);
+        user.setBoard(state);
         log.info("[REPOSITORY-USER {} : CHANGE_BOARD_STATE_RESULT] BOARD STATE={}", Thread.currentThread().getId(), true);
     }
 }

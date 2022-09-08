@@ -55,7 +55,7 @@ public class PathEditor {
     }
 
     public JSONObject summaryFromPath(JSONArray path, int passed) {
-        log.info("[SERVICE-SUMMARY-EDITOR {} : SUMMARY_FROM_PATH] Extracting summary from path", Thread.currentThread().getId());
+        log.info("[SERVICE-PATH-EDITOR {} : SUMMARY_FROM_PATH] Extracting summary from path", Thread.currentThread().getId());
 
         JSONObject summary = new JSONObject()
                 .put("origin", path.getJSONObject(passed + 1))
@@ -66,19 +66,19 @@ public class PathEditor {
             waypoints.put(path.getJSONObject(i));
         summary.put("waypoints", waypoints);
 
-        log.info("[SERVICE-SUMMARY-EDITOR {} : SUMMARY_FROM_PATH_RESULT] Extracted summary={}", Thread.currentThread().getId(), summary);
+        log.info("[SERVICE-PATH-EDITOR {} : SUMMARY_FROM_PATH_RESULT] Extracted summary={}", Thread.currentThread().getId(), summary);
         return summary;
     }
 
     public JSONObject createPoint(String name, double x, double y, int usn) {
-        log.info("[SERVICE-SUMMARY-EDITOR {} : CREATE_POINT] Creating new point NAME={} X={} Y={} USN={}",
+        log.info("[SERVICE-PATH-EDITOR {} : CREATE_POINT] Creating new point NAME={} X={} Y={} USN={}",
                 Thread.currentThread().getId(), name, x, y, usn);
 
         JSONObject point = new JSONObject().put("name", name)
                 .put("x", x).put("y", y).put("fare", 0)
                 .put("usn", usn).put("distance", 0).put("duration", 0);
 
-        log.info("[SERVICE-SUMMARY-EDITOR {} : CREATE_POINT_RESULT] New point created", Thread.currentThread().getId());
+        log.info("[SERVICE-PATH-EDITOR {} : CREATE_POINT_RESULT] New point created", Thread.currentThread().getId());
         return point;
     }
 }

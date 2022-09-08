@@ -10,6 +10,10 @@ public class DRO<T> {
     private Optional<T> option;
     private JSONArray guider;
 
+    public DRO() {
+        option = Optional.empty();
+    }
+
     public DRO(int flag) {
         this.flag = flag;
         option = Optional.empty();

@@ -18,5 +18,5 @@ public interface UserRepository {
 
     Integer chargePoint(Integer usn, Integer point);
 
-    void changeBoardState(Integer usn);
+    void changeBoardState(Integer usn, boolean state);
 }

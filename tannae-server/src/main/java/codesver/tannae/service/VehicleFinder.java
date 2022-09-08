@@ -21,7 +21,7 @@ public class VehicleFinder {
         log.info("[SERVICE-VEHICLE-FINDER {} : FIND_VEHICLE] Finding vehicle for user={}", Thread.currentThread().getId(), dto.getId());
 
         List<Vehicle> vehicles = vehicleRepository.findNewVehicle(true, 0);
-        DRO<Vehicle> dro = vehicles.isEmpty() ? new DRO<>(0) : findNearestVehicle(vehicles, dto);
+        DRO<Vehicle> dro = vehicles.isEmpty() ? new DRO<>(-1) : findNearestVehicle(vehicles, dto);
 
         log.info("[SERVICE-VEHICLE-FINDER {} : FIND_VEHICLE_RESULT] Founded vehicle={}", Thread.currentThread().getId(), dro.isPresent() ? dro.get() : "Not founded");
         return dro;
