@@ -108,7 +108,7 @@ public class ProcessManager {
             if (isInside(ox, oy, fx, fy, bx, by)) {
                 if (isInside(dx, dy, fx, fy, bx, by)) {
                     if (destinationIsFurther(ox, oy, dx, dy, fx, fy)) {
-                        editPath(dto, process, path, i + 1, i + 1);
+                        editor.editPath(dto, process, path, i + 1, i + 1);
                         isAvailable = true;
                     }
                 } else {
@@ -116,13 +116,13 @@ public class ProcessManager {
                         frontPoint = path.getJSONObject(j);
                         backPoint = path.getJSONObject(j + 1);
                         if (isInside(dx, dy, frontPoint.getDouble("x"), frontPoint.getDouble("y"), backPoint.getDouble("x"), backPoint.getDouble("y"))) {
-                            editPath(dto, process, path, i + 1, j + 1);
+                            editor.editPath(dto, process, path, i + 1, j + 1);
                             isAvailable = true;
                             break;
                         }
                     }
                     if (!isAvailable && isInsideAfterEndPoint(path, dx, dy)) {
-                        editPath(dto, process, path, i + 1, path.length());
+                        editor.editPath(dto, process, path, i + 1, path.length());
                         isAvailable = true;
                     }
                 }
@@ -171,16 +171,5 @@ public class ProcessManager {
 
         log.info("[SERVICE-PROCESS-MANAGER {} : IS_INSIDE_AFTER_END_POINT] End point angle={}", Thread.currentThread().getId(), angle);
         return angle < 22.5;
-    }
-
-    private void editPath(ServiceRequestDTO dto, Process process, JSONArray path, int i, int j) {
-        log.info("[SERVICE-PROCESS-MANAGER {} : EDIT_PATH] Add origin and destination into path index {} and {}", Thread.currentThread().getId(), i, j);
-
-        List<Object> list = path.toList();
-        list.add(j, editor.createPoint(dto.getDestination(), dto.getDestinationLongitude(), dto.getDestinationLatitude(), dto.getUsn()));
-        list.add(i, editor.createPoint(dto.getOrigin(), dto.getOriginLongitude(), dto.getOriginLatitude(), dto.getUsn()));
-        process.setPath(new JSONArray(list).toString());
-
-        log.info("[SERVICE-PROCESS-MANAGER {} : EDIT_PATH_RESULT] Process path edited={}", Thread.currentThread().getId(), process.getPath());
     }
 }

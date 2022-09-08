@@ -1,5 +1,6 @@
 package codesver.tannae.service;
 
+import codesver.tannae.domain.Process;
 import codesver.tannae.domain.Vehicle;
 import codesver.tannae.dto.ServiceRequestDTO;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -17,9 +20,9 @@ public class PathEditor {
         log.info("[SERVICE-PATH-EDITOR {} : CREATE_PATH] Creating new path", Thread.currentThread().getId());
 
         JSONArray path = new JSONArray()
-                .put(createPoint("차량 시작 지점", vehicle.getLongitude(), vehicle.getLatitude(), -1))
-                .put(createPoint(dto.getOrigin(), dto.getOriginLongitude(), dto.getOriginLatitude(), dto.getUsn()))
-                .put(createPoint(dto.getDestination(), dto.getDestinationLongitude(), dto.getDestinationLatitude(), dto.getUsn()));
+                .put(createPoint("차량 시작 지점", vehicle.getLongitude(), vehicle.getLatitude(), -1, false))
+                .put(createPoint(dto.getOrigin(), dto.getOriginLongitude(), dto.getOriginLatitude(), dto.getUsn(), true))
+                .put(createPoint(dto.getDestination(), dto.getDestinationLongitude(), dto.getDestinationLatitude(), dto.getUsn(), false));
 
         log.info("[SERVICE-PATH-EDITOR {} : CREATE_PATH_RESULT] New path created={}", Thread.currentThread().getId(), path);
         return path;
@@ -70,12 +73,23 @@ public class PathEditor {
         return summary;
     }
 
-    public JSONObject createPoint(String name, double x, double y, int usn) {
+    public void editPath(ServiceRequestDTO dto, Process process, JSONArray path, int i, int j) {
+        log.info("[SERVICE-PATH-EDITOR {} : EDIT_PATH] Add origin and destination into path index {} and {}", Thread.currentThread().getId(), i, j);
+
+        List<Object> list = path.toList();
+        list.add(j, createPoint(dto.getDestination(), dto.getDestinationLongitude(), dto.getDestinationLatitude(), dto.getUsn(), false));
+        list.add(i, createPoint(dto.getOrigin(), dto.getOriginLongitude(), dto.getOriginLatitude(), dto.getUsn(), true));
+        process.setPath(new JSONArray(list).toString());
+
+        log.info("[SERVICE-PATH-EDITOR {} : EDIT_PATH_RESULT] Process path edited={}", Thread.currentThread().getId(), process.getPath());
+    }
+
+    private JSONObject createPoint(String name, double x, double y, int usn, boolean type) {
         log.info("[SERVICE-PATH-EDITOR {} : CREATE_POINT] Creating new point NAME={} X={} Y={} USN={}",
                 Thread.currentThread().getId(), name, x, y, usn);
 
         JSONObject point = new JSONObject().put("name", name)
-                .put("x", x).put("y", y).put("fare", 0)
+                .put("x", x).put("y", y).put("fare", 0).put("type", type)
                 .put("usn", usn).put("distance", 0).put("duration", 0);
 
         log.info("[SERVICE-PATH-EDITOR {} : CREATE_POINT_RESULT] New point created", Thread.currentThread().getId());
