@@ -283,7 +283,6 @@ public class NavigationActivity extends AppCompatActivity {
             SharedPreferences getter = InnerDB.getter(getApplicationContext());
             JSONObject request = new JSONObject()
                     .put("vsn", getter.getInt("vsn", 0))
-                    .put("path", getter.getString("path", null))
                     .put("guides", getter.getString("guides", null));
             Network.stomp.send("/pub/transfer", request.toString()).subscribe();
         } catch (JSONException e) {
