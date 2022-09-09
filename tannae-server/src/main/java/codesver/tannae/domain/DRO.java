@@ -8,7 +8,7 @@ import java.util.Optional;
 public class DRO<T> {
     private int flag;
     private Optional<T> option;
-    private JSONArray guider;
+    private JSONArray guides;
 
     public DRO() {
         option = Optional.empty();
@@ -27,7 +27,7 @@ public class DRO<T> {
     public DRO(int flag, T t, JSONArray guides) {
         this.flag = flag;
         option = Optional.of(t);
-        this.guider = guides;
+        this.guides = guides;
     }
 
     public DRO<T> setFlag(int flag) {
@@ -43,8 +43,8 @@ public class DRO<T> {
         return option.orElse(null);
     }
 
-    public JSONArray getGuider() {
-        return guider;
+    public JSONArray getGuides() {
+        return guides;
     }
 
     public boolean isPresent() {

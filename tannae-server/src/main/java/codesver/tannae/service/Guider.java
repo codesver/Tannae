@@ -11,42 +11,42 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class Guider {
 
-    public JSONArray createGuider(JSONArray sections, JSONArray path) {
-        log.info("[SERVICE-GUIDER {} : CREATE_GUIDER] Creating guider", Thread.currentThread().getId());
+    public JSONArray creatGuides(JSONArray sections, JSONArray path) {
+        log.info("[SERVICE-GUIDES {} : CREATE_GUIDES] Creating guides", Thread.currentThread().getId());
 
-        JSONArray guider = new JSONArray();
+        JSONArray guides = new JSONArray();
         for (int i = 0; i < sections.length(); i++) {
             JSONObject section = sections.getJSONObject(i);
-            JSONArray guides = section.getJSONArray("guides");
-            for (int j = 0; j < guides.length() - 1; j++) {
-                JSONObject guide = j == 0 ? path.getJSONObject(i) : guides.getJSONObject(j);
-                guider.put(new JSONObject().put("x", guide.get("x")).put("y", guide.get("y")).put("major", j == 0));
-                if (i == sections.length() - 1 && j == guides.length() - 2) {
+            JSONArray sectionGuides = section.getJSONArray("guides");
+            for (int j = 0; j < sectionGuides.length() - 1; j++) {
+                JSONObject guide = j == 0 ? path.getJSONObject(i) : sectionGuides.getJSONObject(j);
+                guides.put(new JSONObject().put("x", guide.get("x")).put("y", guide.get("y")).put("major", j == 0));
+                if (i == sections.length() - 1 && j == sectionGuides.length() - 2) {
                     guide = path.getJSONObject(path.length() - 1);
-                    guider.put(new JSONObject().put("x", guide.get("x")).put("y", guide.get("y")).put("major", true));
+                    guides.put(new JSONObject().put("x", guide.get("x")).put("y", guide.get("y")).put("major", true));
                 }
             }
         }
 
-        log.info("[SERVICE-GUIDER {} : CREATE_GUIDER_RESULT] Created guider={}", Thread.currentThread().getId(), guider);
-        return guider;
+        log.info("[SERVICE-GUIDES {} : CREATE_GUIDES_RESULT] Created guides={}", Thread.currentThread().getId(), guides);
+        return guides;
     }
 
-    public JSONArray updateGuider(JSONArray guider) {
-        log.info("[SERVICE-GUIDER {} : UPDATE_GUIDER] Updating guider", Thread.currentThread());
+    public JSONArray updatesGuides(JSONArray guides) {
+        log.info("[SERVICE-GUIDES {} : UPDATE_GUIDES] Updating guides", Thread.currentThread());
 
         boolean isNext = false;
-        JSONArray nextGuider = new JSONArray();
+        JSONArray nextGuides = new JSONArray();
 
-        for (int i = 0; i < guider.length(); i++) {
-            JSONObject guide = guider.getJSONObject(i);
+        for (int i = 0; i < guides.length(); i++) {
+            JSONObject guide = guides.getJSONObject(i);
             if (guide.getBoolean("major") && i != 0)
                 isNext = true;
             if (isNext)
-                nextGuider.put(guide);
+                nextGuides.put(guide);
         }
 
-        log.info("[SERVICE-GUIDER {} : UPDATE_GUIDER_RESULT] Updated guider", Thread.currentThread());
-        return nextGuider;
+        log.info("[SERVICE-GUIDES {} : UPDATE_GUIDES_RESULT] Updated guides", Thread.currentThread());
+        return nextGuides;
     }
 }

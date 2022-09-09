@@ -15,7 +15,7 @@ public class ServiceResponseDTO {
     private int vsn;
     private int usn;
     private String path;
-    private String guider;
+    private String guides;
     private Integer passed;
 
     public ServiceResponseDTO(int flag) {

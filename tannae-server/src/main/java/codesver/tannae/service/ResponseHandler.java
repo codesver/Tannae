@@ -39,7 +39,7 @@ public class ResponseHandler {
             editor.addResultToPath(path, sections, result);
             manager.mergePathToProcess(process, path);
             updateByShareResponse(dto, process);
-            dro = new DRO<>(3, process, guider.createGuider(sections, path));
+            dro = new DRO<>(3, process, guider.creatGuides(sections, path));
         } else
             dro = new DRO<>(-2);
 
@@ -59,7 +59,7 @@ public class ResponseHandler {
             editor.addResultToPath(path, sections, result);
             Process process = manager.createProcess(dto, vehicle, path);
             updateByNonShareResponse(dto, vehicle, process);
-            processDRO = new DRO<>(0, process, guider.createGuider(sections, path)).setFlag(dto.getShare() ? 2 : 1);
+            processDRO = new DRO<>(0, process, guider.creatGuides(sections, path)).setFlag(dto.getShare() ? 2 : 1);
         } else
             processDRO = new DRO<>(-2);
 

@@ -40,7 +40,7 @@ public class ServiceController {
         DRO<Process> dro = processor.handleRequest(requestDTO);
         Process process = dro.get();
         return dro.getFlag() > 0 ? new ServiceResponseDTO(dro.getFlag(), process.getVehicle().getVsn(), requestDTO.getUsn(),
-                process.getPath(), dro.getGuider().toString(), process.getPassed())
+                process.getPath(), dro.getGuides().toString(), process.getPassed())
                 : new ServiceResponseDTO(dro.getFlag());
     }
 
@@ -62,9 +62,9 @@ public class ServiceController {
 
         JSONObject request = new JSONObject(requestMessage);
         int vsn = request.getInt("vsn");
-        JSONArray guider = new JSONArray(request.getString("guider"));
+        JSONArray guides = new JSONArray(request.getString("guides"));
 
-        // Change guider to new guider
+        // Change guides to nextGuides
 
         Optional<Process> optionalProcess = processRepository.increasePassed(vsn);
         Process process = optionalProcess.get();
@@ -80,7 +80,7 @@ public class ServiceController {
                     .put("usn", path.getJSONObject(passed).getInt("usn"))
                     .put("type", path.getJSONObject(passed).getBoolean("type"))
                     .put("path", path.toString())
-                    .put("guider", guider.toString())
+                    .put("guides", guides.toString())
                     .put("passed", passed);
         }
     }

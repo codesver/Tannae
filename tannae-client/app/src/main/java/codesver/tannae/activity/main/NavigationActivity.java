@@ -94,7 +94,7 @@ public class NavigationActivity extends AppCompatActivity {
         int usn = data.getInt("usn");
         boolean type = data.getBoolean("type");
         JSONArray path = new JSONArray(data.getString("path"));
-        JSONArray guider = new JSONArray(data.getString("guider"));
+        JSONArray guides = new JSONArray(data.getString("guides"));
         int passed = data.getInt("passed");
 
         int innerUsn = getter.getInt("usn", 0);
@@ -148,19 +148,19 @@ public class NavigationActivity extends AppCompatActivity {
         buttonTransfer.setEnabled(true);
         buttonTransfer.setTextColor(Color.parseColor("#127CEA"));
         Toaster.toast(getApplicationContext(), toast);
-        drawGuide(guider);
+        drawGuide(guides);
         drawPath(path, passed);
     }
 
-    private void drawGuide(JSONArray guider) throws JSONException {
+    private void drawGuide(JSONArray guides) throws JSONException {
         mapView.removeAllPolylines();
         mapView.removeAllCircles();
 
         MapPolyline polyline = new MapPolyline();
         polyline.setLineColor(Color.argb(255, 240, 128, 128));
 
-        for (int i = 0; i < guider.length(); i++) {
-            JSONObject point = guider.getJSONObject(i);
+        for (int i = 0; i < guides.length(); i++) {
+            JSONObject point = guides.getJSONObject(i);
             double longitude = point.getDouble("x");
             double latitude = point.getDouble("y");
             polyline.addPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude));
@@ -246,7 +246,7 @@ public class NavigationActivity extends AppCompatActivity {
                     .put("usn", responseDTO.getUsn())
                     .put("type", false)
                     .put("path", responseDTO.getPath())
-                    .put("guider", responseDTO.getGuider())
+                    .put("guides", responseDTO.getGuides())
                     .put("passed", responseDTO.getPassed());
             Network.stomp.send("/pub/request", data.toString()).subscribe();
         } catch (JSONException e) {
