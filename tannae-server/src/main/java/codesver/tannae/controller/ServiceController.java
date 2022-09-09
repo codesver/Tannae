@@ -79,6 +79,7 @@ public class ServiceController {
                     .put("path", path.toString())
                     .put("guides", guider.updatesGuides(new JSONArray(request.getString("guides"))).toString())
                     .put("passed", passed);
+            smso.convertAndSend("/sub/vehicle/" + vsn, response.toString());
         }
     }
 }
