@@ -11,4 +11,8 @@ public interface ProcessRepository {
     List<Process> findByGenderShare(boolean gender, boolean share);
 
     void updatePath(Process process);
+
+    Process increasePassed(int vsn);
+
+    void deleteProcess(int vsn);
 }

@@ -39,4 +39,21 @@ public class ProcessJpaRepository implements ProcessRepository {
         optionalProcess.get().setPath(process.getPath());
         log.info("[REPOSITORY-PROCESS {} : UPDATE_PATH_RESULT] UPDATED", Thread.currentThread().getId());
     }
+
+    @Override
+    public Process increasePassed(int vsn) {
+        log.info("[REPOSITORY-PROCESS {} : INCREASE_PASSED] UPDATE PROCESS SET PASSED = PASSED + 1 WHERE VSN={}", Thread.currentThread().getId(), vsn);
+        Optional<Process> optionalProcess = repository.findProcessByVehicle_Vsn(vsn);
+        Process process = optionalProcess.get();
+        process.setPassed(process.getPassed());
+        log.info("[REPOSITORY-PROCESS {} : INCREASE_PASSED_RESULT] INCREASED PASSED={}", Thread.currentThread().getId(), process.getPassed());
+        return process;
+    }
+
+    @Override
+    public void deleteProcess(int vsn) {
+        log.info("[REPOSITORY-PROCESS {} : DELETE_PROCESS] DELETE FROM PROCESS WHERE VSN={}", Thread.currentThread().getId(), vsn);
+        repository.deleteProcessByVehicle_Vsn(vsn);
+        log.info("[REPOSITORY-PROCESS {} : DELETE_PROCESS_RESULT] DELETED", Thread.currentThread().getId());
+    }
 }

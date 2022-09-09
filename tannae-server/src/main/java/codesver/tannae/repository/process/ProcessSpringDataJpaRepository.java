@@ -13,4 +13,6 @@ public interface ProcessSpringDataJpaRepository extends JpaRepository<Process, I
     Optional<Process> findProcessByPsn(int psn);
 
     Optional<Process> findProcessByVehicle_Vsn(int vsn);
+
+    void deleteProcessByVehicle_Vsn(int vsn);
 }

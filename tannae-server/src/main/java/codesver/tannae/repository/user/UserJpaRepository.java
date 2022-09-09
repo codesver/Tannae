@@ -74,4 +74,12 @@ public class UserJpaRepository implements UserRepository {
         user.setBoard(state);
         log.info("[REPOSITORY-USER {} : CHANGE_BOARD_STATE_RESULT] BOARD STATE={}", Thread.currentThread().getId(), true);
     }
+
+    @Override
+    public void usePoint(int usn, int fare) {
+        log.info("[REPOSITORY-USER {} : USE_POINT] UPDATE USER SET POINT=POINT-{} WHERE USN={}", Thread.currentThread().getId(), fare, usn);
+        User user = repository.findUserByUsn(usn).get();
+        user.setPoint(user.getPoint() - fare);
+        log.info("[REPOSITORY-USER {} : USE_POINT] UPDATE USER SET POINT=POINT-{} WHERE USN={}", Thread.currentThread().getId(), fare, usn);
+    }
 }

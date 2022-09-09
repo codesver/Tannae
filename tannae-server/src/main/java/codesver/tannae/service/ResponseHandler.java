@@ -27,9 +27,9 @@ public class ResponseHandler {
     private final UserRepository userRepository;
     private final HistoryRepository historyRepository;
 
+    private final Guider guider;
     private final PathEditor editor;
     private final ProcessManager manager;
-    private final Guider guider;
     private final NaviRequester requester;
 
     public DRO<Process> handleShareResponse(ServiceRequestDTO dto, Process process, JSONObject summary, JSONObject response) {
@@ -100,8 +100,10 @@ public class ResponseHandler {
                 .put("origin", new JSONObject().put("x", dto.getOriginLongitude()).put("y", dto.getOriginLatitude()))
                 .put("destination", new JSONObject().put("x", dto.getDestinationLongitude()).put("y", dto.getDestinationLatitude()))
                 .put("waypoints", new JSONArray())).getJSONArray("routes").getJSONObject(0).getJSONObject("summary");
+        String time = LocalDateTime.now().toString();
+        time = time.substring(0, time.charAt('.'));
         historyRepository.save(new History(dto.getOrigin(), dto.getOriginLatitude(), dto.getOriginLongitude(),
-                dto.getDestination(), dto.getDestinationLatitude(), dto.getDestinationLongitude(), dto.getShare(), LocalDateTime.now().toString(),
+                dto.getDestination(), dto.getDestinationLatitude(), dto.getDestinationLongitude(), dto.getShare(), time,
                 summary.getJSONObject("fare").getInt("taxi"), summary.getInt("distance"), summary.getInt("duration"),
                 dto.getUsn(), vehicle.getVsn()));
 

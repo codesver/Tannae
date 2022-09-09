@@ -3,6 +3,7 @@ package codesver.tannae.repository.vehicle;
 import codesver.tannae.domain.Vehicle;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,8 +37,8 @@ public class VehicleJpaRepository implements VehicleRepository {
     @Override
     public void updateState(int vsn, boolean gender, boolean share) {
         log.info("[REPOSITORY-VEHICLE {} : ADD_NUM] UPDATE VEHICLE SET NUM = NUM + 1 WHERE VSN={}", Thread.currentThread().getId(), vsn);
-        Optional<Vehicle> byVsn = repository.findByVsn(vsn);
-        Vehicle vehicle = byVsn.get();
+        Optional<Vehicle> optionalVehicle = repository.findById(vsn);
+        Vehicle vehicle = optionalVehicle.get();
         vehicle.setNum(vehicle.getNum() + 1);
         vehicle.setGender(gender);
         vehicle.setShare(share);
@@ -50,5 +51,23 @@ public class VehicleJpaRepository implements VehicleRepository {
         Optional<Vehicle> vehicle = repository.findById(vsn);
         vehicle.get().setRun(run);
         log.info("[REPOSITORY-VEHICLE {} : SWITCH_RUN_RESULT] RUN STATE={}", Thread.currentThread().getId(), run);
+    }
+
+    @Override
+    public Vehicle transfer(int vsn, boolean type, JSONObject point) {
+        log.info("[REPOSITORY-VEHICLE {} : TRANSFER] UPDATE VEHICLE SET LATITUDE={}, LONGITUDE={}, NUM=NUM+{}, RUN=?, GENDER=?, SHARE=?",
+                Thread.currentThread().getId(), point.getDouble("y"), point.getDouble("x"), type ? 1 : -1);
+        Optional<Vehicle> optionalVehicle = repository.findById(vsn);
+        Vehicle vehicle = optionalVehicle.get();
+        vehicle.setLatitude(point.getDouble("y"));
+        vehicle.setLongitude(point.getDouble("x"));
+        int num = vehicle.getNum() + (type ? 1 : -1);
+        vehicle.setNum(num);
+        if (num == 0) {
+            vehicle.setRun(false);
+            vehicle.setGender(null);
+            vehicle.setShare(null);
+        }
+        return vehicle;
     }
 }
