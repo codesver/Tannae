@@ -85,71 +85,23 @@ public class NavigationActivity extends AppCompatActivity {
         Network.stomp.send("/pub/connect", InnerDB.getter(getApplicationContext()).getString("id", "")).subscribe();
     }
 
-    private void mainProcess(String payload) throws JSONException {
-        JSONObject data = new JSONObject(payload);
+    private void mainProcess(String responseMessage) throws JSONException {
+        JSONObject response = new JSONObject(responseMessage);
         SharedPreferences getter = InnerDB.getter(getApplicationContext());
 
-        int flag = data.getInt("flag");
-        int vsn = data.getInt("vsn");
-        int usn = data.getInt("usn");
-        boolean type = data.getBoolean("type");
-        JSONArray path = new JSONArray(data.getString("path"));
-        JSONArray guides = new JSONArray(data.getString("guides"));
-        int passed = data.getInt("passed");
+        int flag = response.getInt("flag");
+        int vsn = response.getInt("vsn");
+        int usn = response.getInt("usn");
+        boolean type = response.getBoolean("type");
+        JSONArray path = new JSONArray(response.getString("path"));
+        JSONArray guides = new JSONArray(response.getString("guides"));
+        int passed = response.getInt("passed");
 
         int innerUsn = getter.getInt("usn", 0);
         boolean driver = getter.getBoolean("driver", false);
         String toast = "";
 
-        switch (flag) {
-            case 0: {   // When vehicle arrives at point
-                if (driver) {
-                    toast = "주요 지점에 도착하였습니다.\n" + (type ? "탑승자가 탑승할 때까지 기다려주세요." : "탑승자가 내릴 때까지 기다려 주세요.");
-                } else {
-                    if (usn == innerUsn) {
-                        toast = type ? "차량이 도착하였습니다.\n탑승해주세요." : "목적지에 도착하였습니다.\n하차해주세요.";
-                    } else {
-                        toast = "주요 지점에 도착하였습니다.\n" + (type ? "탑승자가 탑승할 때까지 기다려주세요." : "탑승자가 내릴 때까지 기다려 주세요.");
-                    }
-                }
-                break;
-            }
-            case 1: {   // Non-share user match
-                if (driver) {
-                    toast = "미동승 탑승자 요청이 들어왔습니다.\n탑승자의 출발지로 이동해주세요.";
-                } else {
-                    toast = "차량이 배차되었습니다.\n탑승 지점에서 기다려주세요.";
-                }
-                break;
-            }
-            case 2: {   // Share user new match
-                if (driver) {
-                    toast = "동승 탑승자 요청이 들어왔습니다.\n탑승자의 출발지로 이동해주세요.";
-                } else {
-                    toast = "차량이 배차되었습니다.\n탑승 지점에서 기다려주세요.";
-                }
-                break;
-            }
-            case 3: {   // Share user match
-                if (driver) {
-                    toast = "추가 탑승자 요청이 들어왔습니다.\n경로가 수정됩니다.";
-                } else {
-                    if (usn == innerUsn) {
-                        toast = "차량이 배차되었습니다.\n탑승 지점에서 기다려주세요.";
-                    } else {
-                        toast = "고객님의 이용 차량에 동승자가 추가되었습니다.";
-                    }
-                }
-                break;
-            }
-        }
 
-        switchRun.setEnabled(false);
-        buttonTransfer.setEnabled(true);
-        buttonTransfer.setTextColor(Color.parseColor("#127CEA"));
-        Toaster.toast(getApplicationContext(), toast);
-        drawGuide(guides);
-        drawPath(path, passed);
     }
 
     private void drawGuide(JSONArray guides) throws JSONException {
