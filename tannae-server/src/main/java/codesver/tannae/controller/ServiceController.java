@@ -64,7 +64,7 @@ public class ServiceController {
         int vsn = request.getInt("vsn");
         JSONArray guides = new JSONArray(request.getString("guides"));
 
-        // Change guides to nextGuides
+        JSONArray nextGuides = guider.updatesGuides(guides);
 
         Optional<Process> optionalProcess = processRepository.increasePassed(vsn);
         Process process = optionalProcess.get();
