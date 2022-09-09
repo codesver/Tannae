@@ -106,7 +106,7 @@ public class NavigationActivity extends AppCompatActivity {
             String toast = "";
 
             if (flag == 0) {
-                
+
             } else {
                 if (flag == 1) {
                     if (driver) {
@@ -279,7 +279,16 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     private void transfer() {
-        Network.stomp.send("/pub/transfer", String.valueOf(InnerDB.getter(getApplicationContext()).getInt("vsn", 0))).subscribe();
+        try {
+            SharedPreferences getter = InnerDB.getter(getApplicationContext());
+            JSONObject request = new JSONObject()
+                    .put("vsn", getter.getInt("vsn", 0))
+                    .put("path", getter.getString("path", null))
+                    .put("guides", getter.getString("guides", null));
+            Network.stomp.send("/pub/transfer", request.toString()).subscribe();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void switchRunByServer(boolean isChecked) {
