@@ -71,7 +71,7 @@ public class ResponseHandler {
         log.info("[SERVICE-RESPONSE-HANDLER {} : UPDATE_BY_SHARE_RESPONSE] Updating database by share response", Thread.currentThread().getId());
 
         processRepository.updatePath(process);
-        vehicleRepository.addNum(process.getVehicle().getVsn());
+        vehicleRepository.updateState(process.getVehicle().getVsn(), dto.getGender(), true);
         userRepository.changeBoardState(dto.getUsn(), true);
 
         log.info("[SERVICE-RESPONSE-HANDLER {} : UPDATE_BY_SHARE_RESPONSE_RESULT] Updated database by share response", Thread.currentThread().getId());
@@ -81,7 +81,8 @@ public class ResponseHandler {
         log.info("[SERVICE-RESPONSE-HANDLER {} : UPDATE_BY_NON_SHARE_RESPONSE] Updating database by non share response", Thread.currentThread().getId());
 
         processRepository.save(process);
-        vehicleRepository.addNum(vehicle.getVsn());
+        vehicleRepository.updateState(vehicle.getVsn(), dto.getGender(), dto.getShare());
+
         userRepository.changeBoardState(dto.getUsn(), true);
 
         log.info("[SERVICE-RESPONSE-HANDLER {} : UPDATE_BY_NON_SHARE_RESPONSE_RESULT] Updated database by non share response", Thread.currentThread().getId());

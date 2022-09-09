@@ -23,12 +23,6 @@ public class Process {
     @Column(nullable = false)
     private Integer passed;
 
-    @Column(length = 1, columnDefinition = "TINYINT", nullable = false)
-    private Boolean gender;
-
-    @Column(length = 1, columnDefinition = "TINYINT", nullable = false)
-    private Boolean share;
-
     @OneToOne
     @JoinColumn(name = "vsn")
     private Vehicle vehicle;

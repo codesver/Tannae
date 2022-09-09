@@ -32,6 +32,12 @@ public class Vehicle {
     @Column(length = 1, columnDefinition = "TINYINT", nullable = false)
     private Boolean run;
 
+    @Column(length = 1, columnDefinition = "TINYINT")
+    private Boolean gender;
+
+    @Column(length = 1, columnDefinition = "TINYINT")
+    private Boolean share;
+
     @Column
     private Integer usn;
 }

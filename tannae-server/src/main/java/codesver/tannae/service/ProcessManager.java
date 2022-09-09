@@ -27,8 +27,6 @@ public class ProcessManager {
         Process process = new Process();
         process.setPath(path.toString());
         process.setPassed(-1);
-        process.setGender(dto.getGender());
-        process.setShare(dto.getShare());
         process.setVehicle(vehicle);
 
         log.info("[SERVICE-PROCESS-MANAGER {} : CREATE_PROCESS_RESULT] Created process={}", Thread.currentThread().getId(), process);

@@ -34,11 +34,13 @@ public class VehicleJpaRepository implements VehicleRepository {
     }
 
     @Override
-    public void addNum(int vsn) {
+    public void updateState(int vsn, boolean gender, boolean share) {
         log.info("[REPOSITORY-VEHICLE {} : ADD_NUM] UPDATE VEHICLE SET NUM = NUM + 1 WHERE VSN={}", Thread.currentThread().getId(), vsn);
         Optional<Vehicle> byVsn = repository.findByVsn(vsn);
         Vehicle vehicle = byVsn.get();
         vehicle.setNum(vehicle.getNum() + 1);
+        vehicle.setGender(gender);
+        vehicle.setShare(share);
         log.info("[REPOSITORY-VEHICLE {} : ADD_NUM_RESULT] CURRENT NUM={}", Thread.currentThread().getId(), vehicle.getNum());
     }
 

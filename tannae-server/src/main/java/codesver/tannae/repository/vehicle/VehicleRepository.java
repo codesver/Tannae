@@ -11,7 +11,7 @@ public interface VehicleRepository {
 
     List<Vehicle> findNewVehicle(boolean run, int num);
 
-    void addNum(int vsn);
+    void updateState(int vsn, boolean gender, boolean share);
 
     void switchRun(int vsn, boolean run);
 }

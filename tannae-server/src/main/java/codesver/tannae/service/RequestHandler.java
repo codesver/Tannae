@@ -63,6 +63,4 @@ public class RequestHandler {
         log.info("[SERVICE-REQUEST-HANDLER {} : HANDLE_NON_SHARE_REQUEST_RESULT] : Non share request handled={}", Thread.currentThread().getId(), vehicleDRO.isPresent());
         return processDRO;
     }
-
-
 }
