@@ -1,9 +1,11 @@
 package codesver.tannae.service;
 
 import codesver.tannae.domain.DRO;
+import codesver.tannae.domain.History;
 import codesver.tannae.domain.Process;
 import codesver.tannae.domain.Vehicle;
 import codesver.tannae.dto.ServiceRequestDTO;
+import codesver.tannae.repository.history.HistoryRepository;
 import codesver.tannae.repository.process.ProcessRepository;
 import codesver.tannae.repository.user.UserRepository;
 import codesver.tannae.repository.vehicle.VehicleRepository;
@@ -13,6 +15,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -21,10 +25,12 @@ public class ResponseHandler {
     private final ProcessRepository processRepository;
     private final VehicleRepository vehicleRepository;
     private final UserRepository userRepository;
+    private final HistoryRepository historyRepository;
 
     private final PathEditor editor;
     private final ProcessManager manager;
     private final Guider guider;
+    private final NaviRequester requester;
 
     public DRO<Process> handleShareResponse(ServiceRequestDTO dto, Process process, JSONObject summary, JSONObject response) {
         log.info("[SERVICE-RESPONSE-HANDLER {} : HANDLE_SHARE_RESPONSE]", Thread.currentThread().getId());
@@ -71,8 +77,7 @@ public class ResponseHandler {
         log.info("[SERVICE-RESPONSE-HANDLER {} : UPDATE_BY_SHARE_RESPONSE] Updating database by share response", Thread.currentThread().getId());
 
         processRepository.updatePath(process);
-        vehicleRepository.updateState(process.getVehicle().getVsn(), dto.getGender(), true);
-        userRepository.changeBoardState(dto.getUsn(), true);
+        updateByResponse(dto, process.getVehicle());
 
         log.info("[SERVICE-RESPONSE-HANDLER {} : UPDATE_BY_SHARE_RESPONSE_RESULT] Updated database by share response", Thread.currentThread().getId());
     }
@@ -81,10 +86,25 @@ public class ResponseHandler {
         log.info("[SERVICE-RESPONSE-HANDLER {} : UPDATE_BY_NON_SHARE_RESPONSE] Updating database by non share response", Thread.currentThread().getId());
 
         processRepository.save(process);
-        vehicleRepository.updateState(vehicle.getVsn(), dto.getGender(), dto.getShare());
-
-        userRepository.changeBoardState(dto.getUsn(), true);
+        updateByResponse(dto, vehicle);
 
         log.info("[SERVICE-RESPONSE-HANDLER {} : UPDATE_BY_NON_SHARE_RESPONSE_RESULT] Updated database by non share response", Thread.currentThread().getId());
+    }
+
+    private void updateByResponse(ServiceRequestDTO dto, Vehicle vehicle) {
+        log.info("[SERVICE-RESPONSE-HANDLER {} : UPDATE_BY_RESPONSE] Updating database by response", Thread.currentThread().getId());
+
+        vehicleRepository.updateState(vehicle.getVsn(), dto.getGender(), dto.getShare());
+        userRepository.changeBoardState(dto.getUsn(), true);
+        JSONObject summary = requester.request(new JSONObject()
+                .put("origin", new JSONObject().put("x", dto.getOriginLongitude()).put("y", dto.getOriginLatitude()))
+                .put("destination", new JSONObject().put("x", dto.getDestinationLongitude()).put("y", dto.getDestinationLatitude()))
+                .put("waypoints", new JSONArray())).getJSONArray("routes").getJSONObject(0).getJSONObject("summary");
+        historyRepository.save(new History(dto.getOrigin(), dto.getOriginLatitude(), dto.getOriginLongitude(),
+                dto.getDestination(), dto.getDestinationLatitude(), dto.getDestinationLongitude(), dto.getShare(), LocalDateTime.now().toString(),
+                summary.getJSONObject("fare").getInt("taxi"), summary.getInt("distance"), summary.getInt("duration"),
+                dto.getUsn(), vehicle.getVsn()));
+
+        log.info("[SERVICE-RESPONSE-HANDLER {} : UPDATE_BY_RESPONSE_RESULT] Updated database by response", Thread.currentThread().getId());
     }
 }

@@ -35,6 +35,9 @@ public class History {
     @Column(nullable = false)
     private Double destinationLongitude;
 
+    @Column(nullable = false)
+    private Boolean share;
+
     @Column(length = 19, nullable = false)
     private String requestTime;
 
@@ -67,4 +70,20 @@ public class History {
 
     @Column
     private Integer vsn;
+
+    public History(String origin, Double originLatitude, Double originLongitude, String destination, Double destinationLatitude, Double destinationLongitude, Boolean share, String requestTime, Integer originalFare, Integer originalDistance, Integer originalDuration, Integer usn, Integer vsn) {
+        this.origin = origin;
+        this.originLatitude = originLatitude;
+        this.originLongitude = originLongitude;
+        this.destination = destination;
+        this.destinationLatitude = destinationLatitude;
+        this.destinationLongitude = destinationLongitude;
+        this.share = share;
+        this.requestTime = requestTime;
+        this.originalFare = originalFare;
+        this.originalDistance = originalDistance;
+        this.originalDuration = originalDuration;
+        this.usn = usn;
+        this.vsn = vsn;
+    }
 }

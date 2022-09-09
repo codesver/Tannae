@@ -51,6 +51,8 @@ public class QHistory extends EntityPathBase<History> {
 
     public final StringPath requestTime = createString("requestTime");
 
+    public final BooleanPath share = createBoolean("share");
+
     public final NumberPath<Integer> usn = createNumber("usn", Integer.class);
 
     public final NumberPath<Integer> vsn = createNumber("vsn", Integer.class);
