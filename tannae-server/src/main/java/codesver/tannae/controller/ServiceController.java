@@ -2,9 +2,11 @@ package codesver.tannae.controller;
 
 import codesver.tannae.domain.DRO;
 import codesver.tannae.domain.Process;
+import codesver.tannae.domain.Vehicle;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.dto.ServiceResponseDTO;
 import codesver.tannae.repository.process.ProcessRepository;
+import codesver.tannae.repository.vehicle.VehicleRepository;
 import codesver.tannae.service.Guider;
 import codesver.tannae.service.RequestHandler;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,7 @@ public class ServiceController {
 
     private final SimpMessageSendingOperations smso;
 
+    private final VehicleRepository vehicleRepository;
     private final ProcessRepository processRepository;
 
     private final RequestHandler processor;
@@ -59,27 +62,5 @@ public class ServiceController {
     @MessageMapping("/transfer")
     public void transfer(@Payload String requestMessage) {
         log.info("[SOCKET-CONTROLLER-SERVICE {} : TRANSFER] Transfer vehicle to next point", Thread.currentThread().getId());
-
-        JSONObject request = new JSONObject(requestMessage);
-        int vsn = request.getInt("vsn");
-
-        Optional<Process> optionalProcess = processRepository.increasePassed(vsn);
-        Process process = optionalProcess.get();
-        JSONArray path = new JSONArray(process.getPath());
-        Integer passed = process.getPassed();
-
-        JSONObject response = new JSONObject();
-        if (passed + 1 == path.length()) {
-
-        } else {
-            response.put("flag", 0)
-                    .put("vsn", vsn)
-                    .put("usn", path.getJSONObject(passed).getInt("usn"))
-                    .put("type", path.getJSONObject(passed).getBoolean("type"))
-                    .put("path", path.toString())
-                    .put("guides", guider.updatesGuides(new JSONArray(request.getString("guides"))).toString())
-                    .put("passed", passed);
-            smso.convertAndSend("/sub/vehicle/" + vsn, response.toString());
-        }
     }
 }
