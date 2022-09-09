@@ -88,23 +88,66 @@ public class NavigationActivity extends AppCompatActivity {
     private void mainProcess(String responseMessage) throws JSONException {
         JSONObject response = new JSONObject(responseMessage);
         SharedPreferences getter = InnerDB.getter(getApplicationContext());
-
+        SharedPreferences.Editor setter = InnerDB.setter(getApplicationContext());
         int flag = response.getInt("flag");
-        int vsn = response.getInt("vsn");
-        int usn = response.getInt("usn");
-        boolean type = response.getBoolean("type");
-        JSONArray path = new JSONArray(response.getString("path"));
-        JSONArray guides = new JSONArray(response.getString("guides"));
-        int passed = response.getInt("passed");
 
-        int innerUsn = getter.getInt("usn", 0);
-        boolean driver = getter.getBoolean("driver", false);
-        String toast = "";
+        if (flag == 4) {
 
+        } else {
+            int vsn = response.getInt("vsn");
+            int usn = response.getInt("usn");
+            boolean type = response.getBoolean("type");
+            JSONArray path = new JSONArray(response.getString("path"));
+            JSONArray guides = new JSONArray(response.getString("guides"));
+            int passed = response.getInt("passed");
 
+            int innerUsn = getter.getInt("usn", 0);
+            boolean driver = getter.getBoolean("driver", false);
+            String toast = "";
+
+            if (flag == 0) {
+                
+            } else {
+                if (flag == 1) {
+                    if (driver) {
+                        toast = "미동승 탑승자 요청이 들어왔습니다.\n탑승자 위치로 이동해주세요.";
+                        switchRun.setEnabled(false);
+                        buttonTransfer.setEnabled(true);
+                        buttonTransfer.setTextColor(Color.parseColor("#127CEA"));
+                    } else {
+                        toast = "차량이 배차되었습니다.\n탑승 지점에서 기다려주세요.";
+                        setter.putBoolean("board", true);
+                    }
+                } else if (flag == 2) {
+                    if (driver) {
+                        toast = "동승 탑승자 요청이 들어왔습니다.\n 탑승자 위치로 이동해주세요.";
+                        switchRun.setEnabled(false);
+                        buttonTransfer.setEnabled(true);
+                        buttonTransfer.setTextColor(Color.parseColor("#127CEA"));
+                    } else {
+                        toast = "동승 가능한 차량이 없어 신규 차량으로 배차되었습니다.\n탑승 지점에서 기다려주세요.";
+                        setter.putBoolean("board", true).apply();
+                    }
+                } else if (flag == 3) {
+                    if (driver)
+                        toast = "추가 탑승자 요청이 들어왔습니다.\n경로가 수정됩니다.";
+                    else if (usn == innerUsn) {
+                        toast = "동승 차량이 배차되었습니다.\n 탑승 지점에서 기다려주세요.";
+                        setter.putBoolean("board", true).apply();
+                    } else
+                        toast = "이용 중인 차량에 신규 동승자가 배차되었습니다.";
+                }
+
+                setter.putString("guides", guides.toString());
+                setter.putString("path", path.toString());
+                drawGuides(guides);
+                drawPath(path, passed);
+                Toaster.toast(getApplicationContext(), toast);
+            }
+        }
     }
 
-    private void drawGuide(JSONArray guides) throws JSONException {
+    private void drawGuides(JSONArray guides) throws JSONException {
         mapView.removeAllPolylines();
         mapView.removeAllCircles();
 
