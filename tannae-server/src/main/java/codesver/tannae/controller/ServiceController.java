@@ -5,6 +5,7 @@ import codesver.tannae.domain.Process;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.dto.ServiceResponseDTO;
 import codesver.tannae.repository.process.ProcessRepository;
+import codesver.tannae.service.Guider;
 import codesver.tannae.service.RequestHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,9 +28,11 @@ import java.util.Optional;
 public class ServiceController {
 
     private final SimpMessageSendingOperations smso;
-    private final RequestHandler processor;
 
     private final ProcessRepository processRepository;
+
+    private final RequestHandler processor;
+    private final Guider guider;
 
     @PostMapping("/request")
     public ServiceResponseDTO request(@RequestBody ServiceRequestDTO requestDTO) {
