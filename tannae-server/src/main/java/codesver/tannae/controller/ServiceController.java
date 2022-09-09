@@ -62,16 +62,13 @@ public class ServiceController {
 
         JSONObject request = new JSONObject(requestMessage);
         int vsn = request.getInt("vsn");
-        JSONArray guides = new JSONArray(request.getString("guides"));
-
-        JSONArray nextGuides = guider.updatesGuides(guides);
 
         Optional<Process> optionalProcess = processRepository.increasePassed(vsn);
         Process process = optionalProcess.get();
         JSONArray path = new JSONArray(process.getPath());
-        JSONObject response = new JSONObject();
         Integer passed = process.getPassed();
 
+        JSONObject response = new JSONObject();
         if (passed + 1 == path.length()) {
 
         } else {
@@ -80,7 +77,7 @@ public class ServiceController {
                     .put("usn", path.getJSONObject(passed).getInt("usn"))
                     .put("type", path.getJSONObject(passed).getBoolean("type"))
                     .put("path", path.toString())
-                    .put("guides", guides.toString())
+                    .put("guides", guider.updatesGuides(new JSONArray(request.getString("guides"))).toString())
                     .put("passed", passed);
         }
     }
