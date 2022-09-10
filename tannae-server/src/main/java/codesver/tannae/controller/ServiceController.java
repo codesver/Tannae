@@ -97,7 +97,6 @@ public class ServiceController {
             processRepository.deleteProcess(vsn);
             response.put("flag", 4).put("usn", usn);
         } else response.put("flag", 0)
-                .put("vsn", vsn)
                 .put("usn", usn)
                 .put("type", type)
                 .put("path", path.toString())
