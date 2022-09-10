@@ -45,7 +45,7 @@ public class ProcessJpaRepository implements ProcessRepository {
         log.info("[REPOSITORY-PROCESS {} : INCREASE_PASSED] UPDATE PROCESS SET PASSED = PASSED + 1 WHERE VSN={}", Thread.currentThread().getId(), vsn);
         Optional<Process> optionalProcess = repository.findProcessByVehicle_Vsn(vsn);
         Process process = optionalProcess.get();
-        process.setPassed(process.getPassed());
+        process.setPassed(process.getPassed() + 1);
         log.info("[REPOSITORY-PROCESS {} : INCREASE_PASSED_RESULT] INCREASED PASSED={}", Thread.currentThread().getId(), process.getPassed());
         return process;
     }
