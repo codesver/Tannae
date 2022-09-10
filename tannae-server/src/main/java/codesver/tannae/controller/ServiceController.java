@@ -92,15 +92,17 @@ public class ServiceController {
             userRepository.changeBoardState(usn, false);
         }
 
-        JSONObject response = new JSONObject().put("vsn", vsn)
+        JSONObject response = new JSONObject();
+        if (vehicle.getNum() == 0) {
+            processRepository.deleteProcess(vsn);
+            response.put("flag", 4).put("usn", usn);
+        } else response.put("flag", 0)
+                .put("vsn", vsn)
                 .put("usn", usn)
                 .put("type", type)
                 .put("path", path.toString())
                 .put("guides", guides.toString())
                 .put("passed", process.getPassed());
         smso.convertAndSend("/sub/vehicle/" + vsn, response.toString());
-
-        if (vehicle.getNum() == 0)
-            processRepository.deleteProcess(vsn);
     }
 }
