@@ -33,7 +33,7 @@ public class Guider {
     }
 
     public JSONArray updatesGuides(JSONArray guides) {
-        log.info("[SERVICE-GUIDES {} : UPDATE_GUIDES] Updating guides", Thread.currentThread());
+        log.info("[SERVICE-GUIDES {} : UPDATE_GUIDES] Updating guides", Thread.currentThread().getId());
 
         boolean isNext = false;
         JSONArray nextGuides = new JSONArray();
@@ -46,7 +46,7 @@ public class Guider {
                 nextGuides.put(guide);
         }
 
-        log.info("[SERVICE-GUIDES {} : UPDATE_GUIDES_RESULT] Updated guides", Thread.currentThread());
+        log.info("[SERVICE-GUIDES {} : UPDATE_GUIDES_RESULT] Updated guides", Thread.currentThread().getId());
         return nextGuides;
     }
 }

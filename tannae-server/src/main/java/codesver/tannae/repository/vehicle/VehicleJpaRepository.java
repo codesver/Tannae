@@ -56,12 +56,11 @@ public class VehicleJpaRepository implements VehicleRepository {
     @Override
     public Vehicle transfer(int vsn, boolean type, JSONObject point) {
         log.info("[REPOSITORY-VEHICLE {} : TRANSFER] UPDATE VEHICLE SET LATITUDE={}, LONGITUDE={}, NUM=NUM+{}, RUN=?, GENDER=?, SHARE=?",
-                Thread.currentThread().getId(), point.getDouble("y"), point.getDouble("x"), type ? 1 : -1);
-        Optional<Vehicle> optionalVehicle = repository.findById(vsn);
-        Vehicle vehicle = optionalVehicle.get();
+                Thread.currentThread().getId(), point.getDouble("y"), point.getDouble("x"), type ? 0 : -1);
+        Vehicle vehicle = repository.findById(vsn).get();
         vehicle.setLatitude(point.getDouble("y"));
         vehicle.setLongitude(point.getDouble("x"));
-        int num = vehicle.getNum() + (type ? 1 : -1);
+        int num = vehicle.getNum() + (type ? 0 : -1);
         vehicle.setNum(num);
         if (num == 0) {
             vehicle.setRun(false);

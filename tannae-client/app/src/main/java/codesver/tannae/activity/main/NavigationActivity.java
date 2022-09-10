@@ -107,6 +107,8 @@ public class NavigationActivity extends AppCompatActivity {
                 textCurrentPath.setTextColor(Color.parseColor("#CCCCCC"));
                 textNextPath.setText("현재 탑승자가 없습니다.");
                 textNextPath.setTextColor(Color.parseColor("#CCCCCC"));
+                mapView.removeAllPolylines();
+                mapView.removeAllCircles();
             } else if (usn == innerUsn) {
                 toast = "목적지에 도착하였습니다.\n하차해주세요.";
                 Toaster.toast(getApplicationContext(), toast);
@@ -357,7 +359,7 @@ public class NavigationActivity extends AppCompatActivity {
             Toaster.toast(getApplicationContext(), "운행중에는 화면을 전환할 수 없습니다.");
         else {
             mapViewContainer.removeView(mapView);
-            super.onBackPressed();
+            startActivity(new Intent(NavigationActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         }
     }
 }

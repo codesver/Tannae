@@ -28,7 +28,7 @@ public class HistoryJpaRepository implements HistoryRepository {
     public void updateBoardingTime(int usn) {
         log.info("[REPOSITORY-HISTORY {} : UPDATE_BOARDING_TIME] UPDATE HISTORY SET BOARDING_TIME=NOW WHERE USN={}", Thread.currentThread().getId(), usn);
         String time = LocalDateTime.now().toString();
-        time = time.substring(0, time.charAt('.'));
+        time = time.substring(0, time.indexOf('.'));
         repository.findHistoryByUsn(usn).get().setBoardingTime(time);
         log.info("[REPOSITORY-HISTORY {} : UPDATE_BOARDING_TIME_RESULT] UPDATED BOARDING_TIME={}", Thread.currentThread().getId(), time);
     }
@@ -37,7 +37,7 @@ public class HistoryJpaRepository implements HistoryRepository {
     public void updateArrivalTime(int usn) {
         log.info("[REPOSITORY-HISTORY {} : UPDATE_ARRIVAL_TIME] UPDATE HISTORY SET ARRIVAL_TIME=NOW WHERE USN={}", Thread.currentThread().getId(), usn);
         String time = LocalDateTime.now().toString();
-        time = time.substring(0, time.charAt('.'));
+        time = time.substring(0, time.indexOf('.'));
         repository.findHistoryByUsn(usn).get().setArrivalTime(time);
         log.info("[REPOSITORY-HISTORY {} : UPDATE_ARRIVAL_TIME_RESULT] UPDATED ARRIVAL_TIME={}", Thread.currentThread().getId(), time);
     }
