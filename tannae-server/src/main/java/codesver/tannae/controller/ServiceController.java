@@ -72,10 +72,10 @@ public class ServiceController {
 
         JSONObject request = new JSONObject(requestMessage);
         int vsn = request.getInt("vsn");
+        JSONArray guides = guider.updatesGuides(new JSONArray(request.getString("guides")));
 
         Process process = processRepository.increasePassed(vsn);
         JSONArray path = new JSONArray(process.getPath());
-        JSONArray guides = guider.updatesGuides(new JSONArray(request.getString("guides")));
         JSONObject point = path.getJSONObject(process.getPassed() + 1);
 
         int usn = point.getInt("usn");
