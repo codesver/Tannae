@@ -24,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import codesver.tannae.R;
+import codesver.tannae.activity.menu.ReceiptActivity;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.dto.ServiceResponseDTO;
 import codesver.tannae.network.Network;
@@ -87,26 +88,53 @@ public class NavigationActivity extends AppCompatActivity {
 
     private void mainProcess(String responseMessage) throws JSONException {
         JSONObject response = new JSONObject(responseMessage);
+        int flag = response.getInt("flag");
+        int usn = response.getInt("usn");
+
         SharedPreferences getter = InnerDB.getter(getApplicationContext());
         SharedPreferences.Editor setter = InnerDB.setter(getApplicationContext());
-        int flag = response.getInt("flag");
+        int innerUsn = getter.getInt("usn", 0);
+        boolean driver = getter.getBoolean("driver", false);
+        String toast = "";
 
         if (flag == 4) {
-
+            if (driver) {
+                toast = "운행이 종료되었습니다.";
+                Toaster.toast(getApplicationContext(), toast);
+                switchRun.setEnabled(true);
+                switchRun.setChecked(false);
+                textCurrentPath.setText("현재 탑승자가 없습니다.");
+                textCurrentPath.setTextColor(Color.parseColor("#CCCCCC"));
+                textNextPath.setText("현재 탑승자가 없습니다.");
+                textNextPath.setTextColor(Color.parseColor("#CCCCCC"));
+            } else if (usn == innerUsn) {
+                toast = "목적지에 도착하였습니다.\n하차해주세요.";
+                Toaster.toast(getApplicationContext(), toast);
+                mapViewContainer.removeView(mapView);
+                Network.stomp.disconnect();
+                startActivity(new Intent(NavigationActivity.this, ReceiptActivity.class));
+            }
         } else {
-            int vsn = response.getInt("vsn");
-            int usn = response.getInt("usn");
             boolean type = response.getBoolean("type");
             JSONArray path = new JSONArray(response.getString("path"));
             JSONArray guides = new JSONArray(response.getString("guides"));
             int passed = response.getInt("passed");
 
-            int innerUsn = getter.getInt("usn", 0);
-            boolean driver = getter.getBoolean("driver", false);
-            String toast = "";
-
             if (flag == 0) {
-
+                if (driver)
+                    toast = type ? "승객이 탑승하였습니다." : "승객이 하차하였습니다.";
+                else if (usn == innerUsn) {
+                    if (type)
+                        toast = "차량이 도착하였습니다.\n탑승해주세요.";
+                    else {
+                        toast = "목적지에 도착하였습니다.\n하차해주세요.";
+                        Toaster.toast(getApplicationContext(), toast);
+                        mapViewContainer.removeView(mapView);
+                        Network.stomp.disconnect();
+                        startActivity(new Intent(NavigationActivity.this, ReceiptActivity.class));
+                    }
+                } else
+                    toast = type ? "경유 지점입니다.\n승객이 승차합니다." : "경유 지점입니다.\n승객이 하차합니다.";
             } else {
                 if (flag == 1) {
                     if (driver) {
@@ -116,7 +144,7 @@ public class NavigationActivity extends AppCompatActivity {
                         buttonTransfer.setTextColor(Color.parseColor("#127CEA"));
                     } else {
                         toast = "차량이 배차되었습니다.\n탑승 지점에서 기다려주세요.";
-                        setter.putBoolean("board", true);
+                        setter.putBoolean("board", true).apply();
                     }
                 } else if (flag == 2) {
                     if (driver) {
@@ -138,12 +166,12 @@ public class NavigationActivity extends AppCompatActivity {
                         toast = "이용 중인 차량에 신규 동승자가 배차되었습니다.";
                 }
 
-                setter.putString("guides", guides.toString());
-                setter.putString("path", path.toString());
-                drawGuides(guides);
-                drawPath(path, passed);
-                Toaster.toast(getApplicationContext(), toast);
             }
+            setter.putString("guides", guides.toString()).apply();
+            setter.putString("path", path.toString()).apply();
+            drawGuides(guides);
+            drawPath(path, passed);
+            Toaster.toast(getApplicationContext(), toast);
         }
     }
 
