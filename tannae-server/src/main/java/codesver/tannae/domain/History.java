@@ -65,13 +65,16 @@ public class History {
     @Column
     private Integer realDuration;
 
+    @Column(length = 1, columnDefinition = "TINYINT")
+    private Boolean end;
+
     @Column
     private Integer usn;
 
     @Column
     private Integer vsn;
 
-    public History(String origin, Double originLatitude, Double originLongitude, String destination, Double destinationLatitude, Double destinationLongitude, Boolean share, String requestTime, Integer originalFare, Integer originalDistance, Integer originalDuration, Integer usn, Integer vsn) {
+    public History(String origin, Double originLatitude, Double originLongitude, String destination, Double destinationLatitude, Double destinationLongitude, Boolean share, String requestTime, Integer originalFare, Integer originalDistance, Integer originalDuration, Boolean end, Integer usn, Integer vsn) {
         this.origin = origin;
         this.originLatitude = originLatitude;
         this.originLongitude = originLongitude;
@@ -83,6 +86,7 @@ public class History {
         this.originalFare = originalFare;
         this.originalDistance = originalDistance;
         this.originalDuration = originalDuration;
+        this.end = end;
         this.usn = usn;
         this.vsn = vsn;
     }

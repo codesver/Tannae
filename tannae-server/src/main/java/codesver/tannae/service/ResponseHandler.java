@@ -104,7 +104,7 @@ public class ResponseHandler {
         time = time.substring(0, time.indexOf('.'));
         historyRepository.save(new History(dto.getOrigin(), dto.getOriginLatitude(), dto.getOriginLongitude(),
                 dto.getDestination(), dto.getDestinationLatitude(), dto.getDestinationLongitude(), dto.getShare(), time,
-                summary.getJSONObject("fare").getInt("taxi"), summary.getInt("distance"), summary.getInt("duration"),
+                summary.getJSONObject("fare").getInt("taxi"), summary.getInt("distance"), summary.getInt("duration"), false,
                 dto.getUsn(), vehicle.getVsn()));
 
         log.info("[SERVICE-RESPONSE-HANDLER {} : UPDATE_BY_RESPONSE_RESULT] Updated database by response", Thread.currentThread().getId());

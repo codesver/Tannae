@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface HistorySpringDataJpaRepository extends JpaRepository<History, Integer> {
 
-    Optional<History> findHistoryByUsn(int usn);
+    Optional<History> findHistoryByUsnAndEnd(Integer usn, Boolean end);
 }
