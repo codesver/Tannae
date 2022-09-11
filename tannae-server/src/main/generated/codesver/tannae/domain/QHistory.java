@@ -29,6 +29,8 @@ public class QHistory extends EntityPathBase<History> {
 
     public final NumberPath<Double> destinationLongitude = createNumber("destinationLongitude", Double.class);
 
+    public final BooleanPath end = createBoolean("end");
+
     public final NumberPath<Integer> hsn = createNumber("hsn", Integer.class);
 
     public final StringPath origin = createString("origin");

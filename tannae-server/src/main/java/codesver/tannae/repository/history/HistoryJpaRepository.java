@@ -49,6 +49,7 @@ public class HistoryJpaRepository implements HistoryRepository {
         history.setRealFare(fare);
         history.setRealDistance(distance);
         history.setRealDuration(duration);
+        history.setEnd(true);
         log.info("[REPOSITORY-HISTORY {} : UPDATE_REAL_DATA_RESULT] UPDATED", Thread.currentThread().getId());
     }
 }
