@@ -4,7 +4,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 public class Toaster {
-    public static Toast t;
+    private static Toast t;
     public static void toast(Context context, String message) {
         if (t != null)
             t.cancel();

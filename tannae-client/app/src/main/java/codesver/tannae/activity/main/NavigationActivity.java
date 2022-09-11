@@ -50,6 +50,10 @@ public class NavigationActivity extends AppCompatActivity {
     private double originLatitude, originLongitude, destinationLatitude, destinationLongitude;
     private ServiceResponseDTO responseDTO;
 
+    private boolean type;
+    private JSONArray path, guides;
+    private int passed;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,86 +99,92 @@ public class NavigationActivity extends AppCompatActivity {
         SharedPreferences.Editor setter = InnerDB.setter(getApplicationContext());
         int innerUsn = getter.getInt("usn", 0);
         boolean driver = getter.getBoolean("driver", false);
-        String toast = "";
 
-        if (flag == 4) {
-            if (driver) {
-                toast = "운행이 종료되었습니다.";
-                Toaster.toast(getApplicationContext(), toast);
-                switchRun.setEnabled(true);
-                switchRun.setChecked(false);
-                textCurrentPath.setText("현재 탑승자가 없습니다.");
-                textCurrentPath.setTextColor(Color.parseColor("#CCCCCC"));
-                textNextPath.setText("현재 탑승자가 없습니다.");
-                textNextPath.setTextColor(Color.parseColor("#CCCCCC"));
-                mapView.removeAllPolylines();
-                mapView.removeAllCircles();
-            } else if (usn == innerUsn) {
-                toast = "목적지에 도착하였습니다.\n하차해주세요.";
-                Toaster.toast(getApplicationContext(), toast);
-                mapViewContainer.removeView(mapView);
-                Network.stomp.disconnect();
-                startActivity(new Intent(NavigationActivity.this, ReceiptActivity.class));
+        switch (flag) {
+            case 0: {
+                extractDataFromResponse(response);
+                Toaster.toast(getApplicationContext(), type ?
+                        driver ? "승객이 탑승하였습니다." : usn == innerUsn ? "차량이 도착하였습니다.\n탑승해주세요." : "경유 지점입니다.\n승객이 승차합니다." :
+                        driver ? "승객이 하차하였습니다." : usn == innerUsn ? "목적지에 도착하였습니다.\n하차해주세요." : "경유 지점입니다.\n승객이 하차합니다.");
+                if (usn == innerUsn && !type) endService(false);
+                else drawer(setter);
             }
-        } else {
-            boolean type = response.getBoolean("type");
-            JSONArray path = new JSONArray(response.getString("path"));
-            JSONArray guides = new JSONArray(response.getString("guides"));
-            int passed = response.getInt("passed");
-
-            if (flag == 0) {
-                if (driver)
-                    toast = type ? "승객이 탑승하였습니다." : "승객이 하차하였습니다.";
-                else if (usn == innerUsn) {
-                    if (type)
-                        toast = "차량이 도착하였습니다.\n탑승해주세요.";
-                    else {
-                        toast = "목적지에 도착하였습니다.\n하차해주세요.";
-                        Toaster.toast(getApplicationContext(), toast);
-                        mapViewContainer.removeView(mapView);
-                        Network.stomp.disconnect();
-                        startActivity(new Intent(NavigationActivity.this, ReceiptActivity.class));
-                    }
-                } else
-                    toast = type ? "경유 지점입니다.\n승객이 승차합니다." : "경유 지점입니다.\n승객이 하차합니다.";
-            } else {
-                if (flag == 1) {
-                    if (driver) {
-                        toast = "미동승 탑승자 요청이 들어왔습니다.\n탑승자 위치로 이동해주세요.";
-                        switchRun.setEnabled(false);
-                        buttonTransfer.setEnabled(true);
-                        buttonTransfer.setTextColor(Color.parseColor("#127CEA"));
-                    } else {
-                        toast = "차량이 배차되었습니다.\n탑승 지점에서 기다려주세요.";
-                        setter.putBoolean("board", true).apply();
-                    }
-                } else if (flag == 2) {
-                    if (driver) {
-                        toast = "동승 탑승자 요청이 들어왔습니다.\n 탑승자 위치로 이동해주세요.";
-                        switchRun.setEnabled(false);
-                        buttonTransfer.setEnabled(true);
-                        buttonTransfer.setTextColor(Color.parseColor("#127CEA"));
-                    } else {
-                        toast = "동승 가능한 차량이 없어 신규 차량으로 배차되었습니다.\n탑승 지점에서 기다려주세요.";
-                        setter.putBoolean("board", true).apply();
-                    }
-                } else if (flag == 3) {
-                    if (driver)
-                        toast = "추가 탑승자 요청이 들어왔습니다.\n경로가 수정됩니다.";
-                    else if (usn == innerUsn) {
-                        toast = "동승 차량이 배차되었습니다.\n 탑승 지점에서 기다려주세요.";
-                        setter.putBoolean("board", true).apply();
-                    } else
-                        toast = "이용 중인 차량에 신규 동승자가 배차되었습니다.";
-                }
-
+            break;
+            case 1: {
+                extractDataFromResponse(response);
+                Toaster.toast(getApplicationContext(), driver ?
+                        "미동승 탑승자 요청이 들어왔습니다.\n탑승자 위치로 이동해주세요." :
+                        "차량이 배차되었습니다.\n탑승 지점에서 기다려주세요.");
+                if (driver) startService();
+                drawer(setter);
             }
-            setter.putString("guides", guides.toString()).apply();
-            setter.putString("path", path.toString()).apply();
-            drawGuides(guides);
-            drawPath(path, passed);
-            Toaster.toast(getApplicationContext(), toast);
+            break;
+            case 2: {
+                extractDataFromResponse(response);
+                Toaster.toast(getApplicationContext(), driver ?
+                        "동승 탑승자 요청이 들어왔습니다.\n 탑승자 위치로 이동해주세요." :
+                        "동승 가능한 차량이 없어 신규 차량으로 배차되었습니다.\n탑승 지점에서 기다려주세요.");
+                if (driver) startService();
+                drawer(setter);
+            }
+            break;
+            case 3: {
+                extractDataFromResponse(response);
+                Toaster.toast(getApplicationContext(), driver ?
+                        "추가 탑승자 요청이 들어왔습니다.\n경로가 수정됩니다." :
+                        usn == innerUsn ?
+                                "동승 차량이 배차되었습니다.\n 탑승 지점에서 기다려주세요." :
+                                "이용 중인 차량에 신규 동승자가 배차되었습니다.");
+                drawer(setter);
+            }
+            break;
+            case 4: {
+                Toaster.toast(getApplicationContext(), driver ?
+                        "운행이 종료되었습니다." :
+                        "목적지에 도착하였습니다.\n 하차해주세요.");
+                endService(driver);
+            }
+            break;
+            default:
+                Toaster.toast(getApplicationContext(), "Wrong response");
         }
+    }
+
+    private void extractDataFromResponse(JSONObject response) throws JSONException {
+        type = response.getBoolean("type");
+        path = new JSONArray(response.getString("path"));
+        guides = new JSONArray(response.getString("guides"));
+        passed = response.getInt("passed");
+    }
+
+    private void startService() {
+        switchRun.setEnabled(false);
+        buttonTransfer.setEnabled(true);
+        buttonTransfer.setTextColor(Color.parseColor("#127CEA"));
+    }
+
+    private void endService(boolean driver) {
+        if (driver) {
+            switchRun.setEnabled(true);
+            switchRun.setChecked(false);
+            textCurrentPath.setText("현재 탑승자가 없습니다.");
+            textCurrentPath.setTextColor(Color.parseColor("#CCCCCC"));
+            textNextPath.setText("현재 탑승자가 없습니다.");
+            textNextPath.setTextColor(Color.parseColor("#CCCCCC"));
+            mapView.removeAllPolylines();
+            mapView.removeAllCircles();
+        } else {
+            mapViewContainer.removeView(mapView);
+            Network.stomp.disconnect();
+            startActivity(new Intent(NavigationActivity.this, ReceiptActivity.class));
+        }
+    }
+
+    private void drawer(SharedPreferences.Editor setter) throws JSONException {
+        setter.putString("guides", guides.toString()).apply();
+        setter.putString("path", path.toString()).apply();
+        drawGuides(guides);
+        drawPath(path, passed);
     }
 
     private void drawGuides(JSONArray guides) throws JSONException {
@@ -259,6 +269,7 @@ public class NavigationActivity extends AppCompatActivity {
             setting();
             setVisibility();
             connectStomp(responseDTO.getVsn());
+            InnerDB.setter(getApplicationContext()).putBoolean("board", true).apply();
             sendResponseBack();
         }
     }
