@@ -22,15 +22,16 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class ResponseHandler {
 
-    private final ProcessRepository processRepository;
-    private final VehicleRepository vehicleRepository;
-    private final UserRepository userRepository;
-    private final HistoryRepository historyRepository;
-
     private final Guider guider;
     private final PathEditor editor;
     private final ProcessManager manager;
     private final NaviRequester requester;
+
+    private final UserRepository userRepository;
+    private final ProcessRepository processRepository;
+    private final VehicleRepository vehicleRepository;
+    private final HistoryRepository historyRepository;
+
 
     public DRO<Process> handleShareResponse(ServiceRequestDTO dto, Process process, JSONObject summary, JSONObject response) {
         log.info("[SERVICE-RESPONSE-HANDLER {} : HANDLE_SHARE_RESPONSE]", Thread.currentThread().getId());

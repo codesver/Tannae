@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public class DRO<T> {
     private int flag;
-    private Optional<T> option;
+    private final Optional<T> option;
     private JSONArray guides;
 
     public DRO() {

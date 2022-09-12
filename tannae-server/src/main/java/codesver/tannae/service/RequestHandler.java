@@ -15,10 +15,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class RequestHandler {
 
-    private final NaviRequester requester;
+    private final PathEditor editor;
     private final VehicleFinder finder;
     private final ProcessManager manager;
-    private final PathEditor editor;
+    private final NaviRequester requester;
     private final ResponseHandler handler;
 
     public DRO<Process> handleRequest(ServiceRequestDTO dto) {

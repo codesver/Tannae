@@ -2,17 +2,12 @@ package codesver.tannae.controller;
 
 import codesver.tannae.domain.DRO;
 import codesver.tannae.domain.Process;
-import codesver.tannae.domain.Vehicle;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.dto.ServiceResponseDTO;
-import codesver.tannae.repository.history.HistoryRepository;
-import codesver.tannae.repository.process.ProcessRepository;
-import codesver.tannae.repository.user.UserRepository;
-import codesver.tannae.repository.vehicle.VehicleRepository;
-import codesver.tannae.service.*;
+import codesver.tannae.service.RequestHandler;
+import codesver.tannae.service.Transporter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -21,8 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Optional;
 
 @Slf4j
 @RestController

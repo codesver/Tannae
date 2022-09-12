@@ -1,7 +1,6 @@
 package codesver.tannae.controller;
 
 import codesver.tannae.domain.User;
-import codesver.tannae.domain.Vehicle;
 import codesver.tannae.dto.FoundAccountDTO;
 import codesver.tannae.dto.LoginDTO;
 import codesver.tannae.dto.SignUpUserDTO;
