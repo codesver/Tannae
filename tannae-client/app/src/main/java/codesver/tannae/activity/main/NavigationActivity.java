@@ -369,6 +369,12 @@ public class NavigationActivity extends AppCompatActivity {
         if (switchRun.isChecked())
             Toaster.toast(getApplicationContext(), "운행중에는 화면을 전환할 수 없습니다.");
         else {
+            SharedPreferences getter = InnerDB.getter(getApplicationContext());
+            if (getter.getBoolean("board", false)) {
+                Toaster.toast(getApplicationContext(), "서비스 이용 중에는 화면을 전환할 수 없습니다.");
+                return;
+            }
+            Network.stomp.disconnect();
             mapViewContainer.removeView(mapView);
             startActivity(new Intent(NavigationActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         }
