@@ -2,26 +2,26 @@ package codesver.tannae.domain;
 
 public class History {
 
-    private Integer hsn;
-    private String origin;
-    private Double originLatitude;
-    private Double originLongitude;
-    private String destination;
-    private Double destinationLatitude;
-    private Double destinationLongitude;
-    private Boolean share;
-    private String requestTime;
-    private String boardingTime;
-    private String arrivalTime;
-    private Integer originalFare;
-    private Integer originalDistance;
-    private Integer originalDuration;
-    private Integer realFare;
-    private Integer realDistance;
-    private Integer realDuration;
-    private Boolean end;
-    private Integer usn;
-    private Integer vsn;
+    private final Integer hsn;
+    private final String origin;
+    private final Double originLatitude;
+    private final Double originLongitude;
+    private final String destination;
+    private final Double destinationLatitude;
+    private final Double destinationLongitude;
+    private final Boolean share;
+    private final String requestTime;
+    private final String boardingTime;
+    private final String arrivalTime;
+    private final Integer originalFare;
+    private final Integer originalDistance;
+    private final Integer originalDuration;
+    private final Integer realFare;
+    private final Integer realDistance;
+    private final Integer realDuration;
+    private final Boolean end;
+    private final Integer usn;
+    private final Integer vsn;
 
     public History(Integer hsn, String origin, Double originLatitude, Double originLongitude, String destination, Double destinationLatitude, Double destinationLongitude, Boolean share, String requestTime, String boardingTime, String arrivalTime, Integer originalFare, Integer originalDistance, Integer originalDuration, Integer realFare, Integer realDistance, Integer realDuration, Boolean end, Integer usn, Integer vsn) {
         this.hsn = hsn;
