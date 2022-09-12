@@ -18,8 +18,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProcessManager {
 
-    private final ProcessRepository processRepository;
     private final PathEditor editor;
+
+    private final ProcessRepository processRepository;
 
     public Process createProcess(ServiceRequestDTO dto, Vehicle vehicle, JSONArray path) {
         log.info("[SERVICE-PROCESS-MANAGER {} : CREATE_PROCESS] Creating process entity USN={} VSN={}", Thread.currentThread().getId(), dto.getUsn(), vehicle.getVsn());

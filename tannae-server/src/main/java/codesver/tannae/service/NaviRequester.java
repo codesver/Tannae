@@ -14,13 +14,12 @@ import java.util.Map;
 @Service
 public class NaviRequester {
 
-    private final String url = "https://apis-navi.kakaomobility.com/v1/waypoints/directions";
-    private final String authorization = "KakaoAK d94b5c67305d6a10b3e43e5da881e7cf";
     private final HttpHeaders headers = new HttpHeaders();
     private final RestTemplate rest = new RestTemplate();
 
     {
         headers.setContentType(MediaType.APPLICATION_JSON);
+        String authorization = "KakaoAK d94b5c67305d6a10b3e43e5da881e7cf";
         headers.set("authorization", authorization);
     }
 
@@ -28,6 +27,7 @@ public class NaviRequester {
         log.info("[SERVICE-NAVI-REQUESTER {} : REQUEST] Request navigation details={}", Thread.currentThread().getId(), body);
 
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body.toMap(), headers);
+        String url = "https://apis-navi.kakaomobility.com/v1/waypoints/directions";
         JSONObject response = new JSONObject(rest.postForEntity(url, entity, String.class).getBody());
 
         log.info("[SERVICE-NAVI-REQUESTER {} : REQUEST_RESULT] RESPONSE={}", Thread.currentThread().getId(), response);
