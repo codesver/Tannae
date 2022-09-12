@@ -67,6 +67,15 @@ public class VehicleJpaRepository implements VehicleRepository {
             vehicle.setGender(null);
             vehicle.setShare(null);
         }
+        log.info("[REPOSITORY-VEHICLE {} : TRANSFER_RESULT] TRANSFER", Thread.currentThread().getId());
         return vehicle;
+    }
+
+    @Override
+    public Integer findUserOfVehicle(int vsn) {
+        log.info("[REPOSITORY-VEHICLE {} : FIND] SELECT * FROM VEHICLE WHERE VSN={}", Thread.currentThread().getId(), vsn);
+        Integer usn = repository.findById(vsn).get().getUsn();
+        log.info("[REPOSITORY-VEHICLE {} : FIND_RESULT] FOUND USER={}", Thread.currentThread().getId(), usn);
+        return usn;
     }
 }

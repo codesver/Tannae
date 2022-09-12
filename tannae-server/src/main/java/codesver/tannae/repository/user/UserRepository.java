@@ -21,4 +21,6 @@ public interface UserRepository {
     void changeBoardState(Integer usn, boolean state);
 
     void usePoint(int usn, int fare);
+
+    void rate(int usn, float rate);
 }

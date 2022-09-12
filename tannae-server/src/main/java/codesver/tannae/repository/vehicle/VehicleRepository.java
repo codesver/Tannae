@@ -17,4 +17,6 @@ public interface VehicleRepository {
     void switchRun(int vsn, boolean run);
 
     Vehicle transfer(int vsn, boolean type, JSONObject point);
+
+    Integer findUserOfVehicle(int vsn);
 }

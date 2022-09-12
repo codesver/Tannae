@@ -80,6 +80,14 @@ public class UserJpaRepository implements UserRepository {
         log.info("[REPOSITORY-USER {} : USE_POINT] UPDATE USER SET POINT=POINT-{} WHERE USN={}", Thread.currentThread().getId(), fare, usn);
         User user = repository.findUserByUsn(usn).get();
         user.setPoint(user.getPoint() - fare);
-        log.info("[REPOSITORY-USER {} : USE_POINT] UPDATE USER SET POINT=POINT-{} WHERE USN={}", Thread.currentThread().getId(), fare, usn);
+        log.info("[REPOSITORY-USER {} : USE_POINT_RESULT] CURRENT POINT={}", Thread.currentThread().getId(), user.getPoint());
+    }
+
+    @Override
+    public void rate(int usn, float rate) {
+        log.info("[REPOSITORY-USER {} : RATE] UPDATE USER SET SCORE=(SCORE+{})/2 WHERE USN={}", Thread.currentThread().getId(), rate, usn);
+        User user = repository.findUserByUsn(usn).get();
+        user.setScore((user.getScore() + rate) / 2);
+        log.info("[REPOSITORY-USER {} : RATE_RESULT] SCORE={}", Thread.currentThread().getId(), user.getScore());
     }
 }
