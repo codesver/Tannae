@@ -12,6 +12,7 @@
         android:background="@color/white">
 
         <Button
+            android:id="@+id/button_back_receipt"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/back_arrow" />
@@ -80,7 +81,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
+            android:layout_marginBottom="5dp"
             android:orientation="vertical">
 
             <View
@@ -89,6 +90,7 @@
                 android:background="@drawable/draw_line" />
 
             <TextView
+                android:id="@+id/text_hsn_receipt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -147,6 +149,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/text_date_receipt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="right"
@@ -154,6 +157,7 @@
                     android:textColor="@color/black" />
 
                 <TextView
+                    android:id="@+id/text_request_time_receipt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="right"
@@ -161,6 +165,7 @@
                     android:textColor="@color/black" />
 
                 <TextView
+                    android:id="@+id/text_boarding_time_receipt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="right"
@@ -168,6 +173,7 @@
                     android:textColor="@color/black" />
 
                 <TextView
+                    android:id="@+id/text_arrival_time_receipt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="right"
@@ -181,7 +187,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
+            android:layout_marginVertical="5dp"
             android:orientation="vertical">
 
             <View
@@ -232,6 +238,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/text_origin_receipt"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -241,6 +248,7 @@
                     android:textStyle="bold" />
 
                 <Button
+                    android:id="@+id/button_check_origin_receipt"
                     style="@style/Widget.Button.TextButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -265,6 +273,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/text_destination_receipt"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -274,6 +283,7 @@
                     android:textStyle="bold" />
 
                 <Button
+                    android:id="@+id/button_check_destination_receipt"
                     style="@style/Widget.Button.TextButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -288,7 +298,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
+            android:layout_marginVertical="5dp"
             android:orientation="vertical">
 
             <View
@@ -339,6 +349,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/text_original_distance_receipt"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -348,6 +359,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/text_original_duration_receipt"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -357,6 +369,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/text_original_fare_receipt"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -382,6 +395,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/text_real_distance_receipt"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -391,6 +405,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/text_real_duration_receipt"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -400,6 +415,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/text_real_fare_receipt"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -416,9 +432,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
+            android:background="@drawable/rectangle"
             android:orientation="horizontal"
-            android:padding="10dp"
-            android:background="@drawable/rectangle">
+            android:padding="10dp">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -430,54 +446,66 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="결제 포인트"
-                    android:textSize="20dp"
                     android:textColor="@color/black"
-                    android:textStyle="bold"/>
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="할인률"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="잔여 포인트"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="end"
                 android:layout_weight="1"
+                android:gravity="end"
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/text_fare_receipt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="{FARE}"
-                    android:textSize="20dp"
                     android:textColor="@color/black"
-                    android:textStyle="bold"/>
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/text_sale_ratio_receipt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="{%}"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black" />
 
                 <TextView
+                    android:id="@+id/text_left_point_receipt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="{POINT}"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black" />
 
             </LinearLayout>
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/button_evaluate_receipt"
+            style="@style/Widget.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="평가하기"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
