@@ -9,10 +9,7 @@ import codesver.tannae.repository.history.HistoryRepository;
 import codesver.tannae.repository.process.ProcessRepository;
 import codesver.tannae.repository.user.UserRepository;
 import codesver.tannae.repository.vehicle.VehicleRepository;
-import codesver.tannae.service.Calculator;
-import codesver.tannae.service.Guider;
-import codesver.tannae.service.NaviRequester;
-import codesver.tannae.service.RequestHandler;
+import codesver.tannae.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
@@ -35,14 +32,8 @@ public class ServiceController {
 
     private final SimpMessageSendingOperations smso;
 
-    private final UserRepository userRepository;
-    private final VehicleRepository vehicleRepository;
-    private final ProcessRepository processRepository;
-    private final HistoryRepository historyRepository;
-
     private final RequestHandler processor;
-    private final Calculator calculator;
-    private final Guider guider;
+    private final Transporter transporter;
 
     @PostMapping("/request")
     public ServiceResponseDTO request(@RequestBody ServiceRequestDTO requestDTO) {
@@ -69,39 +60,9 @@ public class ServiceController {
     @MessageMapping("/transfer")
     public void transfer(@Payload String requestMessage) {
         log.info("[SOCKET-CONTROLLER-SERVICE {} : TRANSFER] Transfer vehicle to next point", Thread.currentThread().getId());
-
         JSONObject request = new JSONObject(requestMessage);
         int vsn = request.getInt("vsn");
-        JSONArray guides = guider.updatesGuides(new JSONArray(request.getString("guides")));
-
-        Process process = processRepository.increasePassed(vsn);
-        JSONArray path = new JSONArray(process.getPath());
-        JSONObject point = path.getJSONObject(process.getPassed() + 1);
-
-        int usn = point.getInt("usn");
-        boolean type = point.getBoolean("type");
-        Vehicle vehicle = vehicleRepository.transfer(vsn, type, point);
-
-        if (type) {
-            historyRepository.updateBoardingTime(usn);
-        } else {
-            historyRepository.updateArrivalTime(usn);
-            JSONObject realData = calculator.calculate(path, usn);
-            historyRepository.updateRealData(usn, realData.getInt("fare"), realData.getInt("distance"), realData.getInt("duration"));
-            userRepository.usePoint(usn, realData.getInt("fare"));
-            userRepository.changeBoardState(usn, false);
-        }
-
-        JSONObject response = new JSONObject();
-        if (vehicle.getNum() == 0) {
-            processRepository.deleteProcess(vsn);
-            response.put("flag", 4).put("usn", usn);
-        } else response.put("flag", 0)
-                .put("usn", usn)
-                .put("type", type)
-                .put("path", path.toString())
-                .put("guides", guides.toString())
-                .put("passed", process.getPassed());
+        JSONObject response = transporter.transport(request, vsn);
         smso.convertAndSend("/sub/vehicle/" + vsn, response.toString());
     }
 }
