@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     private MapView mapView;
     private ViewGroup mapViewContainer;
 
+    private final SharedPreferences getter = InnerDB.getter(getApplicationContext());
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,18 +58,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void request() {
-        SharedPreferences getter = InnerDB.getter(getApplicationContext());
         if (getter.getInt("point", 0) < 1000) {
             Toaster.toast(getApplicationContext(), "잔여 포인트가 1000p 미만입니다.\n충전 후 이용 가능합니다.");
             return;
         }
         mapViewContainer.removeView(mapView);
-        boolean driver = InnerDB.getter(getApplicationContext()).getBoolean("driver", false);
+        boolean driver = getter.getBoolean("driver", false);
         startActivity(new Intent(MainActivity.this, driver ? NavigationActivity.class : RequestActivity.class).putExtra("driver", driver));
     }
 
     @Override
     public void onBackPressed() {
-
+        Toaster.toast(getApplicationContext(), "메뉴에서 로그아웃 해주세요.");
     }
 }

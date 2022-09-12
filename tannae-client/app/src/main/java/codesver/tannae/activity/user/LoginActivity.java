@@ -26,6 +26,9 @@ public class LoginActivity extends AppCompatActivity {
     private EditText editId, editPw;
     private Button buttonFind, buttonSignUp, buttonLogin;
 
+    private final SharedPreferences getter = InnerDB.getter(getApplicationContext());
+    private final SharedPreferences.Editor setter = InnerDB.setter(getApplicationContext());
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Network.service = RetrofitClient.getClient().create(ServiceApi.class);
@@ -72,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (login.exist()) {
                     InnerDB.saveUser(getApplicationContext(), login.getUser());
                     if (login.getUser().getDriver())
-                        InnerDB.setter(getApplicationContext()).putInt("vsn", login.getVsn()).apply();
+                        setter.putInt("vsn", login.getVsn()).apply();
                     Toaster.toast(LoginActivity.this, id + "님 반갑습니다!");
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 } else {
@@ -90,9 +93,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void autoLogin() {
-//        Toaster.toast(LoginActivity.this, "Test Login");
-//        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-        SharedPreferences getter = InnerDB.getter(getApplicationContext());
         int usn = getter.getInt("usn", -1);
         if (usn != -1) {
             String id = getter.getString("id", null);

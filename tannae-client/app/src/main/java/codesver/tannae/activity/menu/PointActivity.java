@@ -1,19 +1,16 @@
 package codesver.tannae.activity.menu;
 
-import static codesver.tannae.service.InnerDB.getter;
-import static codesver.tannae.service.InnerDB.setter;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import codesver.tannae.R;
 import codesver.tannae.network.Network;
+import codesver.tannae.service.InnerDB;
 import codesver.tannae.service.Toaster;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,6 +21,9 @@ public class PointActivity extends AppCompatActivity {
     private TextView textCurrent;
     private EditText editPoint;
     private Button buttonCharge, buttonBack;
+
+    private final SharedPreferences getter = InnerDB.getter(getApplicationContext());
+    private final SharedPreferences.Editor setter = InnerDB.setter(getApplicationContext());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,6 @@ public class PointActivity extends AppCompatActivity {
     }
 
     private void setActivity() {
-        SharedPreferences getter = getter(getApplicationContext());
         int point = getter.getInt("point", 0);
         textCurrent.setText(String.valueOf(point));
 
@@ -58,7 +57,6 @@ public class PointActivity extends AppCompatActivity {
     }
 
     private void charge() {
-        SharedPreferences getter = getter(getApplicationContext());
         int point = getter.getInt("point", 0);
         String chargePointText = editPoint.getText().toString();
         int chargePoint = Integer.parseInt(chargePointText.equals("") ? "0" : chargePointText);
@@ -71,7 +69,6 @@ public class PointActivity extends AppCompatActivity {
     }
 
     private void chargeByServer(int point) {
-        SharedPreferences getter = getter(getApplicationContext());
         int usn = getter.getInt("usn", 0);
         Network.service.charge(usn, point).enqueue(new Callback<Integer>() {
             @Override
@@ -89,7 +86,6 @@ public class PointActivity extends AppCompatActivity {
     }
 
     private void updatePoint(Integer charged) {
-        SharedPreferences.Editor setter = setter(getApplicationContext());
         setter.putInt("point", charged).apply();
 
         textCurrent.setText(String.valueOf(charged));

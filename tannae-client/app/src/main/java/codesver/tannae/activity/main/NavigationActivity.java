@@ -54,6 +54,8 @@ public class NavigationActivity extends AppCompatActivity {
     private JSONArray path, guides;
     private int passed;
 
+    private final SharedPreferences getter = InnerDB.getter(getApplicationContext());
+    private final SharedPreferences.Editor setter = InnerDB.setter(getApplicationContext());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +67,7 @@ public class NavigationActivity extends AppCompatActivity {
 
     private void onCreateDriver() {
         setting();
-        connectStomp(InnerDB.getter(getApplicationContext()).getInt("vsn", 0));
+        connectStomp(getter.getInt("vsn", 0));
     }
 
     private void onCreatePassenger() {
@@ -87,7 +89,7 @@ public class NavigationActivity extends AppCompatActivity {
             });
         });
 
-        Network.stomp.send("/pub/connect", InnerDB.getter(getApplicationContext()).getString("id", "")).subscribe();
+        Network.stomp.send("/pub/connect", getter.getString("id", "")).subscribe();
     }
 
     private void mainProcess(String responseMessage) throws JSONException {
@@ -95,8 +97,6 @@ public class NavigationActivity extends AppCompatActivity {
         int flag = response.getInt("flag");
         int usn = response.getInt("usn");
 
-        SharedPreferences getter = InnerDB.getter(getApplicationContext());
-        SharedPreferences.Editor setter = InnerDB.setter(getApplicationContext());
         int innerUsn = getter.getInt("usn", 0);
         boolean driver = getter.getBoolean("driver", false);
 
@@ -232,7 +232,6 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     private void request() {
-        SharedPreferences getter = InnerDB.getter(getApplicationContext());
         int usn = getter.getInt("usn", 0);
         String id = getter.getString("id", null);
         boolean gender = getter.getBoolean("gender", true);
@@ -269,7 +268,7 @@ public class NavigationActivity extends AppCompatActivity {
             setting();
             setVisibility();
             connectStomp(responseDTO.getVsn());
-            InnerDB.setter(getApplicationContext()).putBoolean("board", true).apply();
+            setter.putBoolean("board", true).apply();
             sendResponseBack();
         }
     }
@@ -321,7 +320,6 @@ public class NavigationActivity extends AppCompatActivity {
 
     private void transfer() {
         try {
-            SharedPreferences getter = InnerDB.getter(getApplicationContext());
             JSONObject request = new JSONObject()
                     .put("vsn", getter.getInt("vsn", 0))
                     .put("guides", getter.getString("guides", null));
@@ -332,7 +330,7 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     private void switchRunByServer(boolean isChecked) {
-        Network.service.switchRun(InnerDB.getter(getApplicationContext()).getInt("vsn", 0), isChecked).enqueue(new Callback<Boolean>() {
+        Network.service.switchRun(getter.getInt("vsn", 0), isChecked).enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 Toaster.toast(NavigationActivity.this, response.body() ? "운행이 활성화되었습니다." : "운행이 비활성화 되었습니다.");
@@ -369,7 +367,6 @@ public class NavigationActivity extends AppCompatActivity {
         if (switchRun.isChecked())
             Toaster.toast(getApplicationContext(), "운행중에는 화면을 전환할 수 없습니다.");
         else {
-            SharedPreferences getter = InnerDB.getter(getApplicationContext());
             if (getter.getBoolean("board", false)) {
                 Toaster.toast(getApplicationContext(), "서비스 이용 중에는 화면을 전환할 수 없습니다.");
                 return;

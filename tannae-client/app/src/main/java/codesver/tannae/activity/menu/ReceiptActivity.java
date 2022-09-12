@@ -26,6 +26,9 @@ public class ReceiptActivity extends AppCompatActivity {
     private Button buttonBack, buttonCheckOrigin, buttonCheckDestination, buttonEvaluate;
     private RatingBar ratingEvaluate;
 
+    private final SharedPreferences getter = InnerDB.getter(getApplicationContext());
+    private final SharedPreferences.Editor setter = InnerDB.setter(getApplicationContext());
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +37,7 @@ public class ReceiptActivity extends AppCompatActivity {
     }
 
     private void getReceiptInfoByServer() {
-        Network.service.getReceipt(InnerDB.getter(getApplicationContext()).getInt("usn", 0)).enqueue(new Callback<History>() {
+        Network.service.getReceipt(getter.getInt("usn", 0)).enqueue(new Callback<History>() {
             @Override
             public void onResponse(Call<History> call, Response<History> response) {
                 History history = response.body();
@@ -51,11 +54,10 @@ public class ReceiptActivity extends AppCompatActivity {
     }
 
     private void setViews(History history) {
-        SharedPreferences getter = InnerDB.getter(getApplicationContext());
-        SharedPreferences.Editor setter = InnerDB.setter(getApplicationContext());
         int point = getter.getInt("point", 0) - history.getRealFare();
         setter.putInt("point", point).apply();
-        if (point < 0) Toaster.toast(getApplicationContext(), "포인트가 초과 사용되었습니다.\n충전하기 전까지 사용이 중지됩니다.");
+        if (point < 0)
+            Toaster.toast(getApplicationContext(), "포인트가 초과 사용되었습니다.\n충전하기 전까지 사용이 중지됩니다.");
         setButtons();
         setTextViews(history, point);
     }

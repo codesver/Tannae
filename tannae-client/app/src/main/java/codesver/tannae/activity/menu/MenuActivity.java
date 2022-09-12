@@ -2,7 +2,6 @@ package codesver.tannae.activity.menu;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -40,7 +39,7 @@ public class MenuActivity extends AppCompatActivity {
     private void setEventListeners() {
         linearAccount.setOnClickListener(v -> startActivity(new Intent(MenuActivity.this, AccountActivity.class)));
         linearPoint.setOnClickListener(v -> startActivity(new Intent(MenuActivity.this, PointActivity.class)));
-        
+
         buttonBack.setOnClickListener(v -> onBackPressed());
         buttonLogout.setOnClickListener(v -> {
             InnerDB.clear(getApplicationContext());
