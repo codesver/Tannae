@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Slf4j
 @Repository
@@ -49,7 +50,16 @@ public class HistoryJpaRepository implements HistoryRepository {
         history.setRealFare(fare);
         history.setRealDistance(distance);
         history.setRealDuration(duration);
-        history.setEnd(true);
         log.info("[REPOSITORY-HISTORY {} : UPDATE_REAL_DATA_RESULT] UPDATED", Thread.currentThread().getId());
+    }
+
+    @Override
+    public History findHistory(int usn) {
+        log.info("[REPOSITORY-HISTORY {} : FIND_HISTORY] SELECT * FROM HISTORY WHERE USN={} AND END={}", Thread.currentThread().getId(), usn, false);
+        Optional<History> optionalHistory = repository.findHistoryByUsnAndEnd(usn, false);
+        History history = optionalHistory.get();
+        history.setEnd(true);
+        log.info("[REPOSITORY-HISTORY {} : FIND_HISTORY_RESULT] FOUNDED={}", Thread.currentThread().getId(), history);
+        return history;
     }
 }

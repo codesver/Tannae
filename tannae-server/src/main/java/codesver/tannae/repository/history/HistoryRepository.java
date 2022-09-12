@@ -11,4 +11,6 @@ public interface HistoryRepository {
     void updateArrivalTime(int usn);
 
     void updateRealData(int usn, int fare, int distance, int duration);
+
+    History findHistory(int usn);
 }
