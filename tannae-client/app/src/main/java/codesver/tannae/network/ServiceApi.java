@@ -1,5 +1,6 @@
 package codesver.tannae.network;
 
+import codesver.tannae.dto.ReceiptDTO;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.dto.FoundAccountDTO;
 import codesver.tannae.dto.LoginDTO;
@@ -37,4 +38,7 @@ public interface ServiceApi {
 
     @PATCH("/vehicles/{vsn}/switch-run")
     Call<Boolean> switchRun(@Path("vsn") Integer vsn, @Query("run") Boolean run);
+
+    @GET("/histories")
+    Call<ReceiptDTO> getReceipt(@Query("usn") Integer usn);
 }
