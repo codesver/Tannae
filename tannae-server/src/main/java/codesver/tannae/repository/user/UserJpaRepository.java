@@ -59,7 +59,7 @@ public class UserJpaRepository implements UserRepository {
     @Override
     public Integer chargePoint(Integer usn, Integer point) {
         log.info("[REPOSITORY-USER {} : CHARGE_POINT] UPDATE USER SET POINT={} WHERE USN={}", Thread.currentThread().getId(), point, usn);
-        User user = repository.findUserByUsn(usn).orElse(new User());
+        User user = repository.findById(usn).orElse(new User());
         int charged = user.getPoint() + point;
         user.setPoint(charged);
         log.info("[REPOSITORY-USER {} : CHARGE_POINT_RESULT] CURRENT POINT={}", Thread.currentThread().getId(), charged);
@@ -69,7 +69,7 @@ public class UserJpaRepository implements UserRepository {
     @Override
     public void changeBoardState(Integer usn, boolean state) {
         log.info("[REPOSITORY-USER {} : CHANGE_BOARD_STATE] UPDATE USER SET BOARD={} WHERE USN={}", Thread.currentThread().getId(), true, usn);
-        Optional<User> userOptional = repository.findUserByUsn(usn);
+        Optional<User> userOptional = repository.findById(usn);
         User user = userOptional.get();
         user.setBoard(state);
         log.info("[REPOSITORY-USER {} : CHANGE_BOARD_STATE_RESULT] BOARD STATE={}", Thread.currentThread().getId(), true);
@@ -78,7 +78,7 @@ public class UserJpaRepository implements UserRepository {
     @Override
     public void usePoint(int usn, int fare) {
         log.info("[REPOSITORY-USER {} : USE_POINT] UPDATE USER SET POINT=POINT-{} WHERE USN={}", Thread.currentThread().getId(), fare, usn);
-        User user = repository.findUserByUsn(usn).get();
+        User user = repository.findById(usn).get();
         user.setPoint(user.getPoint() - fare);
         log.info("[REPOSITORY-USER {} : USE_POINT_RESULT] CURRENT POINT={}", Thread.currentThread().getId(), user.getPoint());
     }
@@ -86,7 +86,7 @@ public class UserJpaRepository implements UserRepository {
     @Override
     public void rate(int usn, float rate) {
         log.info("[REPOSITORY-USER {} : RATE] UPDATE USER SET SCORE=(SCORE+{})/2 WHERE USN={}", Thread.currentThread().getId(), rate, usn);
-        User user = repository.findUserByUsn(usn).get();
+        User user = repository.findById(usn).get();
         user.setScore((user.getScore() + rate) / 2);
         log.info("[REPOSITORY-USER {} : RATE_RESULT] SCORE={}", Thread.currentThread().getId(), user.getScore());
     }

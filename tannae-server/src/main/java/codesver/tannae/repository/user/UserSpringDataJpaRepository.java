@@ -14,6 +14,4 @@ public interface UserSpringDataJpaRepository extends JpaRepository<User, Integer
     Optional<User> findUserByNameAndRrn(String name, String rrn);
 
     Optional<User> findUserByIdAndPw(String id, String pw);
-
-    Optional<User> findUserByUsn(Integer usn);
 }
