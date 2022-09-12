@@ -16,6 +16,9 @@
         android:theme="@style/Theme.TANNAE"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".MapActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.menu.ReceiptActivity"
             android:exported="false" />
         <activity

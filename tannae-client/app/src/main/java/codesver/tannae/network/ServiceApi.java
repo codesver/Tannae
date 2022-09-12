@@ -33,6 +33,9 @@ public interface ServiceApi {
     @PATCH("/users/{usn}/charge")
     Call<Integer> charge(@Path("usn") Integer usn, @Query("point") Integer point);
 
+    @PATCH("/users/rate")
+    Call<Boolean> rate(@Query("vsn") Integer vsn, @Query("rate") Float rate);
+
     @POST("/service/request")
     Call<ServiceResponseDTO> request(@Body ServiceRequestDTO dto);
 
