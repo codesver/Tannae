@@ -52,7 +52,7 @@ public class PointActivity extends AppCompatActivity {
 
         if (point < 0) {
             editPoint.setText(String.valueOf(point * -1));
-            Toaster.toast(PointActivity.this, "초과 포인트 사용 기록이 있습니다.\n충전해주시기 바랍니다.");
+            Toaster.toast(getApplicationContext(), "초과 포인트 사용 기록이 있습니다.\n충전해주시기 바랍니다.");
         }
     }
 
@@ -62,9 +62,9 @@ public class PointActivity extends AppCompatActivity {
         int chargePoint = Integer.parseInt(chargePointText.equals("") ? "0" : chargePointText);
 
         if (chargePointText.length() == 0 || chargePoint == 0)
-            Toaster.toast(PointActivity.this, "충전량을 입력하세요.");
+            Toaster.toast(getApplicationContext(), "충전량을 입력하세요.");
         else if (point < 0 && -point > chargePoint)
-            Toaster.toast(PointActivity.this, "초과 사용 포인트 이상을 충전해주시기 바랍니다.");
+            Toaster.toast(getApplicationContext(), "초과 사용 포인트 이상을 충전해주시기 바랍니다.");
         else chargeByServer(chargePoint);
     }
 
@@ -74,13 +74,13 @@ public class PointActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 Integer charged = response.body();
-                Toaster.toast(PointActivity.this, "충전을 완료하였습니다.");
+                Toaster.toast(getApplicationContext(), "충전을 완료하였습니다.");
                 updatePoint(charged);
             }
 
             @Override
             public void onFailure(Call<Integer> call, Throwable t) {
-                Toaster.toast(PointActivity.this, "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
+                Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });
     }

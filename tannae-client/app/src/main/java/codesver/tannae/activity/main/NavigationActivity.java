@@ -249,7 +249,7 @@ public class NavigationActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ServiceResponseDTO> call, Throwable t) {
-                Toaster.toast(NavigationActivity.this, "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
+                Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
                 startActivity(new Intent(NavigationActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
         });
@@ -259,10 +259,10 @@ public class NavigationActivity extends AppCompatActivity {
         int flag = responseDTO.getFlag();
 
         if (flag == -2) {
-            Toaster.toast(NavigationActivity.this, "교통 혼잡으로 이용 가능한 차량이 없습니다.\n다음에 다시 이용해주세요.");
+            Toaster.toast(getApplicationContext(), "교통 혼잡으로 이용 가능한 차량이 없습니다.\n다음에 다시 이용해주세요.");
             startActivity(new Intent(NavigationActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         } else if (flag == -1) {
-            Toaster.toast(NavigationActivity.this, "이용 가능한 차량이 없습니다.\n다음에 다시 이용해주세요.");
+            Toaster.toast(getApplicationContext(), "이용 가능한 차량이 없습니다.\n다음에 다시 이용해주세요.");
             startActivity(new Intent(NavigationActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         } else {
             setting();
@@ -333,12 +333,12 @@ public class NavigationActivity extends AppCompatActivity {
         Network.service.switchRun(getter.getInt("vsn", 0), isChecked).enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                Toaster.toast(NavigationActivity.this, response.body() ? "운행이 활성화되었습니다." : "운행이 비활성화 되었습니다.");
+                Toaster.toast(getApplicationContext(), response.body() ? "운행이 활성화되었습니다." : "운행이 비활성화 되었습니다.");
             }
 
             @Override
             public void onFailure(Call<Boolean> call, Throwable t) {
-                Toaster.toast(NavigationActivity.this, "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
+                Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });
     }

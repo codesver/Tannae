@@ -89,12 +89,12 @@ public class SignUpActivity extends AppCompatActivity {
                 idChecked = response.body();
                 textIdState.setText(idChecked ? "사용 가능한 ID 입니다." : "다른 ID를 사용해주세요.");
                 textIdState.setTextColor(idChecked ? 0xAA0000FF : 0xAAFF0000);
-                Toaster.toast(SignUpActivity.this, idChecked ? "사용 가능한 ID 입니다." : "이미 사용 중인 ID 입니다.");
+                Toaster.toast(getApplicationContext(), idChecked ? "사용 가능한 ID 입니다." : "이미 사용 중인 ID 입니다.");
             }
 
             @Override
             public void onFailure(Call<Boolean> call, Throwable t) {
-                Toaster.toast(SignUpActivity.this, "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
+                Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });
     }
@@ -108,7 +108,7 @@ public class SignUpActivity extends AppCompatActivity {
             textPrivateState.setText("개인정보를 정확하게 입력하세요.");
             textPrivateState.setTextColor(0xAAFF0000);
             privateChecked = false;
-            Toaster.toast(SignUpActivity.this, "개인정보를 정확하게 입력하세요.");
+            Toaster.toast(getApplicationContext(), "개인정보를 정확하게 입력하세요.");
         } else {
             checkUserByServer(name, rrnFront, rrnBack);
         }
@@ -123,31 +123,31 @@ public class SignUpActivity extends AppCompatActivity {
                     textPrivateState.setText("본인인증이 되었습니다.");
                     textPrivateState.setTextColor(0xAA0000FF);
                     privateChecked = true;
-                    Toaster.toast(SignUpActivity.this, "본인인증이 완료되었습니다.");
+                    Toaster.toast(getApplicationContext(), "본인인증이 완료되었습니다.");
                 } else {
                     textPrivateState.setText("이미 가입된 사용자입니다.");
                     textPrivateState.setTextColor(0xAAFF0000);
                     privateChecked = false;
-                    Toaster.toast(SignUpActivity.this, "이미 가입된 사용자입니다.");
+                    Toaster.toast(getApplicationContext(), "이미 가입된 사용자입니다.");
                 }
             }
 
             @Override
             public void onFailure(Call<Boolean> call, Throwable t) {
-                Toaster.toast(SignUpActivity.this, "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
+                Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });
     }
 
     private void signUp() {
 
-        if (!idChecked) Toaster.toast(SignUpActivity.this, "ID 중복을 검사하세요.");
-        else if (!pwChecked) Toaster.toast(SignUpActivity.this, "PW를 확인하세요.");
-        else if (!privateChecked) Toaster.toast(SignUpActivity.this, "본인인증을 하세요.");
+        if (!idChecked) Toaster.toast(getApplicationContext(), "ID 중복을 검사하세요.");
+        else if (!pwChecked) Toaster.toast(getApplicationContext(), "PW를 확인하세요.");
+        else if (!privateChecked) Toaster.toast(getApplicationContext(), "본인인증을 하세요.");
         else if (!Patterns.EMAIL_ADDRESS.matcher(editEmail.getText().toString()).matches())
-            Toaster.toast(SignUpActivity.this, "잘못된 E-mail 형식입니다.");
+            Toaster.toast(getApplicationContext(), "잘못된 E-mail 형식입니다.");
         else if (!Patterns.PHONE.matcher(editPhone.getText().toString()).matches())
-            Toaster.toast(SignUpActivity.this, "잘못된 전화번호 형식입니다.");
+            Toaster.toast(getApplicationContext(), "잘못된 전화번호 형식입니다.");
         else {
             SignUpUserDTO dto = createSignUpUserDTO();
             signUpByServer(dto);
@@ -170,15 +170,15 @@ public class SignUpActivity extends AppCompatActivity {
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 Boolean success = response.body();
                 if (success) {
-                    Toaster.toast(SignUpActivity.this, "회원가입이 완료되었습니다.");
+                    Toaster.toast(getApplicationContext(), "회원가입이 완료되었습니다.");
                     onBackPressed();
                 } else
-                    Toaster.toast(SignUpActivity.this, "회원가입이 거부되었습니다.\n고객센터로 문의바랍니다.");
+                    Toaster.toast(getApplicationContext(), "회원가입이 거부되었습니다.\n고객센터로 문의바랍니다.");
             }
 
             @Override
             public void onFailure(Call<Boolean> call, Throwable t) {
-                Toaster.toast(SignUpActivity.this, "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
+                Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });
     }

@@ -71,9 +71,9 @@ public class RequestActivity extends AppCompatActivity implements MapView.MapVie
 
     private void request() {
         if (!originSelected)
-            Toaster.toast(RequestActivity.this, "출발지를 지정해주세요.");
+            Toaster.toast(getApplicationContext(), "출발지를 지정해주세요.");
         else if (!destinationSelected)
-            Toaster.toast(RequestActivity.this, "목적지를 지정해주세요.");
+            Toaster.toast(getApplicationContext(), "목적지를 지정해주세요.");
         else {
             mapViewContainer.removeView(mapView);
             startActivity(new Intent(RequestActivity.this, NavigationActivity.class)

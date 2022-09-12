@@ -60,9 +60,9 @@ public class LoginActivity extends AppCompatActivity {
         String pw = editPw.getText().toString();
 
         if (id.equals(""))
-            Toaster.toast(LoginActivity.this, "ID를 입력하세요.");
+            Toaster.toast(getApplicationContext(), "ID를 입력하세요.");
         else if (pw.equals(""))
-            Toaster.toast(LoginActivity.this, "PW를 입력하세요.");
+            Toaster.toast(getApplicationContext(), "PW를 입력하세요.");
         else
             loginByServer(id, pw);
     }
@@ -76,10 +76,10 @@ public class LoginActivity extends AppCompatActivity {
                     InnerDB.saveUser(getApplicationContext(), login.getUser());
                     if (login.getUser().getDriver())
                         setter.putInt("vsn", login.getVsn()).apply();
-                    Toaster.toast(LoginActivity.this, id + "님 반갑습니다!");
+                    Toaster.toast(getApplicationContext(), id + "님 반갑습니다!");
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 } else {
-                    Toaster.toast(LoginActivity.this, "존재하지 않는 계정입니다.");
+                    Toaster.toast(getApplicationContext(), "존재하지 않는 계정입니다.");
                     editId.setText("");
                     editPw.setText("");
                 }
@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<LoginDTO> call, Throwable t) {
-                Toaster.toast(LoginActivity.this, "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
+                Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });
     }

@@ -96,7 +96,7 @@ public class FindActivity extends AppCompatActivity {
         if (!privateAvailable) {
             textPrivateState.setText("개인정보를 정확하게 입력하세요.");
             textPrivateState.setTextColor(0xAAFF0000);
-            Toaster.toast(FindActivity.this, "개인정보를 정확하게 입력하세요.");
+            Toaster.toast(getApplicationContext(), "개인정보를 정확하게 입력하세요.");
         } else findAccountByServer(name, rrnFront + "-" + rrnBack);
     }
 
@@ -107,13 +107,13 @@ public class FindActivity extends AppCompatActivity {
                 FoundAccountDTO account = response.body();
 
                 if (account.isFound()) {
-                    Toaster.toast(FindActivity.this, "회원 정보와 일치하는 계정을 찾았습니다.");
+                    Toaster.toast(getApplicationContext(), "회원 정보와 일치하는 계정을 찾았습니다.");
                     textIdFound.setText(account.getId());
                     textPwFound.setText(account.getPw());
                     textPrivateState.setText("계정을 찾았습니다.");
                     textPrivateState.setTextColor(0xAA0000FF);
                 } else {
-                    Toaster.toast(FindActivity.this, "일치하는 계정이 없습니다.");
+                    Toaster.toast(getApplicationContext(), "일치하는 계정이 없습니다.");
                     textIdFound.setText("");
                     textPwFound.setText("");
                     textPrivateState.setText("일치하는 계정이 없습니다.");
@@ -123,7 +123,7 @@ public class FindActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<FoundAccountDTO> call, Throwable t) {
-                Toaster.toast(FindActivity.this, "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
+                Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });
     }
