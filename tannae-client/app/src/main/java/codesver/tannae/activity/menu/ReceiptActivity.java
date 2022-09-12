@@ -7,7 +7,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import codesver.tannae.R;
-import codesver.tannae.dto.ReceiptDTO;
+import codesver.tannae.domain.History;
 import codesver.tannae.network.Network;
 import codesver.tannae.service.InnerDB;
 import codesver.tannae.service.Toaster;
@@ -33,14 +33,14 @@ public class ReceiptActivity extends AppCompatActivity {
     }
 
     private void getReceiptInfoByServer() {
-        Network.service.getReceipt(InnerDB.getter(getApplicationContext()).getInt("usn", 0)).enqueue(new Callback<ReceiptDTO>() {
+        Network.service.getReceipt(InnerDB.getter(getApplicationContext()).getInt("usn", 0)).enqueue(new Callback<History>() {
             @Override
-            public void onResponse(Call<ReceiptDTO> call, Response<ReceiptDTO> response) {
+            public void onResponse(Call<History> call, Response<History> response) {
 
             }
 
             @Override
-            public void onFailure(Call<ReceiptDTO> call, Throwable t) {
+            public void onFailure(Call<History> call, Throwable t) {
                 Toaster.toast(ReceiptActivity.this, "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });
