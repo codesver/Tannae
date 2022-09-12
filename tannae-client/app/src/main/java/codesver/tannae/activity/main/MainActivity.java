@@ -1,6 +1,7 @@
 package codesver.tannae.activity.main;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,6 +16,7 @@ import net.daum.mf.map.api.MapView;
 import codesver.tannae.R;
 import codesver.tannae.activity.menu.MenuActivity;
 import codesver.tannae.service.InnerDB;
+import codesver.tannae.service.Toaster;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,6 +56,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void request() {
+        SharedPreferences getter = InnerDB.getter(getApplicationContext());
+        if (getter.getInt("point", 0) < 1000) {
+            Toaster.toast(getApplicationContext(), "잔여 포인트가 1000p 미만입니다.\n충전 후 이용 가능합니다.");
+            return;
+        }
         mapViewContainer.removeView(mapView);
         boolean driver = InnerDB.getter(getApplicationContext()).getBoolean("driver", false);
         startActivity(new Intent(MainActivity.this, driver ? NavigationActivity.class : RequestActivity.class).putExtra("driver", driver));

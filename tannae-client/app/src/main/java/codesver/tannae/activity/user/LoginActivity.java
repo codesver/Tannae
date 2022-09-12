@@ -61,16 +61,16 @@ public class LoginActivity extends AppCompatActivity {
         else if (pw.equals(""))
             Toaster.toast(LoginActivity.this, "PW를 입력하세요.");
         else
-            loginByServer(id, pw, false);
+            loginByServer(id, pw);
     }
 
-    private void loginByServer(String id, String pw, boolean exist) {
+    private void loginByServer(String id, String pw) {
         Network.service.login(id, pw).enqueue(new Callback<LoginDTO>() {
             @Override
             public void onResponse(Call<LoginDTO> call, Response<LoginDTO> response) {
                 LoginDTO login = response.body();
                 if (login.exist()) {
-                    if (!exist) InnerDB.saveUser(getApplicationContext(), login.getUser());
+                    InnerDB.saveUser(getApplicationContext(), login.getUser());
                     if (login.getUser().getDriver())
                         InnerDB.setter(getApplicationContext()).putInt("vsn", login.getVsn()).apply();
                     Toaster.toast(LoginActivity.this, id + "님 반갑습니다!");
@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
         if (usn != -1) {
             String id = getter.getString("id", null);
             String pw = getter.getString("pw", null);
-            loginByServer(id, pw, true);
+            loginByServer(id, pw);
         }
     }
 }

@@ -35,7 +35,7 @@ public class MapActivity extends AppCompatActivity {
         mapView = new MapView(this);
         mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude), true);
         mapView.setZoomLevel(2, true);
-        mapViewContainer = findViewById(R.id.frame_layout_main);
+        mapViewContainer = findViewById(R.id.frame_layout_map);
         mapViewContainer.addView(mapView);
         mapView.addCircle(new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude), 30,
                 Color.argb(255, 18, 124, 234), Color.argb(255, 18, 124, 234)));

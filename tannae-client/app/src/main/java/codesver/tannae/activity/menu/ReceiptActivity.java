@@ -1,5 +1,6 @@
 package codesver.tannae.activity.menu;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -52,14 +53,23 @@ public class ReceiptActivity extends AppCompatActivity {
     private void setViews(History history) {
         SharedPreferences getter = InnerDB.getter(getApplicationContext());
         SharedPreferences.Editor setter = InnerDB.setter(getApplicationContext());
-        setter.putInt("point", getter.getInt("point", 0) - history.getRealFare());
+        int point = getter.getInt("point", 0) - history.getRealFare();
+        setter.putInt("point", point).apply();
+        if (point < 0) Toaster.toast(getApplicationContext(), "포인트가 초과 사용되었습니다.\n충전하기 전까지 사용이 중지됩니다.");
+        setButtons();
+        setTextViews(history, point);
+    }
 
+    private void setButtons() {
         buttonBack = findViewById(R.id.button_back_receipt);
         buttonCheckOrigin = findViewById(R.id.button_check_origin_receipt);
         buttonCheckDestination = findViewById(R.id.button_check_destination_receipt);
         buttonEvaluate = findViewById(R.id.button_evaluate_receipt);
         ratingEvaluate = findViewById(R.id.rating_evaluate_receipt);
+    }
 
+    @SuppressLint("SetTextI18n")
+    private void setTextViews(History history, int point) {
         ((TextView) findViewById(R.id.text_hsn_receipt)).setText(String.valueOf(history.getHsn()));
         ((TextView) findViewById(R.id.text_date_receipt)).setText(history.getRequestTime().substring(0, 10));
         ((TextView) findViewById(R.id.text_request_time_receipt)).setText(history.getRequestTime().substring(11));
@@ -67,15 +77,15 @@ public class ReceiptActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.text_arrival_time_receipt)).setText(history.getArrivalTime().substring(11));
         ((TextView) findViewById(R.id.text_origin_receipt)).setText(history.getOrigin());
         ((TextView) findViewById(R.id.text_destination_receipt)).setText(history.getDestination());
-        ((TextView) findViewById(R.id.text_original_distance_receipt)).setText(String.valueOf(history.getOriginalDistance()));
-        ((TextView) findViewById(R.id.text_original_duration_receipt)).setText(String.valueOf(history.getOriginalDuration()));
-        ((TextView) findViewById(R.id.text_original_fare_receipt)).setText(String.valueOf(history.getOriginalFare()));
-        ((TextView) findViewById(R.id.text_real_distance_receipt)).setText(String.valueOf(history.getRealDistance()));
-        ((TextView) findViewById(R.id.text_real_duration_receipt)).setText(String.valueOf(history.getRealDuration()));
-        ((TextView) findViewById(R.id.text_real_fare_receipt)).setText(String.valueOf(history.getRealFare()));
-        ((TextView) findViewById(R.id.text_fare_receipt)).setText(String.valueOf(history.getRealFare()));
-        ((TextView) findViewById(R.id.text_sale_ratio_receipt)).setText(String.valueOf((int) (100 - history.getRealFare() / (double) history.getOriginalFare() * 100)));
-        ((TextView) findViewById(R.id.text_left_point_receipt)).setText(String.valueOf(getter.getInt("point", 0)));
+        ((TextView) findViewById(R.id.text_original_distance_receipt)).setText(history.getOriginalDistance() / 1000.0 + "km");
+        ((TextView) findViewById(R.id.text_original_duration_receipt)).setText((int) (history.getOriginalDuration() / 60.0) + "분");
+        ((TextView) findViewById(R.id.text_original_fare_receipt)).setText(history.getOriginalFare() + "p");
+        ((TextView) findViewById(R.id.text_real_distance_receipt)).setText(history.getRealDistance() / 1000.0 + "km");
+        ((TextView) findViewById(R.id.text_real_duration_receipt)).setText((int) (history.getRealDuration() / 60.0) + "분");
+        ((TextView) findViewById(R.id.text_real_fare_receipt)).setText(history.getRealFare() + "p");
+        ((TextView) findViewById(R.id.text_fare_receipt)).setText(history.getRealFare() + "p");
+        ((TextView) findViewById(R.id.text_sale_ratio_receipt)).setText((int) (100 - history.getRealFare() / (double) history.getOriginalFare() * 100) + "%");
+        ((TextView) findViewById(R.id.text_left_point_receipt)).setText(point + "p");
     }
 
     private void setEventListeners(History history) {
