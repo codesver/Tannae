@@ -60,22 +60,22 @@ public class ReceiptActivity extends AppCompatActivity {
         buttonEvaluate = findViewById(R.id.button_evaluate_receipt);
         ratingEvaluate = findViewById(R.id.rating_evaluate_receipt);
 
-        ((TextView) findViewById(R.id.text_hsn_receipt)).setText(history.getHsn());
+        ((TextView) findViewById(R.id.text_hsn_receipt)).setText(String.valueOf(history.getHsn()));
         ((TextView) findViewById(R.id.text_date_receipt)).setText(history.getRequestTime().substring(0, 10));
         ((TextView) findViewById(R.id.text_request_time_receipt)).setText(history.getRequestTime().substring(11));
         ((TextView) findViewById(R.id.text_boarding_time_receipt)).setText(history.getBoardingTime().substring(11));
         ((TextView) findViewById(R.id.text_arrival_time_receipt)).setText(history.getArrivalTime().substring(11));
         ((TextView) findViewById(R.id.text_origin_receipt)).setText(history.getOrigin());
         ((TextView) findViewById(R.id.text_destination_receipt)).setText(history.getDestination());
-        ((TextView) findViewById(R.id.text_original_distance_receipt)).setText(history.getOriginalDistance());
-        ((TextView) findViewById(R.id.text_original_duration_receipt)).setText(history.getOriginalDuration());
-        ((TextView) findViewById(R.id.text_original_fare_receipt)).setText(history.getOriginalFare());
-        ((TextView) findViewById(R.id.text_real_distance_receipt)).setText(history.getRealDistance());
-        ((TextView) findViewById(R.id.text_real_duration_receipt)).setText(history.getRealDuration());
-        ((TextView) findViewById(R.id.text_real_fare_receipt)).setText(history.getRealFare());
-        ((TextView) findViewById(R.id.text_fare_receipt)).setText(history.getRealFare());
-        ((TextView) findViewById(R.id.text_sale_ratio_receipt)).setText((int) (100 - history.getRealFare() / (double) history.getOriginalFare() * 100));
-        ((TextView) findViewById(R.id.text_left_point_receipt)).setText(getter.getInt("point", 0));
+        ((TextView) findViewById(R.id.text_original_distance_receipt)).setText(String.valueOf(history.getOriginalDistance()));
+        ((TextView) findViewById(R.id.text_original_duration_receipt)).setText(String.valueOf(history.getOriginalDuration()));
+        ((TextView) findViewById(R.id.text_original_fare_receipt)).setText(String.valueOf(history.getOriginalFare()));
+        ((TextView) findViewById(R.id.text_real_distance_receipt)).setText(String.valueOf(history.getRealDistance()));
+        ((TextView) findViewById(R.id.text_real_duration_receipt)).setText(String.valueOf(history.getRealDuration()));
+        ((TextView) findViewById(R.id.text_real_fare_receipt)).setText(String.valueOf(history.getRealFare()));
+        ((TextView) findViewById(R.id.text_fare_receipt)).setText(String.valueOf(history.getRealFare()));
+        ((TextView) findViewById(R.id.text_sale_ratio_receipt)).setText(String.valueOf((int) (100 - history.getRealFare() / (double) history.getOriginalFare() * 100)));
+        ((TextView) findViewById(R.id.text_left_point_receipt)).setText(String.valueOf(getter.getInt("point", 0)));
     }
 
     private void setEventListeners(History history) {
