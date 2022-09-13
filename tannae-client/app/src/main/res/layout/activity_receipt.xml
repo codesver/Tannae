@@ -457,6 +457,7 @@
                     android:textColor="@color/black" />
 
                 <TextView
+                    android:id="@+id/text_left_point_label_receipt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="잔여 포인트"

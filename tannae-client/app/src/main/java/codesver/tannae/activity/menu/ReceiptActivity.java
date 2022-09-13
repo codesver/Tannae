@@ -29,6 +29,8 @@ public class ReceiptActivity extends AppCompatActivity {
     private SharedPreferences getter;
     private SharedPreferences.Editor setter;
 
+    private int hsn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +39,7 @@ public class ReceiptActivity extends AppCompatActivity {
         getter = InnerDB.getter(getApplicationContext());
         setter = InnerDB.setter(getApplicationContext());
 
-        int hsn = getIntent().getIntExtra("hsn", 0);
+        hsn = getIntent().getIntExtra("hsn", 0);
         if (hsn == 0) getReceiptInfoByServerWithUsn(getter.getInt("usn", 0));
         else getReceiptInfoByServerWithHsn(hsn);
     }
@@ -78,7 +80,8 @@ public class ReceiptActivity extends AppCompatActivity {
     }
 
     private void setViews(History history) {
-        int point = getter.getInt("point", 0) - history.getRealFare();
+        int currentPoint = getter.getInt("point", 0);
+        int point = hsn == 0 ? currentPoint - history.getRealFare() : currentPoint;
         setter.putInt("point", point).apply();
         if (point < 0)
             Toaster.toast(getApplicationContext(), "포인트가 초과 사용되었습니다.\n충전하기 전까지 사용이 중지됩니다.");
@@ -90,13 +93,13 @@ public class ReceiptActivity extends AppCompatActivity {
         buttonBack = findViewById(R.id.button_back_receipt);
         buttonCheckOrigin = findViewById(R.id.button_check_origin_receipt);
         buttonCheckDestination = findViewById(R.id.button_check_destination_receipt);
-        buttonEvaluate = findViewById(R.id.button_evaluate_receipt);
-        ratingEvaluate = findViewById(R.id.rating_evaluate_receipt);
+        (buttonEvaluate = findViewById(R.id.button_evaluate_receipt)).setVisibility(hsn == 0 ? View.VISIBLE : View.GONE);
+        (ratingEvaluate = findViewById(R.id.rating_evaluate_receipt)).setVisibility(hsn == 0 ? View.VISIBLE : View.GONE);
     }
 
     @SuppressLint("SetTextI18n")
     private void setTextViews(History history, int point) {
-        ((TextView) findViewById(R.id.text_hsn_receipt)).setText(String.valueOf(history.getHsn()));
+        ((TextView) findViewById(R.id.text_hsn_receipt)).setText("RECEIPT " + history.getHsn());
         ((TextView) findViewById(R.id.text_date_receipt)).setText(history.getRequestTime().substring(0, 10));
         ((TextView) findViewById(R.id.text_request_time_receipt)).setText(history.getRequestTime().substring(11));
         ((TextView) findViewById(R.id.text_boarding_time_receipt)).setText(history.getBoardingTime().substring(11));
@@ -111,7 +114,12 @@ public class ReceiptActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.text_real_fare_receipt)).setText(history.getRealFare() + "p");
         ((TextView) findViewById(R.id.text_fare_receipt)).setText(history.getRealFare() + "p");
         ((TextView) findViewById(R.id.text_sale_ratio_receipt)).setText((int) (100 - history.getRealFare() / (double) history.getOriginalFare() * 100) + "%");
-        ((TextView) findViewById(R.id.text_left_point_receipt)).setText(point + "p");
+        if (hsn == 0) {
+            ((TextView) findViewById(R.id.text_left_point_receipt)).setText(point + "p");
+        } else {
+            ((TextView) findViewById(R.id.text_left_point_receipt)).setVisibility(View.GONE);
+            ((TextView) findViewById(R.id.text_left_point_label_receipt)).setVisibility(View.GONE);
+        }
     }
 
     private void setEventListeners(History history) {
@@ -145,6 +153,9 @@ public class ReceiptActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(ReceiptActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        if (hsn == 0)
+            startActivity(new Intent(ReceiptActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        else
+            super.onBackPressed();
     }
 }

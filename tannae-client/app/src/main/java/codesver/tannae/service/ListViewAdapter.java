@@ -3,6 +3,7 @@ package codesver.tannae.service;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,7 @@ public class ListViewAdapter<T> extends BaseAdapter {
         T t = items.get(position);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        int layout = t.getClass().equals(History.class) ? R.id.linear_layout_list_view_history : null;
+        int layout = t.getClass().equals(History.class) ? R.layout.list_view_history : null;
         convertView = inflater.inflate(layout, parent, false);
 
         if (History.class.equals(t.getClass())) {

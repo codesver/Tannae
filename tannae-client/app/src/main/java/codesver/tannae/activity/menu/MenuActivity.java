@@ -39,6 +39,7 @@ public class MenuActivity extends AppCompatActivity {
     private void setEventListeners() {
         linearAccount.setOnClickListener(v -> startActivity(new Intent(MenuActivity.this, AccountActivity.class)));
         linearPoint.setOnClickListener(v -> startActivity(new Intent(MenuActivity.this, PointActivity.class)));
+        linearHistory.setOnClickListener(v -> startActivity(new Intent(MenuActivity.this, HistoryActivity.class)));
 
         buttonBack.setOnClickListener(v -> onBackPressed());
         buttonLogout.setOnClickListener(v -> {
