@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.menu.HistoryActivity">
+    tools:context=".activity.menu.QnaActivity">
 
     <Toolbar
         android:layout_width="match_parent"
@@ -12,7 +12,6 @@
         android:background="@color/white">
 
         <Button
-            android:id="@+id/button_back_history"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/back_arrow" />
@@ -20,8 +19,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="이용 기록"
+            android:layout_gravity="center_horizontal"
+            android:text="고객센터"
             android:textColor="@color/main"
             android:textSize="25dp"
             android:textStyle="bold" />
@@ -34,12 +33,9 @@
         android:orientation="vertical">
 
         <ListView
-            android:id="@+id/list_view_histories_history"
+            android:id="@+id/list_view_qnas_qna"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="@null"
-            android:dividerHeight="0dp">
-
+            android:layout_height="wrap_content">
         </ListView>
 
     </LinearLayout>
