@@ -26,12 +26,15 @@ public class MainActivity extends AppCompatActivity {
     private MapView mapView;
     private ViewGroup mapViewContainer;
 
-    private final SharedPreferences getter = InnerDB.getter(getApplicationContext());
+    private SharedPreferences getter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getter = InnerDB.getter(getApplicationContext());
+
         setMap();
         setViews();
         setEventListeners();

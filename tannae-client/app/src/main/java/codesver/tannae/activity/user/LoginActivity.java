@@ -26,8 +26,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText editId, editPw;
     private Button buttonFind, buttonSignUp, buttonLogin;
 
-    private final SharedPreferences getter = InnerDB.getter(getApplicationContext());
-    private final SharedPreferences.Editor setter = InnerDB.setter(getApplicationContext());
+    private SharedPreferences getter;
+    private SharedPreferences.Editor setter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,10 @@ public class LoginActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        getter = InnerDB.getter(getApplicationContext());
+        setter = InnerDB.setter(getApplicationContext());
+
         setViews();
         setEventListeners();
         autoLogin();

@@ -22,13 +22,17 @@ public class PointActivity extends AppCompatActivity {
     private EditText editPoint;
     private Button buttonCharge, buttonBack;
 
-    private final SharedPreferences getter = InnerDB.getter(getApplicationContext());
-    private final SharedPreferences.Editor setter = InnerDB.setter(getApplicationContext());
+    private SharedPreferences getter;
+    private SharedPreferences.Editor setter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_point);
+
+        getter = InnerDB.getter(getApplicationContext());
+        setter = InnerDB.setter(getApplicationContext());
+
         setViews();
         setEventListeners();
         setActivity();

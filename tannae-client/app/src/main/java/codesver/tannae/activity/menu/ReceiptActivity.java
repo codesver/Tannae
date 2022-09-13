@@ -26,13 +26,17 @@ public class ReceiptActivity extends AppCompatActivity {
     private Button buttonBack, buttonCheckOrigin, buttonCheckDestination, buttonEvaluate;
     private RatingBar ratingEvaluate;
 
-    private final SharedPreferences getter = InnerDB.getter(getApplicationContext());
-    private final SharedPreferences.Editor setter = InnerDB.setter(getApplicationContext());
+    private SharedPreferences getter;
+    private SharedPreferences.Editor setter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receipt);
+
+        getter = InnerDB.getter(getApplicationContext());
+        setter = InnerDB.setter(getApplicationContext());
+
         int hsn = getIntent().getIntExtra("hsn", 0);
         if (hsn == 0) getReceiptInfoByServerWithUsn(getter.getInt("usn", 0));
         else getReceiptInfoByServerWithHsn(hsn);

@@ -54,13 +54,17 @@ public class NavigationActivity extends AppCompatActivity {
     private JSONArray path, guides;
     private int passed;
 
-    private final SharedPreferences getter = InnerDB.getter(getApplicationContext());
-    private final SharedPreferences.Editor setter = InnerDB.setter(getApplicationContext());
+    private SharedPreferences getter;
+    private SharedPreferences.Editor setter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
+
+        getter = InnerDB.getter(getApplicationContext());
+        setter = InnerDB.setter(getApplicationContext());
+
         if (getIntent().getBooleanExtra("driver", true)) onCreateDriver();
         else onCreatePassenger();
     }

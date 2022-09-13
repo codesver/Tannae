@@ -23,12 +23,15 @@ public class HistoryActivity extends AppCompatActivity {
     private ListView listView;
     private ListViewAdapter<History> adapter;
 
-    private final SharedPreferences getter = InnerDB.getter(getApplicationContext());
+    private SharedPreferences getter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+
+        getter = InnerDB.getter(getApplicationContext());
+
         listView = findViewById(R.id.list_view_histories_history);
         setAdapter();
     }
