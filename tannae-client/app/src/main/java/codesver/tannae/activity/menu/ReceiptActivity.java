@@ -33,24 +33,44 @@ public class ReceiptActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receipt);
-        getReceiptInfoByServer();
+        int hsn = getIntent().getIntExtra("hsn", 0);
+        if (hsn == 0) getReceiptInfoByServerWithUsn(getter.getInt("usn", 0));
+        else getReceiptInfoByServerWithHsn(hsn);
     }
 
-    private void getReceiptInfoByServer() {
-        Network.service.getReceipt(getter.getInt("usn", 0)).enqueue(new Callback<History>() {
+    private void getReceiptInfoByServerWithUsn(int usn) {
+        Network.service.getReceiptWithUsn(usn).enqueue(new Callback<History>() {
             @Override
             public void onResponse(Call<History> call, Response<History> response) {
-                History history = response.body();
-                assert history != null;
-                setViews(history);
-                setEventListeners(history);
+                drawReceipt(response);
             }
 
             @Override
             public void onFailure(Call<History> call, Throwable t) {
-                Toaster.toast(ReceiptActivity.this, "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
+                Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });
+    }
+
+    private void getReceiptInfoByServerWithHsn(int hsn) {
+        Network.service.getReceiptWithHsn(hsn).enqueue(new Callback<History>() {
+            @Override
+            public void onResponse(Call<History> call, Response<History> response) {
+                drawReceipt(response);
+            }
+
+            @Override
+            public void onFailure(Call<History> call, Throwable t) {
+                Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
+            }
+        });
+    }
+
+    private void drawReceipt(Response<History> response) {
+        History history = response.body();
+        assert history != null;
+        setViews(history);
+        setEventListeners(history);
     }
 
     private void setViews(History history) {

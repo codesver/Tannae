@@ -2,6 +2,8 @@ package codesver.tannae.repository.history;
 
 import codesver.tannae.domain.History;
 
+import java.util.List;
+
 public interface HistoryRepository {
 
     void save(History history);
@@ -12,5 +14,9 @@ public interface HistoryRepository {
 
     void updateRealData(int usn, int fare, int distance, int duration);
 
-    History findHistory(int usn);
+    History findHistoryByUsn(int usn);
+
+    History findHistoryByHsn(int hsn);
+
+    List<History> findHistories(int usn);
 }

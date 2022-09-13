@@ -1,5 +1,7 @@
 package codesver.tannae.network;
 
+import java.util.List;
+
 import codesver.tannae.domain.History;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.dto.FoundAccountDTO;
@@ -43,5 +45,11 @@ public interface ServiceApi {
     Call<Boolean> switchRun(@Path("vsn") Integer vsn, @Query("run") Boolean run);
 
     @GET("/histories")
-    Call<History> getReceipt(@Query("usn") Integer usn);
+    Call<List<History>> getHistories(@Query("usn") Integer usn);
+
+    @GET("/histories/{hsn}")
+    Call<History> getReceiptWithHsn(@Path("hsn") Integer hsn);
+
+    @GET("/histories/users")
+    Call<History> getReceiptWithUsn(@Query("usn") Integer usn);
 }

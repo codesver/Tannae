@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -54,12 +55,27 @@ public class HistoryJpaRepository implements HistoryRepository {
     }
 
     @Override
-    public History findHistory(int usn) {
-        log.info("[REPOSITORY-HISTORY {} : FIND_HISTORY] SELECT * FROM HISTORY WHERE USN={} AND END={}", Thread.currentThread().getId(), usn, false);
-        Optional<History> optionalHistory = repository.findHistoryByUsnAndEnd(usn, false);
-        History history = optionalHistory.get();
+    public History findHistoryByUsn(int usn) {
+        log.info("[REPOSITORY-HISTORY {} : FIND_HISTORY_BY_USN] SELECT * FROM HISTORY WHERE USN={} AND END={}", Thread.currentThread().getId(), usn, false);
+        History history = repository.findHistoryByUsnAndEnd(usn, false).get();
         history.setEnd(true);
-        log.info("[REPOSITORY-HISTORY {} : FIND_HISTORY_RESULT] FOUNDED={}", Thread.currentThread().getId(), history);
+        log.info("[REPOSITORY-HISTORY {} : FIND_HISTORY_BY_USN_RESULT] FOUNDED={}", Thread.currentThread().getId(), history);
         return history;
+    }
+
+    @Override
+    public History findHistoryByHsn(int hsn) {
+        log.info("[REPOSITORY-HISTORY {} : FIND_HISTORY_BY_HSN] SELECT * FROM HISTORY WHERE HSN={}", Thread.currentThread().getId(), hsn);
+        History history = repository.findById(hsn).get();
+        log.info("[REPOSITORY-HISTORY {} : FIND_HISTORY_BY_HSN_RESULT] FOUNDED={}", Thread.currentThread().getId(), history);
+        return history;
+    }
+
+    @Override
+    public List<History> findHistories(int usn) {
+        log.info("REPOSITORY-HISTORY {} : FIND_HISTORIES] SELECT * FROM HISTORY WHERE USN={}", Thread.currentThread().getId(), usn);
+        List<History> histories = repository.findHistoriesByUsn(usn);
+        log.info("REPOSITORY-HISTORY {} : FIND_HISTORIES_RESULT] COUNT={}", Thread.currentThread().getId(), histories.size());
+        return histories;
     }
 }
