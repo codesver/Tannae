@@ -1,6 +1,6 @@
 package codesver.tannae.controller;
 
-import codesver.tannae.domain.DRO;
+import codesver.tannae.domain.DSO;
 import codesver.tannae.domain.Process;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.dto.ServiceResponseDTO;
@@ -31,11 +31,11 @@ public class ServiceController {
     @PostMapping("/request")
     public ServiceResponseDTO request(@RequestBody ServiceRequestDTO requestDTO) {
         log.info("[CONTROLLER-SERVICE {} : REQUEST ] /service/request body={}", Thread.currentThread().getId(), requestDTO);
-        DRO<Process> dro = processor.handleRequest(requestDTO);
-        Process process = dro.get();
-        return dro.getFlag() > 0 ? new ServiceResponseDTO(dro.getFlag(), process.getVehicle().getVsn(), requestDTO.getUsn(),
-                process.getPath(), dro.getGuides().toString(), process.getPassed())
-                : new ServiceResponseDTO(dro.getFlag());
+        DSO<Process> DSO = processor.handleRequest(requestDTO);
+        Process process = DSO.get();
+        return DSO.getFlag() > 0 ? new ServiceResponseDTO(DSO.getFlag(), process.getVehicle().getVsn(), requestDTO.getUsn(),
+                process.getPath(), DSO.getGuides().toString(), process.getPassed())
+                : new ServiceResponseDTO(DSO.getFlag());
     }
 
     @MessageMapping("/connect")

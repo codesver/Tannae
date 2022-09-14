@@ -1,6 +1,6 @@
 package codesver.tannae.service;
 
-import codesver.tannae.domain.DRO;
+import codesver.tannae.domain.DSO;
 import codesver.tannae.domain.Vehicle;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.repository.vehicle.VehicleRepository;
@@ -17,17 +17,17 @@ public class VehicleFinder {
 
     private final VehicleRepository vehicleRepository;
 
-    public DRO<Vehicle> findVehicle(ServiceRequestDTO dto) {
+    public DSO<Vehicle> findVehicle(ServiceRequestDTO dto) {
         log.info("[SERVICE-VEHICLE-FINDER {} : FIND_VEHICLE] Finding vehicle for user={}", Thread.currentThread().getId(), dto.getId());
 
         List<Vehicle> vehicles = vehicleRepository.findNewVehicle(true, 0);
-        DRO<Vehicle> dro = vehicles.isEmpty() ? new DRO<>(-1) : findNearestVehicle(vehicles, dto);
+        DSO<Vehicle> DSO = vehicles.isEmpty() ? new DSO<>(-1) : findNearestVehicle(vehicles, dto);
 
-        log.info("[SERVICE-VEHICLE-FINDER {} : FIND_VEHICLE_RESULT] Founded vehicle={}", Thread.currentThread().getId(), dro.isPresent() ? dro.get() : "Not founded");
-        return dro;
+        log.info("[SERVICE-VEHICLE-FINDER {} : FIND_VEHICLE_RESULT] Founded vehicle={}", Thread.currentThread().getId(), DSO.isPresent() ? DSO.get() : "Not founded");
+        return DSO;
     }
 
-    private DRO<Vehicle> findNearestVehicle(List<Vehicle> vehicles, ServiceRequestDTO dto) {
+    private DSO<Vehicle> findNearestVehicle(List<Vehicle> vehicles, ServiceRequestDTO dto) {
         log.info("[SERVICE-VEHICLE-FINDER {} : FIND_NEAREST_VEHICLE] Finding nearest vehicle for user={}", Thread.currentThread().getId(), dto.getId());
 
         double distance = Double.MAX_VALUE;
@@ -45,6 +45,6 @@ public class VehicleFinder {
 
         assert nearestVehicle != null;
         log.info("[SERVICE-VEHICLE-FINDER {} : FIND_NEAREST_VEHICLE_RESULT] Nearest vehicle {}", Thread.currentThread().getId(), nearestVehicle.getVsn());
-        return new DRO<>(1, nearestVehicle);
+        return new DSO<>(1, nearestVehicle);
     }
 }

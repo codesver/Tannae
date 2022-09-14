@@ -1,6 +1,6 @@
 package codesver.tannae.service;
 
-import codesver.tannae.domain.DRO;
+import codesver.tannae.domain.DSO;
 import codesver.tannae.domain.Process;
 import codesver.tannae.domain.Vehicle;
 import codesver.tannae.dto.ServiceRequestDTO;
@@ -34,26 +34,26 @@ public class ProcessManager {
         return process;
     }
 
-    public DRO<Process> findProcess(ServiceRequestDTO dto) {
+    public DSO<Process> findProcess(ServiceRequestDTO dto) {
         log.info("[SERVICE-PROCESS-MANAGER {} : FIND_PROCESSES] Find processes gender={} share={}", Thread.currentThread().getId(), dto.getGender(), dto.getShare());
 
         List<Process> processes = processRepository.findByGenderShare(dto.getGender(), dto.getShare());
-        DRO<Process> processDRO = new DRO<>();
+        DSO<Process> processDSO = new DSO<>();
 
         if (!processes.isEmpty()) {
             sortProcessList(processes, dto.getOriginLatitude(), dto.getOriginLongitude());
             for (Process process : processes)
                 if (availableCoordinate(dto, process)) {
-                    processDRO = new DRO<>(3, process);
+                    processDSO = new DSO<>(3, process);
                     break;
                 }
         }
 
-        if (!processDRO.isPresent())
-            processDRO = new DRO<>(2);
+        if (!processDSO.isPresent())
+            processDSO = new DSO<>(2);
 
         log.info("[SERVICE-PROCESS-MANAGER {} : FIND_PROCESSES] Find processes gender={} share={}", Thread.currentThread().getId(), dto.getGender(), dto.getShare());
-        return processDRO;
+        return processDSO;
     }
 
     public void mergePathToProcess(Process process, JSONArray path) {

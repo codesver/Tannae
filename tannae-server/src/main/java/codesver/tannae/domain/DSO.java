@@ -5,32 +5,32 @@ import org.json.JSONArray;
 
 import java.util.Optional;
 
-public class DRO<T> {
+public class DSO<T> {
     private int flag;
     private final Optional<T> option;
     private JSONArray guides;
 
-    public DRO() {
+    public DSO() {
         option = Optional.empty();
     }
 
-    public DRO(int flag) {
+    public DSO(int flag) {
         this.flag = flag;
         option = Optional.empty();
     }
 
-    public DRO(int flag, T t) {
+    public DSO(int flag, T t) {
         this.flag = flag;
         option = Optional.of(t);
     }
 
-    public DRO(int flag, T t, JSONArray guides) {
+    public DSO(int flag, T t, JSONArray guides) {
         this.flag = flag;
         option = Optional.of(t);
         this.guides = guides;
     }
 
-    public DRO<T> setFlag(int flag) {
+    public DSO<T> setFlag(int flag) {
         this.flag = flag;
         return this;
     }
