@@ -7,7 +7,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class LoginDTO {
-
     private User user;
     private Integer vsn;
     private boolean exist;

@@ -10,7 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ServiceResponseDTO {
-
     private int flag;
     private int vsn;
     private int usn;

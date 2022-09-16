@@ -6,7 +6,6 @@ import lombok.ToString;
 @Getter
 @ToString
 public class ServiceRequestDTO {
-
     private Integer usn;
     private String id;
     private Boolean gender;
