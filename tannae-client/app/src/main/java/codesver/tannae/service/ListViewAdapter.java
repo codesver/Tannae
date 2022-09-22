@@ -53,7 +53,7 @@ public class ListViewAdapter<T> extends BaseAdapter {
 
         if (History.class.equals(t.getClass())) {
             History history = (History) t;
-            ((TextView) convertView.findViewById(R.id.text_date_list_view_history)).setText(history.getRequestTime().substring(0, 10));
+            ((TextView) convertView.findViewById(R.id.text_date_list_view_history)).setText(history.getRequestTime().toString().substring(0, 10));
             ((TextView) convertView.findViewById(R.id.text_origin_list_view_history)).setText(history.getOrigin());
             ((TextView) convertView.findViewById(R.id.text_destination_list_view_history)).setText(history.getDestination());
             ((TextView) convertView.findViewById(R.id.text_fare_list_view_history)).setText(history.getRealFare() + "p");

@@ -1,50 +1,29 @@
 package codesver.tannae.domain;
 
+import java.time.LocalDateTime;
+
 public class History {
 
-    private final Integer hsn;
-    private final String origin;
-    private final Double originLatitude;
-    private final Double originLongitude;
-    private final String destination;
-    private final Double destinationLatitude;
-    private final Double destinationLongitude;
-    private final Boolean share;
-    private final String requestTime;
-    private final String boardingTime;
-    private final String arrivalTime;
-    private final Integer originalFare;
-    private final Integer originalDistance;
-    private final Integer originalDuration;
-    private final Integer realFare;
-    private final Integer realDistance;
-    private final Integer realDuration;
-    private final Boolean end;
-    private final Integer usn;
-    private final Integer vsn;
-
-    public History(Integer hsn, String origin, Double originLatitude, Double originLongitude, String destination, Double destinationLatitude, Double destinationLongitude, Boolean share, String requestTime, String boardingTime, String arrivalTime, Integer originalFare, Integer originalDistance, Integer originalDuration, Integer realFare, Integer realDistance, Integer realDuration, Boolean end, Integer usn, Integer vsn) {
-        this.hsn = hsn;
-        this.origin = origin;
-        this.originLatitude = originLatitude;
-        this.originLongitude = originLongitude;
-        this.destination = destination;
-        this.destinationLatitude = destinationLatitude;
-        this.destinationLongitude = destinationLongitude;
-        this.share = share;
-        this.requestTime = requestTime;
-        this.boardingTime = boardingTime;
-        this.arrivalTime = arrivalTime;
-        this.originalFare = originalFare;
-        this.originalDistance = originalDistance;
-        this.originalDuration = originalDuration;
-        this.realFare = realFare;
-        this.realDistance = realDistance;
-        this.realDuration = realDuration;
-        this.end = end;
-        this.usn = usn;
-        this.vsn = vsn;
-    }
+    private Integer hsn;
+    private String origin;
+    private Double originLatitude;
+    private Double originLongitude;
+    private String destination;
+    private Double destinationLatitude;
+    private Double destinationLongitude;
+    private Boolean share;
+    private LocalDateTime requestTime;
+    private LocalDateTime boardingTime;
+    private LocalDateTime arrivalTime;
+    private Integer originalFare;
+    private Integer originalDistance;
+    private Integer originalDuration;
+    private Integer realFare;
+    private Integer realDistance;
+    private Integer realDuration;
+    private Boolean end;
+    private User user;
+    private Vehicle vehicle;
 
     public Integer getHsn() {
         return hsn;
@@ -78,15 +57,15 @@ public class History {
         return share;
     }
 
-    public String getRequestTime() {
+    public LocalDateTime getRequestTime() {
         return requestTime;
     }
 
-    public String getBoardingTime() {
+    public LocalDateTime getBoardingTime() {
         return boardingTime;
     }
 
-    public String getArrivalTime() {
+    public LocalDateTime getArrivalTime() {
         return arrivalTime;
     }
 
@@ -118,12 +97,12 @@ public class History {
         return end;
     }
 
-    public Integer getUsn() {
-        return usn;
+    public User getUser() {
+        return user;
     }
 
-    public Integer getVsn() {
-        return vsn;
+    public Vehicle getVehicle() {
+        return vehicle;
     }
 }
 
