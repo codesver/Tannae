@@ -39,10 +39,10 @@ public class User {
     private String phone;
 
     @Column(length = 1, nullable = false, columnDefinition = "TINYINT")
-    private Boolean driver;
+    private Boolean isDriver;
 
     @Column(length = 1, nullable = false, columnDefinition = "TINYINT")
-    private Boolean board;
+    private Boolean onBoard;
 
     @Column(nullable = false)
     private Integer point;

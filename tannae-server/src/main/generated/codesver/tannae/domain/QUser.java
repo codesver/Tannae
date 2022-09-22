@@ -19,17 +19,17 @@ public class QUser extends EntityPathBase<User> {
 
     public static final QUser user = new QUser("user");
 
-    public final BooleanPath board = createBoolean("board");
-
-    public final BooleanPath driver = createBoolean("driver");
-
     public final StringPath email = createString("email");
 
     public final BooleanPath gender = createBoolean("gender");
 
     public final StringPath id = createString("id");
 
+    public final BooleanPath isDriver = createBoolean("isDriver");
+
     public final StringPath name = createString("name");
+
+    public final BooleanPath onBoard = createBoolean("onBoard");
 
     public final StringPath phone = createString("phone");
 

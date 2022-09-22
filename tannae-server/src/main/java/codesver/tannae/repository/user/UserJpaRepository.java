@@ -71,7 +71,7 @@ public class UserJpaRepository implements UserRepository {
         log.info("[REPOSITORY-USER {} : CHANGE_BOARD_STATE] UPDATE USER SET BOARD={} WHERE USN={}", Thread.currentThread().getId(), true, usn);
         Optional<User> userOptional = repository.findById(usn);
         User user = userOptional.get();
-        user.setBoard(state);
+        user.setOnBoard(state);
         log.info("[REPOSITORY-USER {} : CHANGE_BOARD_STATE_RESULT] BOARD STATE={}", Thread.currentThread().getId(), true);
     }
 
