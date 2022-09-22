@@ -101,12 +101,10 @@ public class ResponseHandler {
                 .put("origin", new JSONObject().put("x", dto.getOriginLongitude()).put("y", dto.getOriginLatitude()))
                 .put("destination", new JSONObject().put("x", dto.getDestinationLongitude()).put("y", dto.getDestinationLatitude()))
                 .put("waypoints", new JSONArray())).getJSONArray("routes").getJSONObject(0).getJSONObject("summary");
-        String time = LocalDateTime.now().toString();
-        time = time.substring(0, time.indexOf('.'));
         historyRepository.save(new History(dto.getOrigin(), dto.getOriginLatitude(), dto.getOriginLongitude(),
-                dto.getDestination(), dto.getDestinationLatitude(), dto.getDestinationLongitude(), dto.getShare(), time,
+                dto.getDestination(), dto.getDestinationLatitude(), dto.getDestinationLongitude(), dto.getShare(), LocalDateTime.now().withNano(0),
                 summary.getJSONObject("fare").getInt("taxi"), summary.getInt("distance"), summary.getInt("duration"), false,
-                dto.getUsn(), vehicle.getVsn()));
+                dto.getUsn(), vehicle));
 
         log.info("[SERVICE-RESPONSE-HANDLER {} : UPDATE_BY_RESPONSE_RESULT] Updated database by response", Thread.currentThread().getId());
     }

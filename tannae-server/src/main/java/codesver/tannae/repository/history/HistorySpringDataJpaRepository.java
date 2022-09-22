@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface HistorySpringDataJpaRepository extends JpaRepository<History, Integer> {
 
-    Optional<History> findHistoryByUsnAndEnd(Integer usn, Boolean end);
+    Optional<History> findHistoryByUser_UsnAndEnd(Integer usn, Boolean end);
 
-    List<History> findHistoriesByUsn(Integer usn);
+    List<History> findHistoriesByUser_Usn(Integer usn);
 }
