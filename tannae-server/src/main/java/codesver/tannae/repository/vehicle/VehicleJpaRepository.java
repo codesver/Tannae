@@ -21,7 +21,7 @@ public class VehicleJpaRepository implements VehicleRepository {
     @Override
     public Optional<Vehicle> findVehicleByUsn(Integer usn) {
         log.info("[REPOSITORY-VEHICLE {} : FIND_VEHICLE_BY_USN] SELECT * FROM VEHICLE WHERE USN={}", Thread.currentThread().getId(), usn);
-        Optional<Vehicle> optionalVehicle = repository.findVehicleByUsn(usn);
+        Optional<Vehicle> optionalVehicle = repository.findVehicleByUser_Usn(usn);
         log.info("[REPOSITORY-VEHICLE {} : FIND_VEHICLE_BY_USN_RESULT] FOUND VEHICLE={}", Thread.currentThread().getId(), optionalVehicle.orElse(null));
         return optionalVehicle;
     }
@@ -29,7 +29,7 @@ public class VehicleJpaRepository implements VehicleRepository {
     @Override
     public List<Vehicle> findNewVehicle(boolean run, int num) {
         log.info("[REPOSITORY-VEHICLE {} : FIND_NEW_VEHICLE] SELECT * FROM VEHICLE WHERE RUN={} AND NUM={}", Thread.currentThread().getId(), run, num);
-        List<Vehicle> vehicles = repository.findVehiclesByRunAndNum(run, num);
+        List<Vehicle> vehicles = repository.findVehiclesByRunningAndNum(run, num);
         log.info("[REPOSITORY-VEHICLE {} : FIND_NEW_VEHICLE_RESULT] FOUND VEHICLE NUM={}", Thread.currentThread().getId(), vehicles.size());
         return vehicles;
     }
@@ -49,7 +49,7 @@ public class VehicleJpaRepository implements VehicleRepository {
     public void switchRun(int vsn, boolean run) {
         log.info("[REPOSITORY-VEHICLE {} : SWITCH_RUN] UPDATE VEHICLE SET RUN={} WHERE VSN={}", Thread.currentThread().getId(), run, vsn);
         Optional<Vehicle> vehicle = repository.findById(vsn);
-        vehicle.get().setRun(run);
+        vehicle.get().setRunning(run);
         log.info("[REPOSITORY-VEHICLE {} : SWITCH_RUN_RESULT] RUN STATE={}", Thread.currentThread().getId(), run);
     }
 
@@ -63,7 +63,7 @@ public class VehicleJpaRepository implements VehicleRepository {
         int num = vehicle.getNum() + (type ? 0 : -1);
         vehicle.setNum(num);
         if (num == 0) {
-            vehicle.setRun(false);
+            vehicle.setRunning(false);
             vehicle.setGender(null);
             vehicle.setShare(null);
         }
@@ -74,7 +74,7 @@ public class VehicleJpaRepository implements VehicleRepository {
     @Override
     public Integer findUserOfVehicle(int vsn) {
         log.info("[REPOSITORY-VEHICLE {} : FIND] SELECT * FROM VEHICLE WHERE VSN={}", Thread.currentThread().getId(), vsn);
-        Integer usn = repository.findById(vsn).get().getUsn();
+        Integer usn = repository.findById(vsn).get().getUser().getUsn();
         log.info("[REPOSITORY-VEHICLE {} : FIND_RESULT] FOUND USER={}", Thread.currentThread().getId(), usn);
         return usn;
     }

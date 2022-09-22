@@ -30,7 +30,7 @@ public class Vehicle {
     private Integer num;
 
     @Column(length = 1, columnDefinition = "TINYINT", nullable = false)
-    private Boolean run;
+    private Boolean running;
 
     @Column(length = 1, columnDefinition = "TINYINT")
     private Boolean gender;
@@ -38,6 +38,7 @@ public class Vehicle {
     @Column(length = 1, columnDefinition = "TINYINT")
     private Boolean share;
 
-    @Column
-    private Integer usn;
+    @OneToOne
+    @JoinColumn(name = "USN")
+    private User user;
 }
