@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -17,11 +18,13 @@ public class QHistory extends EntityPathBase<History> {
 
     private static final long serialVersionUID = -943937130L;
 
+    private static final PathInits INITS = PathInits.DIRECT2;
+
     public static final QHistory history = new QHistory("history");
 
-    public final StringPath arrivalTime = createString("arrivalTime");
+    public final DateTimePath<java.time.LocalDateTime> arrivalTime = createDateTime("arrivalTime", java.time.LocalDateTime.class);
 
-    public final StringPath boardingTime = createString("boardingTime");
+    public final DateTimePath<java.time.LocalDateTime> boardingTime = createDateTime("boardingTime", java.time.LocalDateTime.class);
 
     public final StringPath destination = createString("destination");
 
@@ -51,24 +54,34 @@ public class QHistory extends EntityPathBase<History> {
 
     public final NumberPath<Integer> realFare = createNumber("realFare", Integer.class);
 
-    public final StringPath requestTime = createString("requestTime");
+    public final DateTimePath<java.time.LocalDateTime> requestTime = createDateTime("requestTime", java.time.LocalDateTime.class);
 
     public final BooleanPath share = createBoolean("share");
 
-    public final NumberPath<Integer> usn = createNumber("usn", Integer.class);
+    public final QUser user;
 
-    public final NumberPath<Integer> vsn = createNumber("vsn", Integer.class);
+    public final QVehicle vehicle;
 
     public QHistory(String variable) {
-        super(History.class, forVariable(variable));
+        this(History.class, forVariable(variable), INITS);
     }
 
     public QHistory(Path<? extends History> path) {
-        super(path.getType(), path.getMetadata());
+        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
     public QHistory(PathMetadata metadata) {
-        super(History.class, metadata);
+        this(metadata, PathInits.getFor(metadata, INITS));
+    }
+
+    public QHistory(PathMetadata metadata, PathInits inits) {
+        this(History.class, metadata, inits);
+    }
+
+    public QHistory(Class<? extends History> type, PathMetadata metadata, PathInits inits) {
+        super(type, metadata, inits);
+        this.user = inits.isInitialized("user") ? new QUser(forProperty("user")) : null;
+        this.vehicle = inits.isInitialized("vehicle") ? new QVehicle(forProperty("vehicle"), inits.get("vehicle")) : null;
     }
 
 }

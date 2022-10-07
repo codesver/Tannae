@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -16,6 +17,8 @@ import com.querydsl.core.types.Path;
 public class QVehicle extends EntityPathBase<Vehicle> {
 
     private static final long serialVersionUID = -1528802258L;
+
+    private static final PathInits INITS = PathInits.DIRECT2;
 
     public static final QVehicle vehicle = new QVehicle("vehicle");
 
@@ -27,26 +30,35 @@ public class QVehicle extends EntityPathBase<Vehicle> {
 
     public final NumberPath<Integer> num = createNumber("num", Integer.class);
 
-    public final BooleanPath run = createBoolean("run");
+    public final BooleanPath running = createBoolean("running");
 
     public final BooleanPath share = createBoolean("share");
 
-    public final NumberPath<Integer> usn = createNumber("usn", Integer.class);
+    public final QUser user;
 
     public final StringPath vrn = createString("vrn");
 
     public final NumberPath<Integer> vsn = createNumber("vsn", Integer.class);
 
     public QVehicle(String variable) {
-        super(Vehicle.class, forVariable(variable));
+        this(Vehicle.class, forVariable(variable), INITS);
     }
 
     public QVehicle(Path<? extends Vehicle> path) {
-        super(path.getType(), path.getMetadata());
+        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
     public QVehicle(PathMetadata metadata) {
-        super(Vehicle.class, metadata);
+        this(metadata, PathInits.getFor(metadata, INITS));
+    }
+
+    public QVehicle(PathMetadata metadata, PathInits inits) {
+        this(Vehicle.class, metadata, inits);
+    }
+
+    public QVehicle(Class<? extends Vehicle> type, PathMetadata metadata, PathInits inits) {
+        super(type, metadata, inits);
+        this.user = inits.isInitialized("user") ? new QUser(forProperty("user")) : null;
     }
 
 }
