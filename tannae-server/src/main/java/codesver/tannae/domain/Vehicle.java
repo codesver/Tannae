@@ -38,7 +38,7 @@ public class Vehicle {
     @Column(length = 1, columnDefinition = "TINYINT")
     private Boolean share;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USN")
     private User user;
 }
