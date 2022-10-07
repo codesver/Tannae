@@ -28,7 +28,7 @@ public class InnerDB {
                 .putString("email", user.getEmail())
                 .putString("phone", user.getPhone())
                 .putBoolean("driver", user.getDriver())
-                .putBoolean("board", user.getBoard())
+                .putBoolean("board", user.getOnBoard())
                 .putInt("point", user.getPoint())
                 .putFloat("score", user.getScore())
                 .putBoolean("exist", true)
