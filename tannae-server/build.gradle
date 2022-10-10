@@ -38,6 +38,10 @@ dependencies {
 	// JSON
 	implementation group: 'org.json', name: 'json', version: '20220320'
 
+	// devtools
+	implementation 'org.springframework.boot:spring-boot-devtools'
+
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
