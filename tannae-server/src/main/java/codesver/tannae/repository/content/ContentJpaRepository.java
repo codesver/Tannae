@@ -18,7 +18,9 @@ public class ContentJpaRepository implements ContentRepository {
 
     @Override
     public List<Content> getContents() {
+        log.info("[REPOSITORY-CONTENT {} : GET_CONTENTS] SELECT * FROM CONTENT", Thread.currentThread().getId());
         List<Content> contents = repository.findAll();
+        log.info("[REPOSITORY-CONTENT {} : GET_CONTENTS_RESULT] SIZE={}", Thread.currentThread().getId(), contents.size());
         return contents;
     }
 }

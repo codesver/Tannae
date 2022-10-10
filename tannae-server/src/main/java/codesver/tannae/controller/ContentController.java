@@ -20,6 +20,7 @@ public class ContentController {
 
     @GetMapping
     public List<Content> getContents() {
+        log.info("[CONTROLLER-CONTENT {} : GET_CONTENTS] /contents", Thread.currentThread().getId());
         return contentRepository.getContents();
     }
 }
