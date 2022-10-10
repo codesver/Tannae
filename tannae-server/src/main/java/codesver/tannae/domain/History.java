@@ -106,9 +106,9 @@ public class History {
         dto.setDestinationLatitude(destinationLatitude);
         dto.setDestinationLongitude(destinationLongitude);
         dto.setShare(share);
-        dto.setRequestTime(requestTime);
-        dto.setBoardingTime(boardingTime);
-        dto.setArrivalTime(arrivalTime);
+        dto.setRequestTime(requestTime.toString());
+        dto.setBoardingTime(boardingTime.toString());
+        dto.setArrivalTime(arrivalTime.toString());
         dto.setOriginalFare(originalFare);
         dto.setOriginalDistance(originalDistance);
         dto.setOriginalDuration(originalDuration);

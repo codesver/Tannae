@@ -2,6 +2,7 @@ package codesver.tannae.activity.menu;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,6 +55,7 @@ public class HistoryActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<HistoryDTO>> call, Throwable t) {
+                Log.e("Error", t.getLocalizedMessage());
                 Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });

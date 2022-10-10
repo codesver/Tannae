@@ -17,9 +17,9 @@ public class HistoryDTO {
     private Double destinationLatitude;
     private Double destinationLongitude;
     private Boolean share;
-    private LocalDateTime requestTime;
-    private LocalDateTime boardingTime;
-    private LocalDateTime arrivalTime;
+    private String requestTime;
+    private String boardingTime;
+    private String arrivalTime;
     private Integer originalFare;
     private Integer originalDistance;
     private Integer originalDuration;

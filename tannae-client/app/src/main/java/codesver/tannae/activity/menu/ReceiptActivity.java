@@ -98,10 +98,10 @@ public class ReceiptActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private void setTextViews(HistoryDTO history, int point) {
         ((TextView) findViewById(R.id.text_hsn_receipt)).setText("RECEIPT " + history.getHsn());
-        ((TextView) findViewById(R.id.text_date_receipt)).setText(history.getRequestTime().toString().substring(0, 10));
-        ((TextView) findViewById(R.id.text_request_time_receipt)).setText(history.getRequestTime().toString().substring(11));
-        ((TextView) findViewById(R.id.text_boarding_time_receipt)).setText(history.getBoardingTime().toString().substring(11));
-        ((TextView) findViewById(R.id.text_arrival_time_receipt)).setText(history.getArrivalTime().toString().substring(11));
+        ((TextView) findViewById(R.id.text_date_receipt)).setText(history.getRequestTime().substring(0, 10));
+        ((TextView) findViewById(R.id.text_request_time_receipt)).setText(history.getRequestTime().substring(11));
+        ((TextView) findViewById(R.id.text_boarding_time_receipt)).setText(history.getBoardingTime().substring(11));
+        ((TextView) findViewById(R.id.text_arrival_time_receipt)).setText(history.getArrivalTime().substring(11));
         ((TextView) findViewById(R.id.text_origin_receipt)).setText(history.getOrigin());
         ((TextView) findViewById(R.id.text_destination_receipt)).setText(history.getDestination());
         ((TextView) findViewById(R.id.text_original_distance_receipt)).setText(history.getOriginalDistance() / 1000.0 + "km");
@@ -115,8 +115,8 @@ public class ReceiptActivity extends AppCompatActivity {
         if (hsn == 0) {
             ((TextView) findViewById(R.id.text_left_point_receipt)).setText(point + "p");
         } else {
-            ((TextView) findViewById(R.id.text_left_point_receipt)).setVisibility(View.GONE);
-            ((TextView) findViewById(R.id.text_left_point_label_receipt)).setVisibility(View.GONE);
+            findViewById(R.id.text_left_point_receipt).setVisibility(View.GONE);
+            findViewById(R.id.text_left_point_label_receipt).setVisibility(View.GONE);
         }
     }
 

@@ -12,9 +12,9 @@ public class HistoryDTO {
     private Double destinationLatitude;
     private Double destinationLongitude;
     private Boolean share;
-    private LocalDateTime requestTime;
-    private LocalDateTime boardingTime;
-    private LocalDateTime arrivalTime;
+    private String requestTime;
+    private String boardingTime;
+    private String arrivalTime;
     private Integer originalFare;
     private Integer originalDistance;
     private Integer originalDuration;
@@ -56,15 +56,15 @@ public class HistoryDTO {
         return share;
     }
 
-    public LocalDateTime getRequestTime() {
+    public String getRequestTime() {
         return requestTime;
     }
 
-    public LocalDateTime getBoardingTime() {
+    public String getBoardingTime() {
         return boardingTime;
     }
 
-    public LocalDateTime getArrivalTime() {
+    public String getArrivalTime() {
         return arrivalTime;
     }
 
