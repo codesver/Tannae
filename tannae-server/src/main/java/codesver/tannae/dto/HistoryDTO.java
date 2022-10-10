@@ -25,4 +25,5 @@ public class HistoryDTO {
     private Integer realDistance;
     private Integer realDuration;
     private Integer usn;
+    private Integer vsn;
 }
