@@ -24,14 +24,10 @@ public class QnaActivity extends AppCompatActivity {
     private ListView listView;
     private ListViewAdapter<Content> adapter;
 
-    private SharedPreferences getter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qna);
-
-        getter = InnerDB.getter(getApplicationContext());
 
         listView = findViewById(R.id.list_view_qnas_qna);
 
