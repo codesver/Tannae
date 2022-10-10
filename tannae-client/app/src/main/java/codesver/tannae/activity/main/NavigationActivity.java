@@ -24,7 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import codesver.tannae.R;
-import codesver.tannae.activity.menu.ReceiptActivity;
+import codesver.tannae.activity.menu.history.ReceiptActivity;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.dto.ServiceResponseDTO;
 import codesver.tannae.network.Network;

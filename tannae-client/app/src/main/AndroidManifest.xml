@@ -19,16 +19,16 @@
             android:name=".QnaDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.menu.QnaActivity"
+            android:name=".activity.menu.qna.QnaActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.menu.HistoryActivity"
+            android:name=".activity.menu.history.HistoryActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.menu.MapActivity"
+            android:name=".activity.menu.history.MapActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.menu.ReceiptActivity"
+            android:name=".activity.menu.history.ReceiptActivity"
             android:exported="false" />
         <activity
             android:name=".activity.main.NavigationActivity"
@@ -37,10 +37,10 @@
             android:name=".activity.main.RequestActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.menu.PointActivity"
+            android:name=".activity.menu.account.PointActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.menu.AccountActivity"
+            android:name=".activity.menu.account.AccountActivity"
             android:exported="false" />
         <activity
             android:name=".activity.menu.MenuActivity"

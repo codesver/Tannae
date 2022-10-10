@@ -1,4 +1,4 @@
-package codesver.tannae.activity.menu;
+package codesver.tannae.activity.menu.account;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;

@@ -8,6 +8,10 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import codesver.tannae.R;
+import codesver.tannae.activity.menu.history.HistoryActivity;
+import codesver.tannae.activity.menu.account.AccountActivity;
+import codesver.tannae.activity.menu.account.PointActivity;
+import codesver.tannae.activity.menu.qna.QnaActivity;
 import codesver.tannae.activity.user.LoginActivity;
 import codesver.tannae.service.InnerDB;
 

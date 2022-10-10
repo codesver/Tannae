@@ -1,4 +1,4 @@
-package codesver.tannae.activity.menu;
+package codesver.tannae.activity.menu.history;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;

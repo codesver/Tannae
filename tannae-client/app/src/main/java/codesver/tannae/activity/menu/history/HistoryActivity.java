@@ -1,8 +1,7 @@
-package codesver.tannae.activity.menu;
+package codesver.tannae.activity.menu.history;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;

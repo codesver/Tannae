@@ -1,4 +1,4 @@
-package codesver.tannae.activity.menu;
+package codesver.tannae.activity.menu.qna;
 
 import android.os.Bundle;
 

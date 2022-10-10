@@ -1,4 +1,4 @@
-package codesver.tannae.activity.menu;
+package codesver.tannae.activity.menu.account;
 
 import android.os.Bundle;
 import android.widget.TextView;

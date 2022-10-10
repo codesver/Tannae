@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.menu.HistoryActivity">
+    tools:context=".activity.menu.history.HistoryActivity">
 
     <Toolbar
         android:layout_width="match_parent"

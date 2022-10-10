@@ -1,4 +1,4 @@
-package codesver.tannae.activity.menu;
+package codesver.tannae.activity.menu.history;
 
 import android.content.Intent;
 import android.graphics.Color;
