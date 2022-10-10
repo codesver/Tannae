@@ -2,6 +2,7 @@ package codesver.tannae.network;
 
 import java.util.List;
 
+import codesver.tannae.domain.Content;
 import codesver.tannae.domain.History;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.dto.FoundAccountDTO;
@@ -52,4 +53,7 @@ public interface ServiceApi {
 
     @GET("/histories/users")
     Call<History> getReceiptWithUsn(@Query("usn") Integer usn);
+
+    @GET("/contents")
+    Call<List<Content>> getContents();
 }
