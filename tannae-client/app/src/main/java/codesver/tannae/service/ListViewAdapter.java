@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import codesver.tannae.R;
+import codesver.tannae.activity.menu.QnaDetailActivity;
 import codesver.tannae.activity.menu.ReceiptActivity;
 import codesver.tannae.domain.Content;
 import codesver.tannae.domain.History;
@@ -56,6 +57,14 @@ public class ListViewAdapter<T> extends BaseAdapter {
             ((TextView) convertView.findViewById(R.id.text_fare_list_view_history)).setText(history.getRealFare() + "p");
             convertView.findViewById(R.id.button_details_list_view_history).setOnClickListener(v ->
                     context.startActivity(new Intent(context, ReceiptActivity.class).putExtra("hsn", history.getHsn())));
+        } else if (t.getClass().equals(Content.class)) {
+            int layout = R.layout.list_view_content;
+            convertView = inflater.inflate(layout, parent, false);
+            Content content = (Content) t;
+            ((TextView) convertView.findViewById(R.id.text_title_list_view_content)).setText(content.getTitle());
+            convertView.findViewById(R.id.button_details_list_view_content).setOnClickListener(v ->
+                    context.startActivity(new Intent(context, QnaDetailActivity.class)
+                            .putExtra("csn", content.getCsn())));
         }
 
         return convertView;
