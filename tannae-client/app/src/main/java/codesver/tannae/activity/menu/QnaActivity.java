@@ -38,7 +38,6 @@ public class QnaActivity extends AppCompatActivity {
                 List<ContentDTO> contents = response.body();
                 if (contents.isEmpty()) {
                     Toaster.toast(getApplicationContext(), "QnA가 없습니다.");
-                    onBackPressed();
                 } else {
                     adapter = new ListViewAdapter<>();
                     for (ContentDTO content : contents) adapter.addItem(content);
