@@ -33,6 +33,7 @@ public class HistoryActivity extends AppCompatActivity {
         getter = InnerDB.getter(getApplicationContext());
 
         listView = findViewById(R.id.list_view_histories_history);
+        findViewById(R.id.button_back_history).setOnClickListener(v -> onBackPressed());
         setAdapter();
     }
 
