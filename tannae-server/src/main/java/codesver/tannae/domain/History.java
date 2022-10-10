@@ -1,5 +1,6 @@
 package codesver.tannae.domain;
 
+import codesver.tannae.dto.HistoryDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -93,5 +94,27 @@ public class History {
         this.user = new User();
         this.user.setUsn(usn);
         this.vehicle = vehicle;
+    }
+
+    public HistoryDTO getDTO() {
+        HistoryDTO dto = new HistoryDTO();
+        dto.setHsn(hsn);
+        dto.setOrigin(origin);
+        dto.setOriginLatitude(originLatitude);
+        dto.setOriginLongitude(originLongitude);
+        dto.setDestination(destination);
+        dto.setDestinationLatitude(destinationLatitude);
+        dto.setDestinationLongitude(destinationLongitude);
+        dto.setShare(share);
+        dto.setRequestTime(requestTime);
+        dto.setBoardingTime(boardingTime);
+        dto.setArrivalTime(arrivalTime);
+        dto.setOriginalFare(originalFare);
+        dto.setOriginalDistance(originalDistance);
+        dto.setOriginalDuration(originalDuration);
+        dto.setRealFare(realFare);
+        dto.setRealDistance(realDistance);
+        dto.setRealDuration(realDuration);
+        return dto;
     }
 }
