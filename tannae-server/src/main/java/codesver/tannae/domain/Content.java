@@ -1,5 +1,6 @@
 package codesver.tannae.domain;
 
+import codesver.tannae.dto.ContentDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,4 +36,16 @@ public class Content {
     @ManyToOne
     @JoinColumn(name = "USN")
     private User user;
+
+    public ContentDTO getDTO() {
+        ContentDTO dto = new ContentDTO();
+        dto.setCsn(csn);
+        dto.setTitle(title);
+        dto.setQuestion(question);
+        dto.setAnswer(answer);
+        dto.setDateTime(dateTime.toString());
+        dto.setFaq(faq);
+        dto.setUsn(user.getUsn());
+        return dto;
+    }
 }
