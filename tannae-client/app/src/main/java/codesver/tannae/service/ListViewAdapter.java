@@ -15,7 +15,7 @@ import codesver.tannae.R;
 import codesver.tannae.activity.menu.QnaDetailActivity;
 import codesver.tannae.activity.menu.ReceiptActivity;
 import codesver.tannae.domain.Content;
-import codesver.tannae.domain.History;
+import codesver.tannae.dto.HistoryDTO;
 
 public class ListViewAdapter<T> extends BaseAdapter {
 
@@ -47,10 +47,10 @@ public class ListViewAdapter<T> extends BaseAdapter {
         T t = items.get(position);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (t.getClass().equals(History.class)) {
+        if (t.getClass().equals(HistoryDTO.class)) {
             int layout = R.layout.list_view_history;
             convertView = inflater.inflate(layout, parent, false);
-            History history = (History) t;
+            HistoryDTO history = (HistoryDTO) t;
             ((TextView) convertView.findViewById(R.id.text_date_list_view_history)).setText(history.getRequestTime().toString().substring(0, 10));
             ((TextView) convertView.findViewById(R.id.text_origin_list_view_history)).setText(history.getOrigin());
             ((TextView) convertView.findViewById(R.id.text_destination_list_view_history)).setText(history.getDestination());

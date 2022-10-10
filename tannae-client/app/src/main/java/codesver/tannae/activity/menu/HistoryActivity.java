@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 
 import codesver.tannae.R;
-import codesver.tannae.domain.History;
+import codesver.tannae.dto.HistoryDTO;
 import codesver.tannae.network.Network;
 import codesver.tannae.service.InnerDB;
 import codesver.tannae.service.ListViewAdapter;
@@ -21,7 +21,7 @@ import retrofit2.Response;
 public class HistoryActivity extends AppCompatActivity {
 
     private ListView listView;
-    private ListViewAdapter<History> adapter;
+    private ListViewAdapter<HistoryDTO> adapter;
 
     private SharedPreferences getter;
 
@@ -38,22 +38,22 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     private void setAdapter() {
-        Network.service.getHistories(getter.getInt("usn", 0)).enqueue(new Callback<List<History>>() {
+        Network.service.getHistories(getter.getInt("usn", 0)).enqueue(new Callback<List<HistoryDTO>>() {
             @Override
-            public void onResponse(Call<List<History>> call, Response<List<History>> response) {
-                List<History> histories = response.body();
+            public void onResponse(Call<List<HistoryDTO>> call, Response<List<HistoryDTO>> response) {
+                List<HistoryDTO> histories = response.body();
                 if (histories.isEmpty()) {
                     Toaster.toast(getApplicationContext(), "이용 기록이 없습니다.");
                     onBackPressed();
                 } else {
                     adapter = new ListViewAdapter<>();
-                    for (History history : histories) adapter.addItem(history);
+                    for (HistoryDTO history : histories) adapter.addItem(history);
                     listView.setAdapter(adapter);
                 }
             }
 
             @Override
-            public void onFailure(Call<List<History>> call, Throwable t) {
+            public void onFailure(Call<List<HistoryDTO>> call, Throwable t) {
                 Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });

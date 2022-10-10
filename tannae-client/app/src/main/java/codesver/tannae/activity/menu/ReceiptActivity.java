@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import codesver.tannae.R;
 import codesver.tannae.activity.main.MainActivity;
-import codesver.tannae.domain.History;
+import codesver.tannae.dto.HistoryDTO;
 import codesver.tannae.network.Network;
 import codesver.tannae.service.InnerDB;
 import codesver.tannae.service.Toaster;
@@ -45,41 +45,39 @@ public class ReceiptActivity extends AppCompatActivity {
     }
 
     private void getReceiptInfoByServerWithUsn(int usn) {
-        Network.service.getReceiptWithUsn(usn).enqueue(new Callback<History>() {
+        Network.service.getReceiptWithUsn(usn).enqueue(new Callback<HistoryDTO>() {
             @Override
-            public void onResponse(Call<History> call, Response<History> response) {
-                drawReceipt(response);
+            public void onResponse(Call<HistoryDTO> call, Response<HistoryDTO> response) {
+                drawReceipt(response.body());
             }
 
             @Override
-            public void onFailure(Call<History> call, Throwable t) {
+            public void onFailure(Call<HistoryDTO> call, Throwable t) {
                 Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });
     }
 
     private void getReceiptInfoByServerWithHsn(int hsn) {
-        Network.service.getReceiptWithHsn(hsn).enqueue(new Callback<History>() {
+        Network.service.getReceiptWithHsn(hsn).enqueue(new Callback<HistoryDTO>() {
             @Override
-            public void onResponse(Call<History> call, Response<History> response) {
-                drawReceipt(response);
+            public void onResponse(Call<HistoryDTO> call, Response<HistoryDTO> response) {
+                drawReceipt(response.body());
             }
 
             @Override
-            public void onFailure(Call<History> call, Throwable t) {
+            public void onFailure(Call<HistoryDTO> call, Throwable t) {
                 Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });
     }
 
-    private void drawReceipt(Response<History> response) {
-        History history = response.body();
-        assert history != null;
+    private void drawReceipt(HistoryDTO history) {
         setViews(history);
         setEventListeners(history);
     }
 
-    private void setViews(History history) {
+    private void setViews(HistoryDTO history) {
         int currentPoint = getter.getInt("point", 0);
         int point = hsn == 0 ? currentPoint - history.getRealFare() : currentPoint;
         setter.putInt("point", point).apply();
@@ -98,7 +96,7 @@ public class ReceiptActivity extends AppCompatActivity {
     }
 
     @SuppressLint("SetTextI18n")
-    private void setTextViews(History history, int point) {
+    private void setTextViews(HistoryDTO history, int point) {
         ((TextView) findViewById(R.id.text_hsn_receipt)).setText("RECEIPT " + history.getHsn());
         ((TextView) findViewById(R.id.text_date_receipt)).setText(history.getRequestTime().toString().substring(0, 10));
         ((TextView) findViewById(R.id.text_request_time_receipt)).setText(history.getRequestTime().toString().substring(11));
@@ -122,11 +120,11 @@ public class ReceiptActivity extends AppCompatActivity {
         }
     }
 
-    private void setEventListeners(History history) {
+    private void setEventListeners(HistoryDTO history) {
         buttonBack.setOnClickListener(v -> onBackPressed());
         buttonCheckOrigin.setOnClickListener(v -> checkPoint(history.getOriginLatitude(), history.getOriginLongitude()));
         buttonCheckDestination.setOnClickListener(v -> checkPoint(history.getDestinationLatitude(), history.getDestinationLongitude()));
-        buttonEvaluate.setOnClickListener(v -> evaluateByServer(history.getVehicle().getVsn()));
+        buttonEvaluate.setOnClickListener(v -> evaluateByServer(history.getVsn()));
     }
 
     private void checkPoint(double latitude, double longitude) {

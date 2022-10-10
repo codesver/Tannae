@@ -2,7 +2,6 @@ package codesver.tannae.activity.menu;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ListView;
 
@@ -10,9 +9,7 @@ import java.util.List;
 
 import codesver.tannae.R;
 import codesver.tannae.domain.Content;
-import codesver.tannae.domain.History;
 import codesver.tannae.network.Network;
-import codesver.tannae.service.InnerDB;
 import codesver.tannae.service.ListViewAdapter;
 import codesver.tannae.service.Toaster;
 import retrofit2.Call;
