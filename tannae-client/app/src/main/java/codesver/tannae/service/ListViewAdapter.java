@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import codesver.tannae.activity.menu.HistoryActivity;
 import codesver.tannae.activity.menu.ReceiptActivity;
+import codesver.tannae.domain.Content;
 import codesver.tannae.domain.History;
 
 public class ListViewAdapter<T> extends BaseAdapter {
@@ -48,10 +49,9 @@ public class ListViewAdapter<T> extends BaseAdapter {
         T t = items.get(position);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        int layout = t.getClass().equals(History.class) ? R.layout.list_view_history : null;
-        convertView = inflater.inflate(layout, parent, false);
-
-        if (History.class.equals(t.getClass())) {
+        if (t.getClass().equals(History.class)) {
+            int layout = R.layout.list_view_history;
+            convertView = inflater.inflate(layout, parent, false);
             History history = (History) t;
             ((TextView) convertView.findViewById(R.id.text_date_list_view_history)).setText(history.getRequestTime().toString().substring(0, 10));
             ((TextView) convertView.findViewById(R.id.text_origin_list_view_history)).setText(history.getOrigin());
