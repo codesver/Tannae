@@ -55,7 +55,6 @@ public class HistoryActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<HistoryDTO>> call, Throwable t) {
-                Log.e("Error", t.getLocalizedMessage());
                 Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });
