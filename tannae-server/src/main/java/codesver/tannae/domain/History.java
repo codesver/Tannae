@@ -115,6 +115,8 @@ public class History {
         dto.setRealFare(realFare);
         dto.setRealDistance(realDistance);
         dto.setRealDuration(realDuration);
+        dto.setUsn(user.getUsn());
+        dto.setVsn(vehicle.getVsn());
         return dto;
     }
 }
