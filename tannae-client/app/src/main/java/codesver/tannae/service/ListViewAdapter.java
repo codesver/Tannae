@@ -3,18 +3,15 @@ package codesver.tannae.service;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import codesver.tannae.R;
-
 import java.util.ArrayList;
 
-import codesver.tannae.activity.menu.HistoryActivity;
+import codesver.tannae.R;
 import codesver.tannae.activity.menu.ReceiptActivity;
 import codesver.tannae.domain.Content;
 import codesver.tannae.domain.History;
@@ -57,13 +54,10 @@ public class ListViewAdapter<T> extends BaseAdapter {
             ((TextView) convertView.findViewById(R.id.text_origin_list_view_history)).setText(history.getOrigin());
             ((TextView) convertView.findViewById(R.id.text_destination_list_view_history)).setText(history.getDestination());
             ((TextView) convertView.findViewById(R.id.text_fare_list_view_history)).setText(history.getRealFare() + "p");
-            convertView.findViewById(R.id.button_details_list_view_history).setOnClickListener(v -> startReceipt(context, history));
+            convertView.findViewById(R.id.button_details_list_view_history).setOnClickListener(v ->
+                    context.startActivity(new Intent(context, ReceiptActivity.class).putExtra("hsn", history.getHsn())));
         }
 
         return convertView;
-    }
-
-    private void startReceipt(Context context, History history) {
-        context.startActivity(new Intent(context, ReceiptActivity.class).putExtra("hsn", history.getHsn()));
     }
 }
