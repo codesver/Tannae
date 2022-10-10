@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 public class Content {
 
     private Integer csn;
+    private String title;
     private String question;
     private String answer;
     private LocalDateTime dateTime;
@@ -13,6 +14,10 @@ public class Content {
 
     public Integer getCsn() {
         return csn;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public String getQuestion() {

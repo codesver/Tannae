@@ -17,6 +17,9 @@ public class Content {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer csn;
 
+    @Column(length = 10, nullable = false)
+    private String title;
+
     @Column(length = 20, nullable = false)
     private String question;
 
