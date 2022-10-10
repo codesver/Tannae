@@ -8,7 +8,7 @@ import android.widget.ListView;
 import java.util.List;
 
 import codesver.tannae.R;
-import codesver.tannae.domain.Content;
+import codesver.tannae.dto.ContentDTO;
 import codesver.tannae.network.Network;
 import codesver.tannae.service.ListViewAdapter;
 import codesver.tannae.service.Toaster;
@@ -19,7 +19,7 @@ import retrofit2.Response;
 public class QnaActivity extends AppCompatActivity {
 
     private ListView listView;
-    private ListViewAdapter<Content> adapter;
+    private ListViewAdapter<ContentDTO> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,22 +32,22 @@ public class QnaActivity extends AppCompatActivity {
     }
 
     private void setAdapter() {
-        Network.service.getContents().enqueue(new Callback<List<Content>>() {
+        Network.service.getContents().enqueue(new Callback<List<ContentDTO>>() {
             @Override
-            public void onResponse(Call<List<Content>> call, Response<List<Content>> response) {
-                List<Content> contents = response.body();
+            public void onResponse(Call<List<ContentDTO>> call, Response<List<ContentDTO>> response) {
+                List<ContentDTO> contents = response.body();
                 if (contents.isEmpty()) {
                     Toaster.toast(getApplicationContext(), "QnA가 없습니다.");
                     onBackPressed();
                 } else {
                     adapter = new ListViewAdapter<>();
-                    for (Content content : contents) adapter.addItem(content);
+                    for (ContentDTO content : contents) adapter.addItem(content);
                     listView.setAdapter(adapter);
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Content>> call, Throwable t) {
+            public void onFailure(Call<List<ContentDTO>> call, Throwable t) {
                 Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });
