@@ -78,12 +78,13 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/text_question_qna_detail"
+            <EditText
+                android:id="@+id/edit_question_qna_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rectangle"
+                android:enabled="false"
                 android:padding="10dp"
                 android:text="{QUESTION}"
                 android:textColor="@color/black"
@@ -138,11 +139,12 @@
                 android:textSize="25sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/text_answer_qna_detail"
+            <EditText
+                android:id="@+id/edit_answer_qna_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rectangle"
+                android:enabled="false"
                 android:padding="10dp"
                 android:text="{ANSWER}"
                 android:textColor="@color/black"
