@@ -46,11 +46,11 @@ public class VehicleJpaRepository implements VehicleRepository {
     }
 
     @Override
-    public void switchRun(int vsn, boolean run) {
-        log.info("[REPOSITORY-VEHICLE {} : SWITCH_RUN] UPDATE VEHICLE SET RUN={} WHERE VSN={}", Thread.currentThread().getId(), run, vsn);
+    public void switchRun(int vsn, boolean running) {
+        log.info("[REPOSITORY-VEHICLE {} : SWITCH_RUN] UPDATE VEHICLE SET RUNNING={} WHERE VSN={}", Thread.currentThread().getId(), running, vsn);
         Optional<Vehicle> vehicle = repository.findById(vsn);
-        vehicle.get().setRunning(run);
-        log.info("[REPOSITORY-VEHICLE {} : SWITCH_RUN_RESULT] RUN STATE={}", Thread.currentThread().getId(), run);
+        vehicle.get().setRunning(running);
+        log.info("[REPOSITORY-VEHICLE {} : SWITCH_RUN_RESULT] RUNNING STATE={}", Thread.currentThread().getId(), running);
     }
 
     @Override

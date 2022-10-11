@@ -44,7 +44,7 @@ public interface ServiceApi {
     Call<ServiceResponseDTO> request(@Body ServiceRequestDTO dto);
 
     @PATCH("/vehicles/{vsn}")
-    Call<Boolean> switchRun(@Path("vsn") Integer vsn, @Query("run") Boolean run);
+    Call<Boolean> switchRun(@Path("vsn") Integer vsn, @Query("running") Boolean running);
 
     @GET("/histories")
     Call<List<HistoryDTO>> getHistories(@Query("usn") Integer usn);
