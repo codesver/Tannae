@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,10 +22,13 @@ import retrofit2.Response;
 
 public class QnaDetailActivity extends AppCompatActivity {
 
-    private TextView textTitle, textDate, textQuestion, textAnswer;
+    private TextView textTitle, textDate;
+    private EditText editQuestion, editAnswer;
     private Button buttonEdit, buttonDelete, buttonAnswer, buttonBack;
 
     private SharedPreferences getter;
+
+    private boolean flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,19 +36,29 @@ public class QnaDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_qna_detail);
         getter = InnerDB.getter(getApplicationContext());
         setViews();
-
+        setEventListeners();
     }
 
     private void setViews() {
         textTitle = findViewById(R.id.text_title_qna_detail);
         textDate = findViewById(R.id.text_date_qna_detail);
-        textQuestion = findViewById(R.id.text_question_qna_detail);
-        textAnswer = findViewById(R.id.text_answer_qna_detail);
+        editQuestion = findViewById(R.id.edit_question_qna_detail);
+        editAnswer = findViewById(R.id.edit_answer_qna_detail);
         buttonEdit = findViewById(R.id.button_edit_qna_detail);
         buttonDelete = findViewById(R.id.button_delete_qna_detail);
         buttonAnswer = findViewById(R.id.button_answer_qna_detail);
         buttonBack = findViewById(R.id.button_back_qna_detail);
         getContent();
+    }
+
+    private void setEventListeners() {
+        buttonBack.setOnClickListener(v -> onBackPressed());
+        buttonEdit.setOnClickListener(v -> {
+            if (!flag) editQuestion();
+            else editQuestionByServer();
+        });
+        // buttonDelete
+        // buttonAnswer
     }
 
     private void getContent() {
@@ -72,8 +86,8 @@ public class QnaDetailActivity extends AppCompatActivity {
     private void setContent(ContentDTO content) {
         textTitle.setText("제목 : " + content.getTitle());
         textDate.setText("등록일 : " + content.getDateTime());
-        textQuestion.setText(content.getQuestion());
-        textAnswer.setText(content.getAnswer() != null ? content.getAnswer() : "답변이 아직 등록되지 않았습니다.");
+        editQuestion.setText(content.getQuestion());
+        editAnswer.setText(content.getAnswer() != null ? content.getAnswer() : "답변이 아직 등록되지 않았습니다.");
 
         int usn = getter.getInt("usn", 0);
 
@@ -85,5 +99,17 @@ public class QnaDetailActivity extends AppCompatActivity {
         if (getter.getBoolean("isManage", false)) {
             buttonAnswer.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void editQuestion() {
+        buttonDelete.setVisibility(View.GONE);
+        editQuestion.setEnabled(true);
+        editQuestion.setBackgroundResource(R.drawable.rectangle_edit);
+        Toaster.toast(getApplicationContext(), "질문 내용을 수정할 수 있습니다.");
+        flag = true;
+    }
+
+    private void editQuestionByServer() {
+        
     }
 }

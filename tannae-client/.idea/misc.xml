@@ -21,6 +21,7 @@
         <entry key="..\:/GitHub/TANNAE/tannae-client/app/src/main/res/drawable-v24/point_icon.xml" value="0.307" />
         <entry key="..\:/GitHub/TANNAE/tannae-client/app/src/main/res/drawable-v24/qna_icon.xml" value="0.307" />
         <entry key="..\:/GitHub/TANNAE/tannae-client/app/src/main/res/drawable-v24/rectangle.xml" value="0.307" />
+        <entry key="..\:/GitHub/TANNAE/tannae-client/app/src/main/res/drawable-v24/rectangle_edit.xml" value="0.3195" />
         <entry key="..\:/GitHub/TANNAE/tannae-client/app/src/main/res/drawable-v24/taxi.xml" value="0.307" />
         <entry key="..\:/GitHub/TANNAE/tannae-client/app/src/main/res/drawable-xxhdpi/map_pin.xml" value="0.307" />
         <entry key="..\:/GitHub/TANNAE/tannae-client/app/src/main/res/drawable/ic_launcher_background.xml" value="0.307" />
@@ -40,6 +41,7 @@
         <entry key="..\:/GitHub/TANNAE/tannae-client/app/src/main/res/layout/activity_receipt.xml" value="0.3802083333333333" />
         <entry key="..\:/GitHub/TANNAE/tannae-client/app/src/main/res/layout/activity_request.xml" value="0.365625" />
         <entry key="..\:/GitHub/TANNAE/tannae-client/app/src/main/res/layout/activity_sign_up.xml" value="0.3802083333333333" />
+        <entry key="..\:/GitHub/TANNAE/tannae-client/app/src/main/res/layout/list_view_content.xml" value="0.3802083333333333" />
         <entry key="..\:/GitHub/TANNAE/tannae-client/app/src/main/res/layout/list_view_history.xml" value="0.3802083333333333" />
         <entry key="..\:/GitHub/TANNAE/tannae-client/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.307" />
       </map>
