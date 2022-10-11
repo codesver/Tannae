@@ -49,4 +49,8 @@ public class User {
 
     @Column(nullable = false)
     private Float score;
+
+    public User(Integer usn) {
+        this.usn = usn;
+    }
 }
