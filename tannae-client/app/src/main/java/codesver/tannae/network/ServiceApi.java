@@ -4,6 +4,7 @@ import java.util.List;
 
 import codesver.tannae.dto.ContentDTO;
 import codesver.tannae.dto.HistoryDTO;
+import codesver.tannae.dto.RegisterContentDTO;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.dto.FoundAccountDTO;
 import codesver.tannae.dto.LoginDTO;
@@ -56,4 +57,7 @@ public interface ServiceApi {
 
     @GET("/contents")
     Call<List<ContentDTO>> getContents();
+
+    @POST("/contents")
+    Call<Boolean> registerContent(@Body RegisterContentDTO dto);
 }
