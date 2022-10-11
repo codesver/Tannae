@@ -27,7 +27,7 @@ public class QnaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_qna);
 
         listView = findViewById(R.id.list_view_qnas_qna);
-        findViewById(R.id.button_back_content).setOnClickListener(v -> onBackPressed());
+        findViewById(R.id.button_back_qna).setOnClickListener(v -> onBackPressed());
         setAdapter();
     }
 
