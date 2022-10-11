@@ -17,6 +17,14 @@ public class UserJpaRepository implements UserRepository {
     private final UserSpringDataJpaRepository repository;
 
     @Override
+    public Optional<User> findUserByUsn(Integer usn) {
+        log.info("[REPOSITORY-USER {} : FIND_USER_BY_USN] SELECT * FROM USER WHERE USN={}", Thread.currentThread().getId(), usn);
+        Optional<User> optionalUser = repository.findById(usn);
+        log.info("[REPOSITORY-USER {} : FIND_USER_BY_USN_RESULT] FOUND USER={}", Thread.currentThread().getId(), optionalUser.orElse(null));
+        return optionalUser;
+    }
+
+    @Override
     public int countById(String id) {
         log.info("[REPOSITORY-USER {} : COUNT_BY_ID] SELECT (*) FROM USER WHERE ID={}", Thread.currentThread().getId(), id);
         int counted = repository.countUserById(id);
