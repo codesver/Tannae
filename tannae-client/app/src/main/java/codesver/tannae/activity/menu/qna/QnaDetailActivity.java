@@ -1,5 +1,6 @@
 package codesver.tannae.activity.menu.qna;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -61,9 +62,10 @@ public class QnaDetailActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("SetTextI18n")
     private void setContent(ContentDTO content) {
-        textTitle.setText(content.getTitle());
-        textDate.setText(content.getDateTime());
+        textTitle.setText("제목 : " + content.getTitle());
+        textDate.setText("등록일 : " + content.getDateTime());
         textQuestion.setText(content.getQuestion());
         textAnswer.setText(content.getAnswer() != null ? content.getAnswer() : "답변이 아직 등록되지 않았습니다.");
     }
