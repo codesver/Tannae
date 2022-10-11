@@ -51,7 +51,7 @@ public class ListViewAdapter<T> extends BaseAdapter {
             int layout = R.layout.list_view_history;
             convertView = inflater.inflate(layout, parent, false);
             HistoryDTO history = (HistoryDTO) t;
-            ((TextView) convertView.findViewById(R.id.text_date_list_view_history)).setText(history.getRequestTime().toString().substring(0, 10));
+            ((TextView) convertView.findViewById(R.id.text_date_list_view_history)).setText(history.getRequestTime().substring(0, 10));
             ((TextView) convertView.findViewById(R.id.text_origin_list_view_history)).setText(history.getOrigin());
             ((TextView) convertView.findViewById(R.id.text_destination_list_view_history)).setText(history.getDestination());
             ((TextView) convertView.findViewById(R.id.text_fare_list_view_history)).setText(history.getRealFare() + "p");
@@ -63,8 +63,7 @@ public class ListViewAdapter<T> extends BaseAdapter {
             ContentDTO content = (ContentDTO) t;
             ((TextView) convertView.findViewById(R.id.text_title_list_view_content)).setText(content.getTitle());
             convertView.findViewById(R.id.button_details_list_view_content).setOnClickListener(v ->
-                    context.startActivity(new Intent(context, QnaDetailActivity.class)
-                            .putExtra("csn", content.getCsn())));
+                    context.startActivity(new Intent(context, QnaDetailActivity.class).putExtra("csn", content.getCsn())));
         }
 
         return convertView;

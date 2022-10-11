@@ -16,7 +16,7 @@
         android:theme="@style/Theme.TANNAE"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".QnaDetailActivity"
+            android:name=".activity.menu.qna.QnaDetailActivity"
             android:exported="false" />
         <activity
             android:name=".activity.menu.qna.QnaActivity"
