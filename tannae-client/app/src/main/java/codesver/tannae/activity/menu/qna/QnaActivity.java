@@ -2,7 +2,9 @@ package codesver.tannae.activity.menu.qna;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.List;
@@ -21,14 +23,27 @@ public class QnaActivity extends AppCompatActivity {
     private ListView listView;
     private ListViewAdapter<ContentDTO> adapter;
 
+    private Button buttonBack, buttonRegister;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qna);
 
-        listView = findViewById(R.id.list_view_qnas_qna);
-        findViewById(R.id.button_back_qna).setOnClickListener(v -> onBackPressed());
+        setView();
+        setEventListeners();
         setAdapter();
+    }
+
+    private void setView() {
+        listView = findViewById(R.id.list_view_qnas_qna);
+        buttonBack = findViewById(R.id.button_back_qna);
+        buttonRegister = findViewById(R.id.button_register_qna);
+    }
+
+    private void setEventListeners() {
+        buttonBack.setOnClickListener(v -> onBackPressed());
+        buttonBack.setOnClickListener(v -> startActivity(new Intent(QnaActivity.this, QnaRegisterActivity.class)));
     }
 
     private void setAdapter() {
