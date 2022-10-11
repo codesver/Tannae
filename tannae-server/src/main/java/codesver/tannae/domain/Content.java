@@ -45,7 +45,7 @@ public class Content {
         this.user = user;
     }
 
-    public ContentDTO getDTO() {
+    public ContentDTO convertToDTO() {
         ContentDTO dto = new ContentDTO();
         dto.setCsn(csn);
         dto.setTitle(title);
