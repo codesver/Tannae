@@ -1,5 +1,6 @@
 package codesver.tannae.activity.menu.qna;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -7,17 +8,28 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import codesver.tannae.R;
+import codesver.tannae.dto.RegisterContentDTO;
+import codesver.tannae.network.Network;
+import codesver.tannae.service.InnerDB;
+import codesver.tannae.service.Toaster;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class QnaRegisterActivity extends AppCompatActivity {
 
     private EditText editTitle, editQuestion;
     private Button buttonRegister, buttonBack;
 
+    private SharedPreferences getter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qna_register);
+        getter = InnerDB.getter(getApplicationContext());
         setViews();
+        setEventListeners();
     }
 
     private void setViews() {
@@ -25,5 +37,31 @@ public class QnaRegisterActivity extends AppCompatActivity {
         editQuestion = findViewById(R.id.edit_question_qna_register);
         buttonRegister = findViewById(R.id.button_register_qna_register);
         buttonBack = findViewById(R.id.button_back_qna_register);
+    }
+
+    private void setEventListeners() {
+        buttonBack.setOnClickListener(v -> onBackPressed());
+        buttonRegister.setOnClickListener(v -> register());
+    }
+
+    private void register() {
+        RegisterContentDTO dto = new RegisterContentDTO(getter.getInt("usn", 0),
+                editTitle.getText().toString(), editQuestion.getText().toString());
+        registerByServer(dto);
+    }
+
+    private void registerByServer(RegisterContentDTO dto) {
+        Network.service.registerContent(dto).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Toaster.toast(getApplicationContext(), "QnA가 등록되었습니다.");
+                onBackPressed();
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
+            }
+        });
     }
 }

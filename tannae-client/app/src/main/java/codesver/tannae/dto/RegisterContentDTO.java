@@ -6,6 +6,15 @@ public class RegisterContentDTO {
     private String title;
     private String question;
 
+    public RegisterContentDTO() {
+    }
+
+    public RegisterContentDTO(Integer usn, String title, String question) {
+        this.usn = usn;
+        this.title = title;
+        this.question = question;
+    }
+
     public void setUsn(Integer usn) {
         this.usn = usn;
     }
