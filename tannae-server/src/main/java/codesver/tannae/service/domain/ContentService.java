@@ -32,6 +32,6 @@ public class ContentService {
         Content content = dto.convertToEntity();
         Integer csn = contentDAO.register(content);
         log.info("[SERVICE-CONTENT {} : REGISTER_FINISH] CSN={}", Thread.currentThread().getId(), csn);
-        return true;
+        return csn != null;
     }
 }
