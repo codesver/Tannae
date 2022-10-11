@@ -2,7 +2,9 @@ package codesver.tannae.activity.menu.qna;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -11,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import codesver.tannae.R;
 import codesver.tannae.dto.ContentDTO;
 import codesver.tannae.network.Network;
+import codesver.tannae.service.InnerDB;
 import codesver.tannae.service.Toaster;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,10 +24,13 @@ public class QnaDetailActivity extends AppCompatActivity {
     private TextView textTitle, textDate, textQuestion, textAnswer;
     private Button buttonEdit, buttonDelete, buttonAnswer, buttonBack;
 
+    private SharedPreferences getter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qna_detail);
+        getter = InnerDB.getter(getApplicationContext());
         setViews();
 
     }
@@ -68,5 +74,12 @@ public class QnaDetailActivity extends AppCompatActivity {
         textDate.setText("등록일 : " + content.getDateTime());
         textQuestion.setText(content.getQuestion());
         textAnswer.setText(content.getAnswer() != null ? content.getAnswer() : "답변이 아직 등록되지 않았습니다.");
+
+        int usn = getter.getInt("usn", 0);
+
+        if (content.getUsn() == usn) {
+            buttonEdit.setVisibility(View.VISIBLE);
+            buttonDelete.setVisibility(View.VISIBLE);
+        }
     }
 }
