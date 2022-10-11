@@ -54,7 +54,7 @@ public class UserController {
         if (loggedUser.isPresent()) {
             User user = loggedUser.get();
             int vsn = user.getIsDriver() ? vehicleRepository.findVehicleByUsn(user.getUsn()).get().getVsn() : 0;
-            return new LoginDTO(user, vsn, true);
+            return new LoginDTO(user.convertToDTO(), vsn, true);
         }
         return new LoginDTO(null, 0, false);
     }

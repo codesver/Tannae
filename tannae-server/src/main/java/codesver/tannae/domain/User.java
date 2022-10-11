@@ -1,5 +1,6 @@
 package codesver.tannae.domain;
 
+import codesver.tannae.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -55,5 +56,9 @@ public class User {
 
     public User(Integer usn) {
         this.usn = usn;
+    }
+
+    public UserDTO convertToDTO() {
+        return new UserDTO(usn, id, pw, name, rrn, gender, email, phone, isManage, isDriver, onBoard, point, score);
     }
 }

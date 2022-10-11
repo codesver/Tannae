@@ -1,14 +1,12 @@
 package codesver.tannae.dto;
 
-import codesver.tannae.domain.User;
-
 public class LoginDTO {
 
-    private User user;
+    private UserDTO user;
     private Integer vsn;
     private boolean exist;
 
-    public User getUser() {
+    public UserDTO getUser() {
         return user;
     }
 

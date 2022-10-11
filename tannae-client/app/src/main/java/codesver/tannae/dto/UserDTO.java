@@ -1,6 +1,6 @@
-package codesver.tannae.domain;
+package codesver.tannae.dto;
 
-public class User {
+public class UserDTO {
 
     private Integer usn;
     private String id;
@@ -16,10 +16,10 @@ public class User {
     private Integer point;
     private Float score;
 
-    public User() {
+    public UserDTO() {
     }
 
-    public User(Integer usn, String id, String pw, String name, String rrn, Boolean gender, String email, String phone, Boolean isManage, Boolean isDriver, Boolean onBoard, Integer point, Float score) {
+    public UserDTO(Integer usn, String id, String pw, String name, String rrn, Boolean gender, String email, String phone, Boolean isManage, Boolean isDriver, Boolean onBoard, Integer point, Float score) {
         this.usn = usn;
         this.id = id;
         this.pw = pw;
@@ -39,103 +39,51 @@ public class User {
         return usn;
     }
 
-    public void setUsn(Integer usn) {
-        this.usn = usn;
-    }
-
     public String getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getPw() {
         return pw;
     }
 
-    public void setPw(String pw) {
-        this.pw = pw;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getRrn() {
         return rrn;
     }
 
-    public void setRrn(String rrn) {
-        this.rrn = rrn;
-    }
-
     public Boolean getGender() {
         return gender;
-    }
-
-    public void setGender(Boolean gender) {
-        this.gender = gender;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPhone() {
         return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public Boolean getManage() {
         return isManage;
     }
 
-    public void setManage(Boolean manage) {
-        isManage = manage;
-    }
-
     public Boolean getDriver() {
         return isDriver;
-    }
-
-    public void setDriver(Boolean driver) {
-        isDriver = driver;
     }
 
     public Boolean getOnBoard() {
         return onBoard;
     }
 
-    public void setOnBoard(Boolean onBoard) {
-        this.onBoard = onBoard;
-    }
-
     public Integer getPoint() {
         return point;
     }
 
-    public void setPoint(Integer point) {
-        this.point = point;
-    }
-
     public Float getScore() {
         return score;
-    }
-
-    public void setScore(Float score) {
-        this.score = score;
     }
 }

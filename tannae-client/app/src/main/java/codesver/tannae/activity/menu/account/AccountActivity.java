@@ -6,7 +6,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import codesver.tannae.R;
-import codesver.tannae.domain.User;
+import codesver.tannae.dto.UserDTO;
 import codesver.tannae.service.InnerDB;
 
 public class AccountActivity extends AppCompatActivity {
@@ -19,7 +19,7 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     private void setActivity() {
-        User user = InnerDB.getUser(getApplicationContext());
+        UserDTO user = InnerDB.getUser(getApplicationContext());
         ((TextView) findViewById(R.id.text_id_account)).setText(user.getId());
         ((TextView) findViewById(R.id.text_pw_account)).setText(user.getPw());
         ((TextView) findViewById(R.id.text_name_account)).setText(user.getName());

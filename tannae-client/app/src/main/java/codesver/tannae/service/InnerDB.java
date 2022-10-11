@@ -3,7 +3,7 @@ package codesver.tannae.service;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import codesver.tannae.domain.User;
+import codesver.tannae.dto.UserDTO;
 
 public class InnerDB {
 
@@ -15,7 +15,7 @@ public class InnerDB {
         return context.getSharedPreferences("InnerDB", Context.MODE_PRIVATE).edit();
     }
 
-    public static void saveUser(Context context, User user) {
+    public static void saveUser(Context context, UserDTO user) {
         SharedPreferences.Editor editor = context.getSharedPreferences("InnerDB", Context.MODE_PRIVATE).edit();
         editor.putInt("usn", user.getUsn())
                 .putString("id", user.getId())
@@ -34,7 +34,7 @@ public class InnerDB {
                 .apply();
     }
 
-    public static User getUser(Context context) {
+    public static UserDTO getUser(Context context) {
         SharedPreferences sp = context.getSharedPreferences("InnerDB", Context.MODE_PRIVATE);
 
         int usn = sp.getInt("usn", -1);
@@ -51,7 +51,7 @@ public class InnerDB {
         int point = sp.getInt("point", 0);
         float score = sp.getFloat("score", 0.0f);
 
-        return new User(usn, id, pw, name, rrn, gender, email, phone, board, isManage, isDriver, point, score);
+        return new UserDTO(usn, id, pw, name, rrn, gender, email, phone, board, isManage, isDriver, point, score);
     }
 
     public static void clear(Context context) {
