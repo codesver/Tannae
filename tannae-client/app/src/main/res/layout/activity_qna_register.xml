@@ -50,7 +50,7 @@
                 android:background="@drawable/rectangle"
                 android:hint="제목을 작성하세요 (최대 10자)"
                 android:inputType="text"
-                android:maxLength="10"
+                android:maxLength="20"
                 android:padding="10dp"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
