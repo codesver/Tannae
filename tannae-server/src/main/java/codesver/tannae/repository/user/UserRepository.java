@@ -6,6 +6,8 @@ import java.util.Optional;
 
 public interface UserRepository {
 
+    Optional<User> findUserByUsn(Integer usn);
+
     int countById(String id);
 
     int countByPrivate(String name, String rrn);
