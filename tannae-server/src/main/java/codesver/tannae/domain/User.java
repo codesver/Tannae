@@ -39,6 +39,9 @@ public class User {
     private String phone;
 
     @Column(length = 1, nullable = false, columnDefinition = "TINYINT")
+    private Boolean isManage;
+
+    @Column(length = 1, nullable = false, columnDefinition = "TINYINT")
     private Boolean isDriver;
 
     @Column(length = 1, nullable = false, columnDefinition = "TINYINT")

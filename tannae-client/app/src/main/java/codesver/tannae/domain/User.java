@@ -10,6 +10,7 @@ public class User {
     private Boolean gender;
     private String email;
     private String phone;
+    private Boolean isManage;
     private Boolean isDriver;
     private Boolean onBoard;
     private Integer point;
@@ -18,7 +19,7 @@ public class User {
     public User() {
     }
 
-    public User(Integer usn, String id, String pw, String name, String rrn, Boolean gender, String email, String phone, Boolean isDriver, Boolean onBoard, Integer point, Float score) {
+    public User(Integer usn, String id, String pw, String name, String rrn, Boolean gender, String email, String phone, Boolean isManage, Boolean isDriver, Boolean onBoard, Integer point, Float score) {
         this.usn = usn;
         this.id = id;
         this.pw = pw;
@@ -27,6 +28,7 @@ public class User {
         this.gender = gender;
         this.email = email;
         this.phone = phone;
+        this.isManage = isManage;
         this.isDriver = isDriver;
         this.onBoard = onBoard;
         this.point = point;
@@ -95,6 +97,14 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public Boolean getManage() {
+        return isManage;
+    }
+
+    public void setManage(Boolean manage) {
+        isManage = manage;
     }
 
     public Boolean getDriver() {

@@ -3,8 +3,6 @@ package codesver.tannae.service;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import codesver.tannae.domain.User;
 
 public class InnerDB {
@@ -27,7 +25,8 @@ public class InnerDB {
                 .putBoolean("gender", user.getGender())
                 .putString("email", user.getEmail())
                 .putString("phone", user.getPhone())
-                .putBoolean("driver", user.getDriver())
+                .putBoolean("isManage", user.getManage())
+                .putBoolean("isDriver", user.getDriver())
                 .putBoolean("board", user.getOnBoard())
                 .putInt("point", user.getPoint())
                 .putFloat("score", user.getScore())
@@ -46,12 +45,13 @@ public class InnerDB {
         boolean gender = sp.getBoolean("gender", false);
         String email = sp.getString("email", null);
         String phone = sp.getString("phone", null);
-        boolean driver = sp.getBoolean("driver", false);
+        boolean isManage = sp.getBoolean("isManage", false);
+        boolean isDriver = sp.getBoolean("isDriver", false);
         boolean board = sp.getBoolean("board", false);
         int point = sp.getInt("point", 0);
         float score = sp.getFloat("score", 0.0f);
 
-        return new User(usn, id, pw, name, rrn, gender, email, phone, board, driver, point, score);
+        return new User(usn, id, pw, name, rrn, gender, email, phone, board, isManage, isDriver, point, score);
     }
 
     public static void clear(Context context) {
