@@ -23,4 +23,12 @@ public class ContentJpaRepository implements ContentRepository {
         log.info("[REPOSITORY-CONTENT {} : GET_CONTENTS_RESULT] SIZE={}", Thread.currentThread().getId(), contents.size());
         return contents;
     }
+
+    @Override
+    public Integer register(Content content) {
+        log.info("[REPOSITORY-CONTENT {} : REGISTER] INSERT INTO CONTENT VALUES({})", Thread.currentThread().getId(), content);
+        repository.save(content);
+        log.info("[REPOSITORY-CONTENT {} : REGISTER_RESULT] SUCCESS", Thread.currentThread().getId());
+        return content.getCsn();
+    }
 }
