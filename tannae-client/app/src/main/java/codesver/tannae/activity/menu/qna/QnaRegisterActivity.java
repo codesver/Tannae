@@ -1,5 +1,6 @@
 package codesver.tannae.activity.menu.qna;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
@@ -8,6 +9,7 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import codesver.tannae.R;
+import codesver.tannae.activity.menu.MenuActivity;
 import codesver.tannae.dto.RegisterContentDTO;
 import codesver.tannae.network.Network;
 import codesver.tannae.service.InnerDB;
@@ -54,7 +56,7 @@ public class QnaRegisterActivity extends AppCompatActivity {
         Network.service.registerContent(dto).enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                Toaster.toast(getApplicationContext(), "QnA가 등록되었습니다.");
+                Toaster.toast(getApplicationContext(), Boolean.TRUE.equals(response.body()) ? "QnA가 등록되었습니다." : "QnA 등록이 실패했습니다.");
                 onBackPressed();
             }
 
