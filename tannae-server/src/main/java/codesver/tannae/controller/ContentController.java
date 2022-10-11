@@ -19,7 +19,7 @@ public class ContentController {
 
     @GetMapping
     public List<ContentDTO> getContents() {
-        log.info("[CONTROLLER-CONTENT {} : GET_CONTENTS] /contents", Thread.currentThread().getId());
+        log.info("[CONTROLLER-CONTENT {} : GET_CONTENTS] GET /contents", Thread.currentThread().getId());
         return contentService.getContents();
     }
 
