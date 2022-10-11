@@ -1,4 +1,4 @@
-package codesver.tannae.service;
+package codesver.tannae.service.main;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
