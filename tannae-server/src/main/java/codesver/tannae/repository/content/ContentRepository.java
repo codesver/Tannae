@@ -7,4 +7,6 @@ import java.util.List;
 public interface ContentRepository {
 
     public List<Content> getContents();
+
+    public Integer register(Content content);
 }
