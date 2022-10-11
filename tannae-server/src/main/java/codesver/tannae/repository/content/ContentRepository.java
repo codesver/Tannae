@@ -8,5 +8,7 @@ public interface ContentRepository {
 
     public List<Content> findAll();
 
+    public Content findOne(Integer csn);
+
     public Integer register(Content content);
 }
