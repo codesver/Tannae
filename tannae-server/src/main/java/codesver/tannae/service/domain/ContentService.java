@@ -34,4 +34,12 @@ public class ContentService {
         log.info("[SERVICE-CONTENT {} : REGISTER_FINISH] CSN={}", Thread.currentThread().getId(), csn);
         return csn != null;
     }
+
+    public ContentDTO getContent(Integer csn) {
+        log.info("[SERVICE-CONTENT {} : GET_CONTENT] CSN={}", Thread.currentThread().getId(), csn);
+        Content content = contentDAO.findOne(csn);
+        ContentDTO contentDTO = content.convertToDTO();
+        log.info("[SERVICE-CONTENT {} : GET_CONTENT_RESULT] DTO={}", Thread.currentThread().getId(), contentDTO);
+        return contentDTO;
+    }
 }
