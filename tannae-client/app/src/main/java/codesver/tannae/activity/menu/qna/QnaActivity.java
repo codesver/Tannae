@@ -43,7 +43,7 @@ public class QnaActivity extends AppCompatActivity {
 
     private void setEventListeners() {
         buttonBack.setOnClickListener(v -> onBackPressed());
-        buttonBack.setOnClickListener(v -> startActivity(new Intent(QnaActivity.this, QnaRegisterActivity.class)));
+        buttonRegister.setOnClickListener(v -> startActivity(new Intent(QnaActivity.this, QnaRegisterActivity.class)));
     }
 
     private void setAdapter() {
