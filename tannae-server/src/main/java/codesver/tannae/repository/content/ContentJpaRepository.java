@@ -18,10 +18,18 @@ public class ContentJpaRepository implements ContentRepository {
 
     @Override
     public List<Content> findAll() {
-        log.info("[REPOSITORY-CONTENT {} : GET_CONTENTS] SELECT * FROM CONTENT", Thread.currentThread().getId());
+        log.info("[REPOSITORY-CONTENT {} : FIND_ALL] SELECT * FROM CONTENT", Thread.currentThread().getId());
         List<Content> contents = repository.findAll();
-        log.info("[REPOSITORY-CONTENT {} : GET_CONTENTS_RESULT] SIZE={}", Thread.currentThread().getId(), contents.size());
+        log.info("[REPOSITORY-CONTENT {} : FIND_ALL_RESULT] SIZE={}", Thread.currentThread().getId(), contents.size());
         return contents;
+    }
+
+    @Override
+    public Content findOne(Integer csn) {
+        log.info("[REPOSITORY-CONTENT {} : FIND_ONE] SELECT * FROM CONTENT WHERE CSN={}", Thread.currentThread().getId(), csn);
+        Content content = repository.findById(csn).orElse(null);
+        log.info("[REPOSITORY-CONTENT {} : FIND_ONE_RESULT] FOUND CONTENT={}", Thread.currentThread().getId(), content);
+        return content;
     }
 
     @Override
