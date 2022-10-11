@@ -64,9 +64,9 @@
                 android:background="@drawable/rectangle"
                 android:ems="10"
                 android:gravity="top"
-                android:hint="내용을 입력하세요 (최대 50자)"
+                android:hint="내용을 입력하세요 (최대 100자)"
                 android:inputType="textMultiLine"
-                android:maxLength="50"
+                android:maxLength="100"
                 android:padding="10dp"
                 android:textColor="@color/black"
                 android:textStyle="bold" />

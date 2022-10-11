@@ -21,7 +21,7 @@ public class Content {
     @Column(length = 10, nullable = false)
     private String title;
 
-    @Column(length = 50, nullable = false)
+    @Column(length = 100, nullable = false)
     private String question;
 
     @Column(length = 50)
