@@ -28,4 +28,10 @@ public class ContentController {
         log.info("[CONTROLLER-CONTENT {} : REGISTER] POST /contents body={}", Thread.currentThread().getId(), dto);
         return contentService.register(dto);
     }
+
+    @GetMapping("/{csn}")
+    public ContentDTO getContent(@PathVariable("csn") Integer csn) {
+        log.info("[CONTROLLER-CONTENT {} : GET_CONTENT] GET /contents/{}", Thread.currentThread().getId(), csn);
+        return contentService.getContent(csn);
+    }
 }
