@@ -25,6 +25,14 @@ public class UserJpaRepository implements UserRepository {
     }
 
     @Override
+    public Optional<User> findById(String id) {
+        log.info("[REPOSITORY-USER {} : FIND_BY_ID] SELECT * FROM USER WHERE ID={}", Thread.currentThread().getId(), id);
+        Optional<User> optionalUser = repository.findUserById(id);
+        log.info("[REPOSITORY-USER {} : FIND_BY_ID_RESULT] {}", Thread.currentThread().getId(), optionalUser);
+        return optionalUser;
+    }
+
+    @Override
     public int countById(String id) {
         log.info("[REPOSITORY-USER {} : COUNT_BY_ID] SELECT (*) FROM USER WHERE ID={}", Thread.currentThread().getId(), id);
         int counted = repository.countUserById(id);

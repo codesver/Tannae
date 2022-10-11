@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface UserSpringDataJpaRepository extends JpaRepository<User, Integer> {
 
+    Optional<User> findUserById(String id);
+
     int countUserById(String id);
 
     int countUserByRrn(String rrn);

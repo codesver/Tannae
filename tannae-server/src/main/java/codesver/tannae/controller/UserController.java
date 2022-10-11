@@ -6,6 +6,7 @@ import codesver.tannae.dto.LoginDTO;
 import codesver.tannae.dto.SignUpUserDTO;
 import codesver.tannae.repository.user.UserRepository;
 import codesver.tannae.repository.vehicle.VehicleRepository;
+import codesver.tannae.service.domain.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -20,11 +21,12 @@ public class UserController {
 
     private final UserRepository userRepository;
     private final VehicleRepository vehicleRepository;
+    private final UserService userService;
 
     @GetMapping("/check-id")
     public Boolean checkId(@RequestParam String id) {
         log.info("[CONTROLLER-USER {} : CHECK_ID] /users/check-id?id={}", Thread.currentThread().getId(), id);
-        return userRepository.countById(id) == 0;
+        return userService.checkDuplicateId(id);
     }
 
     @GetMapping("/check-private")
