@@ -1,11 +1,15 @@
 package codesver.tannae.service.domain;
 
 import codesver.tannae.domain.Content;
+import codesver.tannae.dto.ContentDTO;
 import codesver.tannae.dto.RegisterContentDTO;
 import codesver.tannae.repository.content.ContentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -13,6 +17,15 @@ import org.springframework.stereotype.Service;
 public class ContentService {
 
     private final ContentRepository contentDAO;
+
+    public List<ContentDTO> getContents() {
+        log.info("[SERVICE-CONTENT {} : GET_CONTENTS]", Thread.currentThread().getId());
+        List<Content> contents = contentDAO.findAll();
+        List<ContentDTO> dtos = new ArrayList<>();
+        for (Content content : contents) dtos.add(content.convertToDTO());
+        log.info("[SERVICE-CONTENT {} : GET_CONTENTS_RESULT] SIZE={}", Thread.currentThread().getId(), dtos.size());
+        return dtos;
+    }
 
     public Boolean register(RegisterContentDTO dto) {
         log.info("[SERVICE-CONTENT {} : REGISTER] DTO={}", Thread.currentThread().getId(), dto);

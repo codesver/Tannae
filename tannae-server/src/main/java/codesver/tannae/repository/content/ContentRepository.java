@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ContentRepository {
 
-    public List<Content> getContents();
+    public List<Content> findAll();
 
     public Integer register(Content content);
 }
