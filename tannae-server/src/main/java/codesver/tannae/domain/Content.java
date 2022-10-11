@@ -37,6 +37,14 @@ public class Content {
     @JoinColumn(name = "USN")
     private User user;
 
+    public Content(String title, String question, LocalDateTime dateTime, User user) {
+        this.title = title;
+        this.question = question;
+        this.dateTime = dateTime;
+        this.faq = false;
+        this.user = user;
+    }
+
     public ContentDTO getDTO() {
         ContentDTO dto = new ContentDTO();
         dto.setCsn(csn);
