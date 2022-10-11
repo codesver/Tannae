@@ -81,5 +81,9 @@ public class QnaDetailActivity extends AppCompatActivity {
             buttonEdit.setVisibility(View.VISIBLE);
             buttonDelete.setVisibility(View.VISIBLE);
         }
+
+        if (getter.getBoolean("isManage", false)) {
+            buttonAnswer.setVisibility(View.VISIBLE);
+        }
     }
 }
