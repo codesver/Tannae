@@ -51,7 +51,7 @@ public class Content {
         dto.setTitle(title);
         dto.setQuestion(question);
         dto.setAnswer(answer);
-        dto.setDateTime(dateTime.toString());
+        dto.setDateTime(dateTime.toString().replace("T", " "));
         dto.setFaq(faq);
         dto.setUsn(user.getUsn());
         return dto;
