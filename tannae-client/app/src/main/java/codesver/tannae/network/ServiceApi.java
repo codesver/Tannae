@@ -43,7 +43,7 @@ public interface ServiceApi {
     @POST("/service/request")
     Call<ServiceResponseDTO> request(@Body ServiceRequestDTO dto);
 
-    @PATCH("/vehicles/{vsn}/switch-run")
+    @PATCH("/vehicles/{vsn}")
     Call<Boolean> switchRun(@Path("vsn") Integer vsn, @Query("run") Boolean run);
 
     @GET("/histories")
