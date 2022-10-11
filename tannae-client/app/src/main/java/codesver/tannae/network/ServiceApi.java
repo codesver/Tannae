@@ -60,4 +60,7 @@ public interface ServiceApi {
 
     @POST("/contents")
     Call<Boolean> registerContent(@Body RegisterContentDTO dto);
+
+    @GET("/contents/{csn}")
+    Call<ContentDTO> getContent(@Path("csn") Integer csn);
 }
