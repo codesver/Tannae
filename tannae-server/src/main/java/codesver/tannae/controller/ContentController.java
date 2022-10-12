@@ -34,4 +34,10 @@ public class ContentController {
         log.info("[CONTROLLER-CONTENT {} : GET_CONTENT] GET /contents/{}", Thread.currentThread().getId(), csn);
         return contentService.getContent(csn);
     }
+
+    @PostMapping("/{csn}/question")
+    public Boolean postQuestion(@PathVariable Integer csn, @RequestBody String question) {
+        log.info("[CONTROLLER-CONTENT {} : POST_QUESTION] /contents/{}/question body={}", Thread.currentThread().getId(), csn, question);
+        return contentService.editQuestion(csn, question);
+    }
 }
