@@ -3,8 +3,6 @@ package codesver.tannae.controller;
 import codesver.tannae.dto.AccountDTO;
 import codesver.tannae.dto.FoundAccountDTO;
 import codesver.tannae.dto.SignUpUserDTO;
-import codesver.tannae.repository.user.UserRepository;
-import codesver.tannae.repository.vehicle.VehicleRepository;
 import codesver.tannae.service.domain.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserRepository userRepository;
-    private final VehicleRepository vehicleRepository;
     private final UserService userService;
 
     @PostMapping
