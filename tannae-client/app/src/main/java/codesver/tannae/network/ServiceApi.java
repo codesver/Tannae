@@ -10,6 +10,7 @@ import codesver.tannae.dto.FoundAccountDTO;
 import codesver.tannae.dto.AccountDTO;
 import codesver.tannae.dto.ServiceResponseDTO;
 import codesver.tannae.dto.SignUpUserDTO;
+import codesver.tannae.dto.StringDTO;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -65,5 +66,5 @@ public interface ServiceApi {
     Call<ContentDTO> getContent(@Path("csn") Integer csn);
 
     @POST("/contents/{csn}/question")
-    Call<Boolean> postQuestion(@Path("csn") Integer csn, @Body String question);
+    Call<Boolean> postQuestion(@Path("csn") Integer csn, @Body StringDTO dto);
 }

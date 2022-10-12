@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import codesver.tannae.R;
 import codesver.tannae.dto.ContentDTO;
+import codesver.tannae.dto.StringDTO;
 import codesver.tannae.network.Network;
 import codesver.tannae.service.InnerDB;
 import codesver.tannae.service.Toaster;
@@ -113,7 +114,7 @@ public class QnaDetailActivity extends AppCompatActivity {
     }
 
     private void editQuestionByServer() {
-        Network.service.postQuestion(getIntent().getIntExtra("csn", 0), editQuestion.getText().toString()).enqueue(new Callback<Boolean>() {
+        Network.service.postQuestion(getIntent().getIntExtra("csn", 0), new StringDTO(editQuestion.getText().toString())).enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 if (Boolean.TRUE.equals(response.body())) {
@@ -131,6 +132,6 @@ public class QnaDetailActivity extends AppCompatActivity {
             public void onFailure(Call<Boolean> call, Throwable t) {
                 Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
-        });
+        }));
     }
 }
