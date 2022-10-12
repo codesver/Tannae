@@ -71,4 +71,12 @@ public class UserService {
         log.info("[SERVICE-USER {} : CHARGE_RESULT] POINT={}", Thread.currentThread().getId(), chargedPoint);
         return chargedPoint;
     }
+
+    public Boolean rateDriver(int vsn, float score) {
+        log.info("[SERVICE-USER {} : RATE] RATING DRIVER OF VEHICLE={} SCORE={}", Thread.currentThread().getId(), vsn, score);
+        Integer usn = vehicleRepository.findUserOfVehicle(vsn);
+        Float newScore = userRepository.rate(usn, score);
+        log.info("[SERVICE-USER {} : RATE_RESULT] SCORE={}", Thread.currentThread().getId(), newScore);
+        return true;
+    }
 }

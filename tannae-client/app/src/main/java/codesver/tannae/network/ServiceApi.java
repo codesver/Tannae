@@ -37,11 +37,11 @@ public interface ServiceApi {
     @POST("/users/{usn}/point")
     Call<Integer> charge(@Path("usn") Integer usn, @Body Integer point);
 
-    @PATCH("/users/rate")
-    Call<Boolean> rate(@Query("vsn") Integer vsn, @Query("rate") Float rate);
-
     @POST("/service/request")
     Call<ServiceResponseDTO> request(@Body ServiceRequestDTO dto);
+
+    @POST("/vehicles/{vsn}/users/score")
+    Call<Boolean> rate(@Query("vsn") Integer vsn, @Body Float score);
 
     @PATCH("/vehicles/{vsn}")
     Call<Boolean> switchRun(@Path("vsn") Integer vsn, @Query("running") Boolean running);

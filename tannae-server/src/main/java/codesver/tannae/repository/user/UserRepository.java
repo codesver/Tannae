@@ -22,5 +22,5 @@ public interface UserRepository {
 
     void usePoint(int usn, int fare);
 
-    void rate(int usn, float rate);
+    Float rate(int usn, float rate);
 }

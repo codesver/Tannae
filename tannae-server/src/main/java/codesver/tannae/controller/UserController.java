@@ -55,12 +55,4 @@ public class UserController {
         log.info("[CONTROLLER-USER {} : USER_POINT] POST /users/{}/point body={}", Thread.currentThread().getId(), usn, point);
         return userService.charge(usn, point);
     }
-
-    @PatchMapping("/rate")
-    public Boolean rate(@RequestParam Integer vsn, @RequestParam float rate) {
-        log.info("[CONTROLLER-USER {} : RATE] /users/rate?vsn={}&rate={}", Thread.currentThread().getId(), vsn, rate);
-        Integer usn = vehicleRepository.findUserOfVehicle(vsn);
-        userRepository.rate(usn, rate);
-        return true;
-    }
 }
