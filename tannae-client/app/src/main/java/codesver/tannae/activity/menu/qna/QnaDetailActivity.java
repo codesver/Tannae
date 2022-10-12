@@ -132,6 +132,6 @@ public class QnaDetailActivity extends AppCompatActivity {
             public void onFailure(Call<Boolean> call, Throwable t) {
                 Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
-        }));
+        });
     }
 }
