@@ -65,5 +65,5 @@ public interface ServiceApi {
     Call<ContentDTO> getContent(@Path("csn") Integer csn);
 
     @POST("/contents/{csn}/question")
-    Call<Boolean> editQuestion(@Path("csn") Integer csn, @Body String question);
+    Call<Boolean> postQuestion(@Path("csn") Integer csn, @Body String question);
 }
