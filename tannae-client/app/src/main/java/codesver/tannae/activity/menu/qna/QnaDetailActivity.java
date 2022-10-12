@@ -59,6 +59,7 @@ public class QnaDetailActivity extends AppCompatActivity {
             if (!flag) editQuestion();
             else editQuestionByServer();
         });
+        buttonDelete.setOnClickListener(v -> deleteByServer(getIntent().getIntExtra("csn", 0)));
         // buttonDelete
         // buttonAnswer
     }
@@ -126,6 +127,21 @@ public class QnaDetailActivity extends AppCompatActivity {
                     Toaster.toast(getApplicationContext(), "질문 수정이 거부되었습니다.");
                     onBackPressed();
                 }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
+            }
+        });
+    }
+
+    private void deleteByServer(int csn) {
+        Network.service.deleteContent(csn).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Toaster.toast(getApplicationContext(), "질문이 삭제되었습니다.");
+                onBackPressed();
             }
 
             @Override
