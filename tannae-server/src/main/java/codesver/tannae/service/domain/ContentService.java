@@ -49,4 +49,11 @@ public class ContentService {
         log.info("[SERVICE-CONTENT {} : EDIT_QUESTION_RESULT]", Thread.currentThread().getId());
         return true;
     }
+
+    public Boolean deleteQuestion(Integer csn) {
+        log.info("[SERVICE-CONTENT {} : DELETE_CONTENT] CSN={}", Thread.currentThread().getId(), csn);
+        contentDAO.deleteContent(csn);
+        log.info("[SERVICE-CONTENT {} : DELETE_CONTENT_RESULT]", Thread.currentThread().getId());
+        return true;
+    }
 }
