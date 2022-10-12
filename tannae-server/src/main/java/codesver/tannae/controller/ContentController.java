@@ -2,6 +2,7 @@ package codesver.tannae.controller;
 
 import codesver.tannae.dto.ContentDTO;
 import codesver.tannae.dto.RegisterContentDTO;
+import codesver.tannae.dto.StringDTO;
 import codesver.tannae.service.domain.ContentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,8 +37,8 @@ public class ContentController {
     }
 
     @PostMapping("/{csn}/question")
-    public Boolean postQuestion(@PathVariable Integer csn, @RequestBody String question) {
-        log.info("[CONTROLLER-CONTENT {} : POST_QUESTION] /contents/{}/question body={}", Thread.currentThread().getId(), csn, question);
-        return contentService.editQuestion(csn, question);
+    public Boolean postQuestion(@PathVariable Integer csn, @RequestBody StringDTO question) {
+        log.info("[CONTROLLER-CONTENT {} : POST_QUESTION] /contents/{}/question body={}", Thread.currentThread().getId(), csn, question.getString());
+        return contentService.editQuestion(csn, question.getString());
     }
 }
