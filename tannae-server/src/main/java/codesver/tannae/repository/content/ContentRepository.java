@@ -13,4 +13,6 @@ public interface ContentRepository {
     Integer register(Content content);
 
     Boolean editQuestion(Integer csn, String question);
+
+    Boolean deleteContent(Integer csn);
 }
