@@ -1,8 +1,7 @@
 package codesver.tannae.controller;
 
-import codesver.tannae.domain.User;
-import codesver.tannae.dto.FoundAccountDTO;
 import codesver.tannae.dto.AccountDTO;
+import codesver.tannae.dto.FoundAccountDTO;
 import codesver.tannae.dto.SignUpUserDTO;
 import codesver.tannae.repository.user.UserRepository;
 import codesver.tannae.repository.vehicle.VehicleRepository;
@@ -10,8 +9,6 @@ import codesver.tannae.service.domain.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @Slf4j
 @RestController
