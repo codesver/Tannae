@@ -94,7 +94,8 @@ public class QnaDetailActivity extends AppCompatActivity {
         int usn = getter.getInt("usn", 0);
 
         if (content.getUsn() == usn) {
-            buttonEdit.setVisibility(View.VISIBLE);
+            if (content.getAnswer() != null)
+                buttonEdit.setVisibility(View.VISIBLE);
             buttonDelete.setVisibility(View.VISIBLE);
         }
 
