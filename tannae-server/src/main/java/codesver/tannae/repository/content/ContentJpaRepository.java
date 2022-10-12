@@ -49,4 +49,12 @@ public class ContentJpaRepository implements ContentRepository {
         log.info("[REPOSITORY-CONTENT {} : EDIT_QUESTION_RESULT]", Thread.currentThread().getId());
         return true;
     }
+
+    @Override
+    public Boolean deleteContent(Integer csn) {
+        log.info("[REPOSITORY-CONTENT {} : DELETE_CONTENT] DELETE FROM CONTENT WHERE CSN={}", Thread.currentThread().getId(), csn);
+        repository.deleteById(csn);
+        log.info("[REPOSITORY-CONTENT {} : DELETE_CONTENT_RESULT]", Thread.currentThread().getId());
+        return true;
+    }
 }
