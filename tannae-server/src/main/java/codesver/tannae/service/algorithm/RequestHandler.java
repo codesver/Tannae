@@ -1,4 +1,4 @@
-package codesver.tannae.service.main;
+package codesver.tannae.service.algorithm;
 
 import codesver.tannae.domain.DSO;
 import codesver.tannae.domain.Process;

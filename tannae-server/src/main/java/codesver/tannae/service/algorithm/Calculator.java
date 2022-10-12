@@ -1,4 +1,4 @@
-package codesver.tannae.service.main;
+package codesver.tannae.service.algorithm;
 
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
