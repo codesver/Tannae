@@ -15,4 +15,6 @@ public interface ContentRepository {
     Boolean editQuestion(Integer csn, String question);
 
     Boolean deleteContent(Integer csn);
+
+    Boolean editAnswer(Integer csn, String answer);
 }
