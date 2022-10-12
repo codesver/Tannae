@@ -26,6 +26,6 @@ public class UserService {
         log.info("[SERVICE-USER {} : CHECK_PRIVATE] NAME={} RRN={}", Thread.currentThread().getId(), name, rrn);
         Optional<User> optionalUser = userRepository.findByPrivate(name, rrn);
         log.info("[SERVICE-USER {} : CHECK_PRIVATE_RESULT] DUPLICATED={}", Thread.currentThread().getId(), optionalUser.isPresent());
-        return optionalUser.isEmpty();
+        return optionalUser.isPresent();
     }
 }
