@@ -25,13 +25,13 @@ public class UserController {
 
     @GetMapping("/duplicate-id")
     public Boolean duplicateId(@RequestParam String id) {
-        log.info("[CONTROLLER-USER {} : CHECK_ID] /users/check-id?id={}", Thread.currentThread().getId(), id);
+        log.info("[CONTROLLER-USER {} : CHECK_ID] /users/duplicate-id?id={}", Thread.currentThread().getId(), id);
         return userService.isDuplicateId(id);
     }
 
     @GetMapping("/duplicate-private")
     public Boolean duplicatePrivate(@RequestParam String name, @RequestParam String rrn) {
-        log.info("[CONTROLLER-USER {} : CHECK_PRIVATE] /users/check-private?name={}&rrn={}", Thread.currentThread().getId(), name, rrn);
+        log.info("[CONTROLLER-USER {} : CHECK_PRIVATE] /users/duplicate-private?name={}&rrn={}", Thread.currentThread().getId(), name, rrn);
         return userService.checkDuplicatePrivate(name, rrn);
     }
 
