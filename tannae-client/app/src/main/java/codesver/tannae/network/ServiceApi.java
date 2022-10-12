@@ -19,20 +19,20 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ServiceApi {
-    @GET("/users")
-    Call<AccountDTO> getUser(@Query("id") String id, @Query("pw") String pw);
-
     @POST("/users")
     Call<Boolean> postUser(@Body SignUpUserDTO dto);
+
+    @GET("/users/account")
+    Call<AccountDTO> login(@Query("id") String id, @Query("pw") String pw);
+
+    @GET("/users/private")
+    Call<FoundAccountDTO> findAccount(@Query("name") String name, @Query("rrn") String rrn);
 
     @GET("/users/duplicate-id")
     Call<Boolean> duplicateId(@Query("id") String id);
 
     @GET("/users/duplicate-private")
     Call<Boolean> duplicatePrivate(@Query("name") String name, @Query("rrn") String rrn);
-
-    @GET("/users/find-account")
-    Call<FoundAccountDTO> findAccount(@Query("name") String name, @Query("rrn") String rrn);
 
     @PATCH("/users/{usn}/charge")
     Call<Integer> charge(@Path("usn") Integer usn, @Query("point") Integer point);

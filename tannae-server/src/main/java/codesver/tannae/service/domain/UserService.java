@@ -19,6 +19,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final VehicleRepository vehicleRepository;
 
+    public Boolean join(User user) {
+        log.info("[SERVICE-USER {} JOIN] USER={}", Thread.currentThread().getId(), user);
+        userRepository.save(user);
+        log.info("[SERVICE-USER {} JOIN_RESULT] JOINED", Thread.currentThread().getId());
+        return true;
+    }
+
     public AccountDTO login(String id, String pw) {
         log.info("[SERVICE-USER {} LOGIN] LOGIN WITH ID={} PW={}", Thread.currentThread().getId(), id, pw);
         Optional<User> optionalUser = userRepository.findByIdPw(id, pw);
@@ -32,13 +39,6 @@ public class UserService {
         }
         log.info("[SERVICE-USER {} LOGIN_RESULT] LOGIN={}", Thread.currentThread().getId(), optionalUser.isPresent());
         return new AccountDTO(optionalUser.orElse(new User()).convertToDTO(), vsn, optionalUser.isPresent());
-    }
-
-    public Boolean join(User user) {
-        log.info("[SERVICE-USER {} JOIN] USER={}", Thread.currentThread().getId(), user);
-        userRepository.save(user);
-        log.info("[SERVICE-USER {} JOIN_RESULT] JOINED", Thread.currentThread().getId());
-        return true;
     }
 
     public Boolean isDuplicateId(String id) {

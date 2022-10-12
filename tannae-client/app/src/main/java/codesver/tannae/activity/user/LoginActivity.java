@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginByServer(String id, String pw) {
-        Network.service.getUser(id, pw).enqueue(new Callback<AccountDTO>() {
+        Network.service.login(id, pw).enqueue(new Callback<AccountDTO>() {
             @Override
             public void onResponse(Call<AccountDTO> call, Response<AccountDTO> response) {
                 AccountDTO login = response.body();

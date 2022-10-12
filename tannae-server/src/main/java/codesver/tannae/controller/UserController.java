@@ -23,16 +23,24 @@ public class UserController {
     private final VehicleRepository vehicleRepository;
     private final UserService userService;
 
-    @GetMapping
-    public AccountDTO getUser(@RequestParam String id, @RequestParam String pw) {
-        log.info("[CONTROLLER-USER {} : GET_USER] GET /users?id={}&pw={}", Thread.currentThread().getId(), id, pw);
-        return userService.login(id, pw);
-    }
-
     @PostMapping
     public Boolean postUser(@RequestBody SignUpUserDTO dto) {
         log.info("[CONTROLLER-USER {}: POST] POST /users body={}", Thread.currentThread().getId(), dto);
         return userService.join(dto.convertToEntity());
+    }
+
+    @GetMapping("/account")
+    public AccountDTO account(@RequestParam String id, @RequestParam String pw) {
+        log.info("[CONTROLLER-USER {} : ACCOUNT] GET /users/account?id={}&pw={}", Thread.currentThread().getId(), id, pw);
+        return userService.login(id, pw);
+    }
+
+    @GetMapping("/private")
+    public FoundAccountDTO byPrivate(@RequestParam String name, @RequestParam String rrn) {
+        log.info("[CONTROLLER-USER {}: BY_PRIVATE] /users/private?name={}&rrn={}", Thread.currentThread().getId(), name, rrn);
+        Optional<User> foundUser = userRepository.findByNameRrn(name, rrn);
+        User user = foundUser.orElse(new User());
+        return new FoundAccountDTO(user.getId(), user.getPw(), foundUser.isPresent());
     }
 
     @GetMapping("/duplicate-id")
@@ -45,14 +53,6 @@ public class UserController {
     public Boolean duplicatePrivate(@RequestParam String name, @RequestParam String rrn) {
         log.info("[CONTROLLER-USER {} : DUPLICATE_PRIVATE] GET /users/duplicate-private?name={}&rrn={}", Thread.currentThread().getId(), name, rrn);
         return userService.isDuplicatePrivate(name, rrn);
-    }
-
-    @GetMapping("/find-account")
-    public FoundAccountDTO findAccount(@RequestParam String name, @RequestParam String rrn) {
-        log.info("[CONTROLLER-USER {}: FIND_ACCOUNT] /users/find-account?name={}&rrn={}", Thread.currentThread().getId(), name, rrn);
-        Optional<User> foundUser = userRepository.findByNameRrn(name, rrn);
-        User user = foundUser.orElse(new User());
-        return new FoundAccountDTO(user.getId(), user.getPw(), foundUser.isPresent());
     }
 
     @PatchMapping("/{usn}/charge")
