@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
@@ -57,6 +58,8 @@ public class NavigationActivity extends AppCompatActivity {
     private SharedPreferences getter;
     private SharedPreferences.Editor setter;
 
+    private Disposable subscribe;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,15 +86,13 @@ public class NavigationActivity extends AppCompatActivity {
         Network.stomp = Stomp.over(Stomp.ConnectionProvider.OKHTTP, "ws://" + Network.ip + "/service");
         Network.stomp.connect();
 
-        Disposable subscribe = Network.stomp.topic("/sub/vehicle/" + vsn).subscribe(topicMessage -> {
-            runOnUiThread(() -> {
-                try {
-                    mainProcess(topicMessage.getPayload());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            });
-        });
+        subscribe = Network.stomp.topic("/sub/vehicle/" + vsn).subscribe(topicMessage -> runOnUiThread(() -> {
+            try {
+                mainProcess(topicMessage.getPayload());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }));
 
         Network.stomp.send("/pub/connect", getter.getString("id", "")).subscribe();
     }
@@ -179,7 +180,7 @@ public class NavigationActivity extends AppCompatActivity {
             mapView.removeAllCircles();
         } else {
             mapViewContainer.removeView(mapView);
-            Network.stomp.disconnect();
+            subscribe.dispose();
             startActivity(new Intent(NavigationActivity.this, ReceiptActivity.class));
         }
     }
@@ -244,15 +245,15 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     private void requestByServer(ServiceRequestDTO dto) {
-        Network.service.request(dto).enqueue(new Callback<ServiceResponseDTO>() {
+        Network.service.request(dto).enqueue(new Callback<>() {
             @Override
-            public void onResponse(Call<ServiceResponseDTO> call, Response<ServiceResponseDTO> response) {
+            public void onResponse(@NonNull Call<ServiceResponseDTO> call, @NonNull Response<ServiceResponseDTO> response) {
                 responseDTO = response.body();
                 responseHandler();
             }
 
             @Override
-            public void onFailure(Call<ServiceResponseDTO> call, Throwable t) {
+            public void onFailure(@NonNull Call<ServiceResponseDTO> call, @NonNull Throwable t) {
                 Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
                 startActivity(new Intent(NavigationActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             }
@@ -334,14 +335,14 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     private void switchRunByServer(boolean isChecked) {
-        Network.service.switchRun(getter.getInt("vsn", 0), isChecked).enqueue(new Callback<Boolean>() {
+        Network.service.switchRun(getter.getInt("vsn", 0), isChecked).enqueue(new Callback<>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                Toaster.toast(getApplicationContext(), response.body() ? "운행이 활성화되었습니다." : "운행이 비활성화 되었습니다.");
+            public void onResponse(@NonNull Call<Boolean> call, @NonNull Response<Boolean> response) {
+                Toaster.toast(getApplicationContext(), Boolean.TRUE.equals(response.body()) ? "운행이 활성화되었습니다." : "운행이 비활성화 되었습니다.");
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(@NonNull Call<Boolean> call, @NonNull Throwable t) {
                 Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });
