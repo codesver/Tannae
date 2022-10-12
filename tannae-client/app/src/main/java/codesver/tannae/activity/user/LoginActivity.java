@@ -3,7 +3,6 @@ package codesver.tannae.activity.user;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -11,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import codesver.tannae.R;
 import codesver.tannae.activity.main.MainActivity;
-import codesver.tannae.dto.LoginDTO;
+import codesver.tannae.dto.AccountDTO;
 import codesver.tannae.network.Network;
 import codesver.tannae.network.RetrofitClient;
 import codesver.tannae.network.ServiceApi;
@@ -73,10 +72,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginByServer(String id, String pw) {
-        Network.service.login(id, pw).enqueue(new Callback<LoginDTO>() {
+        Network.service.getUser(id, pw).enqueue(new Callback<AccountDTO>() {
             @Override
-            public void onResponse(Call<LoginDTO> call, Response<LoginDTO> response) {
-                LoginDTO login = response.body();
+            public void onResponse(Call<AccountDTO> call, Response<AccountDTO> response) {
+                AccountDTO login = response.body();
                 if (login.exist()) {
                     InnerDB.saveUser(getApplicationContext(), login.getUser());
                     if (login.getUser().getDriver())
@@ -91,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<LoginDTO> call, Throwable t) {
+            public void onFailure(Call<AccountDTO> call, Throwable t) {
                 Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });

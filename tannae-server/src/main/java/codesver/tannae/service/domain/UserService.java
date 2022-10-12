@@ -1,7 +1,10 @@
 package codesver.tannae.service.domain;
 
 import codesver.tannae.domain.User;
+import codesver.tannae.domain.Vehicle;
+import codesver.tannae.dto.AccountDTO;
 import codesver.tannae.repository.user.UserRepository;
+import codesver.tannae.repository.vehicle.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,22 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final VehicleRepository vehicleRepository;
+
+    public AccountDTO login(String id, String pw) {
+        log.info("[SERVICE-USER {} LOGIN] LOGIN WITH ID={} PW={}", Thread.currentThread().getId(), id, pw);
+        Optional<User> optionalUser = userRepository.findByIdPw(id, pw);
+        int vsn = 0;
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            if (optionalUser.get().getIsDriver()) {
+                Optional<Vehicle> optionalVehicle = vehicleRepository.findVehicleByUsn(user.getUsn());
+                vsn = optionalVehicle.isPresent() ? optionalVehicle.get().getVsn() : 0;
+            }
+        }
+        log.info("[SERVICE-USER {} LOGIN_RESULT] LOGIN={}", Thread.currentThread().getId(), optionalUser.isPresent());
+        return new AccountDTO(optionalUser.orElse(new User()).convertToDTO(), vsn, optionalUser.isPresent());
+    }
 
     public Boolean join(User user) {
         log.info("[SERVICE-USER {} JOIN] USER={}", Thread.currentThread().getId(), user);

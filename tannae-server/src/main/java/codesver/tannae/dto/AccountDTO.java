@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class LoginDTO {
+public class AccountDTO {
     private UserDTO user;
     private Integer vsn;
     private boolean exist;

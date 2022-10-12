@@ -1,6 +1,6 @@
 package codesver.tannae.dto;
 
-public class LoginDTO {
+public class AccountDTO {
 
     private UserDTO user;
     private Integer vsn;

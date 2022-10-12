@@ -7,7 +7,7 @@ import codesver.tannae.dto.HistoryDTO;
 import codesver.tannae.dto.RegisterContentDTO;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.dto.FoundAccountDTO;
-import codesver.tannae.dto.LoginDTO;
+import codesver.tannae.dto.AccountDTO;
 import codesver.tannae.dto.ServiceResponseDTO;
 import codesver.tannae.dto.SignUpUserDTO;
 import retrofit2.Call;
@@ -19,8 +19,11 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ServiceApi {
+    @GET("/users")
+    Call<AccountDTO> getUser(@Query("id") String id, @Query("pw") String pw);
+
     @POST("/users")
-    Call<Boolean> join(@Body SignUpUserDTO dto);
+    Call<Boolean> postUser(@Body SignUpUserDTO dto);
 
     @GET("/users/duplicate-id")
     Call<Boolean> duplicateId(@Query("id") String id);
@@ -30,9 +33,6 @@ public interface ServiceApi {
 
     @GET("/users/find-account")
     Call<FoundAccountDTO> findAccount(@Query("name") String name, @Query("rrn") String rrn);
-
-    @GET("/users/login")
-    Call<LoginDTO> login(@Query("id") String id, @Query("pw") String pw);
 
     @PATCH("/users/{usn}/charge")
     Call<Integer> charge(@Path("usn") Integer usn, @Query("point") Integer point);

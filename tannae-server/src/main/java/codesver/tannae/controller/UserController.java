@@ -2,7 +2,7 @@ package codesver.tannae.controller;
 
 import codesver.tannae.domain.User;
 import codesver.tannae.dto.FoundAccountDTO;
-import codesver.tannae.dto.LoginDTO;
+import codesver.tannae.dto.AccountDTO;
 import codesver.tannae.dto.SignUpUserDTO;
 import codesver.tannae.repository.user.UserRepository;
 import codesver.tannae.repository.vehicle.VehicleRepository;
@@ -23,10 +23,16 @@ public class UserController {
     private final VehicleRepository vehicleRepository;
     private final UserService userService;
 
+    @GetMapping
+    public AccountDTO getUser(@RequestParam String id, @RequestParam String pw) {
+        log.info("[CONTROLLER-USER {} : GET_USER] GET /users?id={}&pw={}", Thread.currentThread().getId(), id, pw);
+        return userService.login(id, pw);
+    }
+
     @PostMapping
-    public Boolean join(@RequestBody SignUpUserDTO dto) {
-        log.info("[CONTROLLER-USER {}: JOIN] POST /users body={}", Thread.currentThread().getId(), dto);
-        return userRepository.save(dto.convertToEntity());
+    public Boolean postUser(@RequestBody SignUpUserDTO dto) {
+        log.info("[CONTROLLER-USER {}: POST] POST /users body={}", Thread.currentThread().getId(), dto);
+        return userService.join(dto.convertToEntity());
     }
 
     @GetMapping("/duplicate-id")
@@ -47,18 +53,6 @@ public class UserController {
         Optional<User> foundUser = userRepository.findByNameRrn(name, rrn);
         User user = foundUser.orElse(new User());
         return new FoundAccountDTO(user.getId(), user.getPw(), foundUser.isPresent());
-    }
-
-    @GetMapping("/login")
-    public LoginDTO login(@RequestParam String id, @RequestParam String pw) {
-        log.info("[CONTROLLER-USER {} : LOGIN] /users/login?id={}&pw={}", Thread.currentThread().getId(), id, pw);
-        Optional<User> loggedUser = userRepository.findByIdPw(id, pw);
-        if (loggedUser.isPresent()) {
-            User user = loggedUser.get();
-            int vsn = user.getIsDriver() ? vehicleRepository.findVehicleByUsn(user.getUsn()).get().getVsn() : 0;
-            return new LoginDTO(user.convertToDTO(), vsn, true);
-        }
-        return new LoginDTO(null, 0, false);
     }
 
     @PatchMapping("/{usn}/charge")
