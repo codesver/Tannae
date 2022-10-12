@@ -30,7 +30,7 @@ public class QnaDetailActivity extends AppCompatActivity {
 
     private SharedPreferences getter;
 
-    private boolean flag;
+    private boolean questionFlag, answerFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +56,14 @@ public class QnaDetailActivity extends AppCompatActivity {
     private void setEventListeners() {
         buttonBack.setOnClickListener(v -> onBackPressed());
         buttonEdit.setOnClickListener(v -> {
-            if (!flag) editQuestion();
+            if (!questionFlag) editQuestion();
             else editQuestionByServer();
         });
         buttonDelete.setOnClickListener(v -> deleteByServer(getIntent().getIntExtra("csn", 0)));
+        buttonAnswer.setOnClickListener(v -> {
+            if (!answerFlag) editAnswer();
+            else editAnswerByServer();
+        });
     }
 
     private void getContent() {
@@ -109,7 +113,7 @@ public class QnaDetailActivity extends AppCompatActivity {
         editQuestion.setEnabled(true);
         editQuestion.setBackgroundResource(R.drawable.rectangle_edit);
         Toaster.toast(getApplicationContext(), "질문 내용을 수정할 수 있습니다.");
-        flag = true;
+        questionFlag = true;
     }
 
     private void editQuestionByServer() {
@@ -121,6 +125,7 @@ public class QnaDetailActivity extends AppCompatActivity {
                     editQuestion.setBackgroundResource(R.drawable.rectangle);
                     editQuestion.setEnabled(false);
                     buttonDelete.setVisibility(View.VISIBLE);
+                    questionFlag = false;
                 } else {
                     Toaster.toast(getApplicationContext(), "질문 수정이 거부되었습니다.");
                     onBackPressed();
@@ -140,6 +145,30 @@ public class QnaDetailActivity extends AppCompatActivity {
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 Toaster.toast(getApplicationContext(), "질문이 삭제되었습니다.");
                 onBackPressed();
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
+            }
+        });
+    }
+
+    private void editAnswer() {
+        editAnswer.setEnabled(true);
+        editAnswer.setBackgroundResource(R.drawable.rectangle_edit);
+        Toaster.toast(getApplicationContext(), "답변을 등록할 수 있습니다.");
+        answerFlag = true;
+    }
+
+    private void editAnswerByServer() {
+        Network.service.postAnswer(getIntent().getIntExtra("csn", 0), new StringDTO(editAnswer.getText().toString())).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Toaster.toast(getApplicationContext(), "답변이 등록되었습니다.");
+                editAnswer.setBackgroundResource(R.drawable.rectangle);
+                editAnswer.setEnabled(false);
+                answerFlag = false;
             }
 
             @Override
