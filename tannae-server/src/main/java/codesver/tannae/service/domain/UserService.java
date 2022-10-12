@@ -64,4 +64,11 @@ public class UserService {
         log.info("[SERVICE-USER {} : IS_DUPLICATE_PRIVATE_RESULT] DUPLICATED={}", Thread.currentThread().getId(), optionalUser.isPresent());
         return optionalUser.isPresent();
     }
+
+    public Integer charge(int usn, int point) {
+        log.info("[SERVICE-USER {} : CHARGE] CHARGING POINT {} TO USER {}", Thread.currentThread().getId(), point, usn);
+        Integer chargedPoint = userRepository.chargePoint(usn, point);
+        log.info("[SERVICE-USER {} : CHARGE_RESULT] POINT={}", Thread.currentThread().getId(), chargedPoint);
+        return chargedPoint;
+    }
 }

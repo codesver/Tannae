@@ -53,10 +53,10 @@ public class UserController {
         return userService.isDuplicatePrivate(name, rrn);
     }
 
-    @PatchMapping("/{usn}/charge")
-    public Integer charge(@PathVariable Integer usn, @RequestParam Integer point) {
-        log.info("[CONTROLLER-USER {} : CHARGE] /users/{}/point={}", Thread.currentThread().getId(), usn, point);
-        return userRepository.chargePoint(usn, point);
+    @PostMapping("/{usn}/point")
+    public Integer userPoint(@PathVariable Integer usn, @RequestBody Integer point) {
+        log.info("[CONTROLLER-USER {} : USER_POINT] POST /users/{}/point body={}", Thread.currentThread().getId(), usn, point);
+        return userService.charge(usn, point);
     }
 
     @PatchMapping("/rate")

@@ -34,8 +34,8 @@ public interface ServiceApi {
     @GET("/users/duplicate-private")
     Call<Boolean> duplicatePrivate(@Query("name") String name, @Query("rrn") String rrn);
 
-    @PATCH("/users/{usn}/charge")
-    Call<Integer> charge(@Path("usn") Integer usn, @Query("point") Integer point);
+    @POST("/users/{usn}/point")
+    Call<Integer> charge(@Path("usn") Integer usn, @Body Integer point);
 
     @PATCH("/users/rate")
     Call<Boolean> rate(@Query("vsn") Integer vsn, @Query("rate") Float rate);
