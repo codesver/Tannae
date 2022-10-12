@@ -38,7 +38,13 @@ public class ContentController {
 
     @PostMapping("/{csn}/question")
     public Boolean postQuestion(@PathVariable Integer csn, @RequestBody StringDTO question) {
-        log.info("[CONTROLLER-CONTENT {} : POST_QUESTION] /contents/{}/question body={}", Thread.currentThread().getId(), csn, question.getString());
+        log.info("[CONTROLLER-CONTENT {} : POST_QUESTION] POST /contents/{}/question body={}", Thread.currentThread().getId(), csn, question.getString());
         return contentService.editQuestion(csn, question.getString());
+    }
+
+    @DeleteMapping("/{csn}")
+    public Boolean deleteContent(@PathVariable Integer csn) {
+        log.info("[CONTROLLER-CONTENT {} : DELETE_CONTENT] DELETE /contents/{}", Thread.currentThread().getId(), csn);
+        return contentService.deleteQuestion(csn);
     }
 }
