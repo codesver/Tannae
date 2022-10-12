@@ -11,4 +11,6 @@ public interface ContentRepository {
     public Content findOne(Integer csn);
 
     public Integer register(Content content);
+
+    public Boolean editQuestion(String question);
 }
