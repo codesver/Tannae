@@ -112,6 +112,23 @@ public class QnaDetailActivity extends AppCompatActivity {
     }
 
     private void editQuestionByServer() {
-        
+        Network.service.postQuestion(getIntent().getIntExtra("csn", 0), editQuestion.getText().toString()).enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if (Boolean.TRUE.equals(response.body())) {
+                    Toaster.toast(getApplicationContext(), "질문이 수정되었습니다.");
+                    editQuestion.setBackgroundResource(R.drawable.rectangle);
+                    editQuestion.setEnabled(false);
+                } else {
+                    Toaster.toast(getApplicationContext(), "질문 수정이 거부되었습니다.");
+                    onBackPressed();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
+            }
+        });
     }
 }
