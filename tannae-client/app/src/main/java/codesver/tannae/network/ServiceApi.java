@@ -13,6 +13,7 @@ import codesver.tannae.dto.SignUpUserDTO;
 import codesver.tannae.dto.StringDTO;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
@@ -67,4 +68,7 @@ public interface ServiceApi {
 
     @POST("/contents/{csn}/question")
     Call<Boolean> postQuestion(@Path("csn") Integer csn, @Body StringDTO dto);
+
+    @DELETE("/contents/{csn}")
+    Call<Boolean> deleteContent(@Path("csn") Integer csn);
 }
