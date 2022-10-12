@@ -3,6 +3,7 @@ package codesver.tannae.service.domain;
 import codesver.tannae.domain.User;
 import codesver.tannae.domain.Vehicle;
 import codesver.tannae.dto.AccountDTO;
+import codesver.tannae.dto.FoundAccountDTO;
 import codesver.tannae.repository.user.UserRepository;
 import codesver.tannae.repository.vehicle.VehicleRepository;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,15 @@ public class UserService {
         }
         log.info("[SERVICE-USER {} LOGIN_RESULT] LOGIN={}", Thread.currentThread().getId(), optionalUser.isPresent());
         return new AccountDTO(optionalUser.orElse(new User()).convertToDTO(), vsn, optionalUser.isPresent());
+    }
+
+    public FoundAccountDTO findAccount(String name, String rrn) {
+        log.info("[SERVICE-USER {} FIND_ACCOUNT] FIND ACCOUNT BY NAME={} RRN={}", Thread.currentThread().getId(), name, rrn);
+        Optional<User> optionalUser = userRepository.findByNameRrn(name, rrn);
+        boolean founded = optionalUser.isPresent();
+        log.info("[SERVICE-USER {} FIND_ACCOUNT_RESULT] FOUNDED={}", Thread.currentThread().getId(), founded);
+        return new FoundAccountDTO(founded ? optionalUser.get().getId() : null,
+                founded ? optionalUser.get().getPw() : null, founded);
     }
 
     public Boolean isDuplicateId(String id) {

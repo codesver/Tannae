@@ -38,9 +38,7 @@ public class UserController {
     @GetMapping("/private")
     public FoundAccountDTO byPrivate(@RequestParam String name, @RequestParam String rrn) {
         log.info("[CONTROLLER-USER {}: BY_PRIVATE] /users/private?name={}&rrn={}", Thread.currentThread().getId(), name, rrn);
-        Optional<User> foundUser = userRepository.findByNameRrn(name, rrn);
-        User user = foundUser.orElse(new User());
-        return new FoundAccountDTO(user.getId(), user.getPw(), foundUser.isPresent());
+        return userService.findAccount(name, rrn);
     }
 
     @GetMapping("/duplicate-id")
