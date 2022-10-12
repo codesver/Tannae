@@ -12,5 +12,5 @@ public interface ContentRepository {
 
     public Integer register(Content content);
 
-    public Boolean editQuestion(String question);
+    public Boolean editQuestion(Integer csn, String question);
 }

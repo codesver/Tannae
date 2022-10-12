@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Repository
@@ -38,5 +39,14 @@ public class ContentJpaRepository implements ContentRepository {
         repository.save(content);
         log.info("[REPOSITORY-CONTENT {} : REGISTER_RESULT] SUCCESS", Thread.currentThread().getId());
         return content.getCsn();
+    }
+
+    @Override
+    public Boolean editQuestion(Integer csn, String question) {
+        log.info("[REPOSITORY-CONTENT {} : EDIT_QUESTION] UPDATE CONTENT SET QUESTION={} WHERE CSN={}", Thread.currentThread().getId(), question, csn);
+        Content content = repository.findById(csn).get();
+        content.setQuestion(question);
+        log.info("[REPOSITORY-CONTENT {} : EDIT_QUESTION_RESULT]", Thread.currentThread().getId());
+        return true;
     }
 }
