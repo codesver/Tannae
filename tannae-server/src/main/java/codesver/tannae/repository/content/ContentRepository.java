@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface ContentRepository {
 
-    public List<Content> findAll();
+    List<Content> findAll();
 
-    public Content findOne(Integer csn);
+    Content findOne(Integer csn);
 
-    public Integer register(Content content);
+    Integer register(Content content);
 
-    public Boolean editQuestion(Integer csn, String question);
+    Boolean editQuestion(Integer csn, String question);
 }
