@@ -23,22 +23,22 @@ public class UserController {
     private final VehicleRepository vehicleRepository;
     private final UserService userService;
 
+    @PostMapping
+    public Boolean join(@RequestBody SignUpUserDTO dto) {
+        log.info("[CONTROLLER-USER {}: JOIN] POST /users body={}", Thread.currentThread().getId(), dto);
+        return userRepository.save(dto.convertToEntity());
+    }
+
     @GetMapping("/duplicate-id")
     public Boolean duplicateId(@RequestParam String id) {
-        log.info("[CONTROLLER-USER {} : CHECK_ID] /users/duplicate-id?id={}", Thread.currentThread().getId(), id);
+        log.info("[CONTROLLER-USER {} : DUPLICATE_ID] GET /users/duplicate-id?id={}", Thread.currentThread().getId(), id);
         return userService.isDuplicateId(id);
     }
 
     @GetMapping("/duplicate-private")
     public Boolean duplicatePrivate(@RequestParam String name, @RequestParam String rrn) {
-        log.info("[CONTROLLER-USER {} : CHECK_PRIVATE] /users/duplicate-private?name={}&rrn={}", Thread.currentThread().getId(), name, rrn);
-        return userService.checkDuplicatePrivate(name, rrn);
-    }
-
-    @PostMapping("/sign-up")
-    public Boolean signUp(@RequestBody SignUpUserDTO dto) {
-        log.info("[CONTROLLER-USER {}: SIGN_UP] /users/sign-up body={}", Thread.currentThread().getId(), dto);
-        return userRepository.save(dto.toUser());
+        log.info("[CONTROLLER-USER {} : DUPLICATE_PRIVATE] GET /users/duplicate-private?name={}&rrn={}", Thread.currentThread().getId(), name, rrn);
+        return userService.isDuplicatePrivate(name, rrn);
     }
 
     @GetMapping("/find-account")

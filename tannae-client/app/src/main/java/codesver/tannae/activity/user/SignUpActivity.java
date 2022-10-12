@@ -165,7 +165,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void signUpByServer(SignUpUserDTO dto) {
-        Network.service.signUp(dto).enqueue(new Callback<Boolean>() {
+        Network.service.join(dto).enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 Boolean success = response.body();

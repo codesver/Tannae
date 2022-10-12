@@ -19,14 +19,14 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ServiceApi {
+    @POST("/users")
+    Call<Boolean> join(@Body SignUpUserDTO dto);
+
     @GET("/users/duplicate-id")
     Call<Boolean> duplicateId(@Query("id") String id);
 
     @GET("/users/duplicate-private")
     Call<Boolean> duplicatePrivate(@Query("name") String name, @Query("rrn") String rrn);
-
-    @POST("/users/sign-up")
-    Call<Boolean> signUp(@Body SignUpUserDTO dto);
 
     @GET("/users/find-account")
     Call<FoundAccountDTO> findAccount(@Query("name") String name, @Query("rrn") String rrn);
