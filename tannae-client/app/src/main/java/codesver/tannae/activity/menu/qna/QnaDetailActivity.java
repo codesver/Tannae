@@ -120,6 +120,7 @@ public class QnaDetailActivity extends AppCompatActivity {
                     Toaster.toast(getApplicationContext(), "질문이 수정되었습니다.");
                     editQuestion.setBackgroundResource(R.drawable.rectangle);
                     editQuestion.setEnabled(false);
+                    buttonDelete.setVisibility(View.VISIBLE);
                 } else {
                     Toaster.toast(getApplicationContext(), "질문 수정이 거부되었습니다.");
                     onBackPressed();
