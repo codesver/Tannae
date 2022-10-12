@@ -83,10 +83,10 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void checkIdByServer() {
-        Network.service.checkId(editId.getText().toString()).enqueue(new Callback<Boolean>() {
+        Network.service.duplicateId(editId.getText().toString()).enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                idChecked = response.body();
+                idChecked = !response.body();
                 textIdState.setText(idChecked ? "사용 가능한 ID 입니다." : "다른 ID를 사용해주세요.");
                 textIdState.setTextColor(idChecked ? 0xAA0000FF : 0xAAFF0000);
                 Toaster.toast(getApplicationContext(), idChecked ? "사용 가능한 ID 입니다." : "이미 사용 중인 ID 입니다.");
@@ -115,10 +115,10 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void checkUserByServer(String name, String rrnFront, String rrnBack) {
-        Network.service.checkPrivate(name, rrnFront + "-" + rrnBack).enqueue(new Callback<Boolean>() {
+        Network.service.duplicatePrivate(name, rrnFront + "-" + rrnBack).enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                Boolean isNew = response.body();
+                boolean isNew = !response.body();
                 if (isNew) {
                     textPrivateState.setText("본인인증이 되었습니다.");
                     textPrivateState.setTextColor(0xAA0000FF);

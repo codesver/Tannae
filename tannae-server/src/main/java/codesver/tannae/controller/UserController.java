@@ -23,16 +23,16 @@ public class UserController {
     private final VehicleRepository vehicleRepository;
     private final UserService userService;
 
-    @GetMapping("/check-id")
-    public Boolean checkId(@RequestParam String id) {
+    @GetMapping("/duplicate-id")
+    public Boolean duplicateId(@RequestParam String id) {
         log.info("[CONTROLLER-USER {} : CHECK_ID] /users/check-id?id={}", Thread.currentThread().getId(), id);
-        return userService.checkDuplicateId(id);
+        return userService.isDuplicateId(id);
     }
 
-    @GetMapping("/check-private")
-    public Boolean checkPrivate(@RequestParam String name, @RequestParam String rrn) {
+    @GetMapping("/duplicate-private")
+    public Boolean duplicatePrivate(@RequestParam String name, @RequestParam String rrn) {
         log.info("[CONTROLLER-USER {} : CHECK_PRIVATE] /users/check-private?name={}&rrn={}", Thread.currentThread().getId(), name, rrn);
-        return userRepository.countByPrivate(name, rrn) == 0;
+        return userService.checkDuplicatePrivate(name, rrn);
     }
 
     @PostMapping("/sign-up")

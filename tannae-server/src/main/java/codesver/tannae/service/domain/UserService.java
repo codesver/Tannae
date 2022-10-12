@@ -15,10 +15,17 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public Boolean checkDuplicateId(String id) {
+    public Boolean isDuplicateId(String id) {
         log.info("[SERVICE-USER {} : CHECK_DUPLICATE_ID] ID={}", Thread.currentThread().getId(), id);
         Optional<User> optionalUser = userRepository.findById(id);
-        log.info("[SERVICE-USER {} : CHECK_DUPLICATE_ID] DUPLICATED={}", Thread.currentThread().getId(), optionalUser.isEmpty());
+        log.info("[SERVICE-USER {} : CHECK_DUPLICATE_ID_RESULT] DUPLICATED={}", Thread.currentThread().getId(), optionalUser.isPresent());
+        return optionalUser.isPresent();
+    }
+
+    public Boolean checkDuplicatePrivate(String name, String rrn) {
+        log.info("[SERVICE-USER {} : CHECK_PRIVATE] NAME={} RRN={}", Thread.currentThread().getId(), name, rrn);
+        Optional<User> optionalUser = userRepository.findByPrivate(name, rrn);
+        log.info("[SERVICE-USER {} : CHECK_PRIVATE_RESULT] DUPLICATED={}", Thread.currentThread().getId(), optionalUser.isPresent());
         return optionalUser.isEmpty();
     }
 }

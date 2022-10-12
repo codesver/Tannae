@@ -2,7 +2,6 @@ package codesver.tannae.repository.user;
 
 import codesver.tannae.domain.User;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository {
@@ -10,9 +9,8 @@ public interface UserRepository {
     Optional<User> findUserByUsn(Integer usn);
 
     Optional<User> findById(String id);
-    int countById(String id);
 
-    int countByPrivate(String name, String rrn);
+    Optional<User> findByPrivate(String name, String rrn);
 
     boolean save(User user);
 

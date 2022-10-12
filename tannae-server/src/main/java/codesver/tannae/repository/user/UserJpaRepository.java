@@ -33,19 +33,11 @@ public class UserJpaRepository implements UserRepository {
     }
 
     @Override
-    public int countById(String id) {
-        log.info("[REPOSITORY-USER {} : COUNT_BY_ID] SELECT (*) FROM USER WHERE ID={}", Thread.currentThread().getId(), id);
-        int counted = repository.countUserById(id);
-        log.info("[REPOSITORY-USER {} : COUNT_BY_ID_RESULT] COUNT={}", Thread.currentThread().getId(), counted);
-        return counted;
-    }
-
-    @Override
-    public int countByPrivate(String name, String rrn) {
-        log.info("[REPOSITORY-USER {} : COUNT_BY_PRIVATE] SELECT (*) FROM USER WHERE NAME={} AND RRN={}", Thread.currentThread().getId(), name, rrn);
-        int counted = repository.countUserByRrn(rrn);
-        log.info("[REPOSITORY-USER {} : COUNT_BY_PRIVATE_RESULT] COUNT={}", Thread.currentThread().getId(), counted);
-        return counted;
+    public Optional<User> findByPrivate(String name, String rrn) {
+        log.info("[REPOSITORY-USER {} : FIND_BY_PRIVATE] SELECT * FROM USER WHERE NAME={} AND RRN={}", Thread.currentThread().getId(), name, rrn);
+        Optional<User> optionalUser = repository.findUserByNameAndRrn(name, rrn);
+        log.info("[REPOSITORY-USER {} : FIND_BY_PRIVATE_RESULT] {}", Thread.currentThread().getId(), optionalUser);
+        return optionalUser;
     }
 
     @Override
