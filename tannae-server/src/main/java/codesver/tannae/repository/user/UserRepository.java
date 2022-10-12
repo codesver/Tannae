@@ -6,8 +6,6 @@ import java.util.Optional;
 
 public interface UserRepository {
 
-    Optional<User> findUserByUsn(Integer usn);
-
     Optional<User> findById(String id);
 
     Optional<User> findByPrivate(String name, String rrn);

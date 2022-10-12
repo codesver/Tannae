@@ -17,14 +17,6 @@ public class UserJpaRepository implements UserRepository {
     private final UserSpringDataJpaRepository repository;
 
     @Override
-    public Optional<User> findUserByUsn(Integer usn) {
-        log.info("[REPOSITORY-USER {} : FIND_USER_BY_USN] SELECT * FROM USER WHERE USN={}", Thread.currentThread().getId(), usn);
-        Optional<User> optionalUser = repository.findById(usn);
-        log.info("[REPOSITORY-USER {} : FIND_USER_BY_USN_RESULT] FOUND USER={}", Thread.currentThread().getId(), optionalUser.orElse(null));
-        return optionalUser;
-    }
-
-    @Override
     public Optional<User> findById(String id) {
         log.info("[REPOSITORY-USER {} : FIND_BY_ID] SELECT * FROM USER WHERE ID={}", Thread.currentThread().getId(), id);
         Optional<User> optionalUser = repository.findUserById(id);
