@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import codesver.tannae.R;
@@ -68,15 +69,16 @@ public class QnaDetailActivity extends AppCompatActivity {
     }
 
     private void getContentByServer(int csn) {
-        Network.service.getContent(csn).enqueue(new Callback<ContentDTO>() {
+        Network.service.getContent(csn).enqueue(new Callback<>() {
             @Override
-            public void onResponse(Call<ContentDTO> call, Response<ContentDTO> response) {
+            public void onResponse(@NonNull Call<ContentDTO> call, @NonNull Response<ContentDTO> response) {
                 ContentDTO content = response.body();
+                assert content != null;
                 setContent(content);
             }
 
             @Override
-            public void onFailure(Call<ContentDTO> call, Throwable t) {
+            public void onFailure(@NonNull Call<ContentDTO> call, @NonNull Throwable t) {
                 Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });

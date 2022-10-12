@@ -1,5 +1,6 @@
 package codesver.tannae.activity.menu.qna;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -51,10 +52,11 @@ public class QnaActivity extends AppCompatActivity {
     }
 
     private void setAdapter() {
-        Network.service.getContents().enqueue(new Callback<List<ContentDTO>>() {
+        Network.service.getContents().enqueue(new Callback<>() {
             @Override
-            public void onResponse(Call<List<ContentDTO>> call, Response<List<ContentDTO>> response) {
+            public void onResponse(@NonNull Call<List<ContentDTO>> call, @NonNull Response<List<ContentDTO>> response) {
                 List<ContentDTO> contents = response.body();
+                assert contents != null;
                 if (contents.isEmpty()) {
                     Toaster.toast(getApplicationContext(), "QnA가 없습니다.");
                 } else {
@@ -65,7 +67,7 @@ public class QnaActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<ContentDTO>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<ContentDTO>> call, @NonNull Throwable t) {
                 Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });

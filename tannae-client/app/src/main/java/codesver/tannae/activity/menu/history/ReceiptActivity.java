@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import codesver.tannae.R;
@@ -45,28 +46,28 @@ public class ReceiptActivity extends AppCompatActivity {
     }
 
     private void getReceiptInfoByServerWithUsn(int usn) {
-        Network.service.getReceiptWithUsn(usn).enqueue(new Callback<HistoryDTO>() {
+        Network.service.getReceiptWithUsn(usn).enqueue(new Callback<>() {
             @Override
-            public void onResponse(Call<HistoryDTO> call, Response<HistoryDTO> response) {
+            public void onResponse(@NonNull Call<HistoryDTO> call, @NonNull Response<HistoryDTO> response) {
                 drawReceipt(response.body());
             }
 
             @Override
-            public void onFailure(Call<HistoryDTO> call, Throwable t) {
+            public void onFailure(@NonNull Call<HistoryDTO> call, @NonNull Throwable t) {
                 Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });
     }
 
     private void getReceiptInfoByServerWithHsn(int hsn) {
-        Network.service.getReceiptWithHsn(hsn).enqueue(new Callback<HistoryDTO>() {
+        Network.service.getReceiptWithHsn(hsn).enqueue(new Callback<>() {
             @Override
-            public void onResponse(Call<HistoryDTO> call, Response<HistoryDTO> response) {
+            public void onResponse(@NonNull Call<HistoryDTO> call, @NonNull Response<HistoryDTO> response) {
                 drawReceipt(response.body());
             }
 
             @Override
-            public void onFailure(Call<HistoryDTO> call, Throwable t) {
+            public void onFailure(@NonNull Call<HistoryDTO> call, @NonNull Throwable t) {
                 Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });
@@ -134,16 +135,16 @@ public class ReceiptActivity extends AppCompatActivity {
     }
 
     private void evaluateByServer(Integer vsn) {
-        Network.service.rate(vsn, ratingEvaluate.getRating()).enqueue(new Callback<Boolean>() {
+        Network.service.rate(vsn, ratingEvaluate.getRating()).enqueue(new Callback<>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+            public void onResponse(@NonNull Call<Boolean> call, @NonNull Response<Boolean> response) {
                 Toaster.toast(getApplicationContext(), "평가가 완료되었습니다.");
                 buttonEvaluate.setVisibility(View.GONE);
                 ratingEvaluate.setVisibility(View.GONE);
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(@NonNull Call<Boolean> call, @NonNull Throwable t) {
                 Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });

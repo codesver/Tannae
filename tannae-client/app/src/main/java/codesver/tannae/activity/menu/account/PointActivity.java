@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import codesver.tannae.R;
@@ -74,16 +75,16 @@ public class PointActivity extends AppCompatActivity {
 
     private void chargeByServer(int point) {
         int usn = getter.getInt("usn", 0);
-        Network.service.charge(usn, point).enqueue(new Callback<Integer>() {
+        Network.service.charge(usn, point).enqueue(new Callback<>() {
             @Override
-            public void onResponse(Call<Integer> call, Response<Integer> response) {
+            public void onResponse(@NonNull Call<Integer> call, @NonNull Response<Integer> response) {
                 Integer charged = response.body();
                 Toaster.toast(getApplicationContext(), "충전을 완료하였습니다.");
                 updatePoint(charged);
             }
 
             @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
+            public void onFailure(@NonNull Call<Integer> call, @NonNull Throwable t) {
                 Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });

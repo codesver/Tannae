@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
@@ -38,10 +39,11 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     private void setAdapter() {
-        Network.service.getHistories(getter.getInt("usn", 0)).enqueue(new Callback<List<HistoryDTO>>() {
+        Network.service.getHistories(getter.getInt("usn", 0)).enqueue(new Callback<>() {
             @Override
-            public void onResponse(Call<List<HistoryDTO>> call, Response<List<HistoryDTO>> response) {
+            public void onResponse(@NonNull Call<List<HistoryDTO>> call, @NonNull Response<List<HistoryDTO>> response) {
                 List<HistoryDTO> histories = response.body();
+                assert histories != null;
                 if (histories.isEmpty()) {
                     Toaster.toast(getApplicationContext(), "이용 기록이 없습니다.");
                     onBackPressed();
@@ -53,7 +55,7 @@ public class HistoryActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<HistoryDTO>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<HistoryDTO>> call, @NonNull Throwable t) {
                 Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });

@@ -1,15 +1,14 @@
 package codesver.tannae.activity.menu.qna;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import codesver.tannae.R;
-import codesver.tannae.activity.menu.MenuActivity;
 import codesver.tannae.dto.RegisterContentDTO;
 import codesver.tannae.network.Network;
 import codesver.tannae.service.InnerDB;
@@ -53,15 +52,15 @@ public class QnaRegisterActivity extends AppCompatActivity {
     }
 
     private void registerByServer(RegisterContentDTO dto) {
-        Network.service.registerContent(dto).enqueue(new Callback<Boolean>() {
+        Network.service.registerContent(dto).enqueue(new Callback<>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+            public void onResponse(@NonNull Call<Boolean> call, @NonNull Response<Boolean> response) {
                 Toaster.toast(getApplicationContext(), Boolean.TRUE.equals(response.body()) ? "QnA가 등록되었습니다." : "QnA 등록이 실패했습니다.");
                 onBackPressed();
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(@NonNull Call<Boolean> call, @NonNull Throwable t) {
                 Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });
