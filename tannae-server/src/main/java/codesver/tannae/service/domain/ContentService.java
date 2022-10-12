@@ -42,4 +42,11 @@ public class ContentService {
         log.info("[SERVICE-CONTENT {} : GET_CONTENT_RESULT] DTO={}", Thread.currentThread().getId(), contentDTO);
         return contentDTO;
     }
+
+    public Boolean editQuestion(Integer csn, String question) {
+        log.info("[SERVICE-CONTENT {} : EDIT_QUESTION] CSN={} QUESTION={}", Thread.currentThread().getId(), csn, question);
+        contentDAO.editQuestion(csn, question);
+        log.info("[SERVICE-CONTENT {} : EDIT_QUESTION_RESULT]", Thread.currentThread().getId());
+        return true;
+    }
 }
