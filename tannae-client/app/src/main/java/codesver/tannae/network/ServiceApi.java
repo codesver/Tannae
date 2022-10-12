@@ -67,7 +67,10 @@ public interface ServiceApi {
     Call<ContentDTO> getContent(@Path("csn") Integer csn);
 
     @POST("/contents/{csn}/question")
-    Call<Boolean> postQuestion(@Path("csn") Integer csn, @Body StringDTO dto);
+    Call<Boolean> postQuestion(@Path("csn") Integer csn, @Body StringDTO question);
+
+    @POST("/contents/{csn}/answer")
+    Call<Boolean> postAnswer(@Path("csn") Integer csn, @Body StringDTO answer);
 
     @DELETE("/contents/{csn}")
     Call<Boolean> deleteContent(@Path("csn") Integer csn);

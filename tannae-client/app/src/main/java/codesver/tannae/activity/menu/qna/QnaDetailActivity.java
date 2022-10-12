@@ -60,8 +60,6 @@ public class QnaDetailActivity extends AppCompatActivity {
             else editQuestionByServer();
         });
         buttonDelete.setOnClickListener(v -> deleteByServer(getIntent().getIntExtra("csn", 0)));
-        // buttonDelete
-        // buttonAnswer
     }
 
     private void getContent() {
