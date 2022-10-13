@@ -63,4 +63,13 @@ public class ContentService {
         log.info("[SERVICE-CONTENT {} : EDIT_ANSWER_RESULT]", Thread.currentThread().getId());
         return true;
     }
+
+    public List<ContentDTO> findFaqs() {
+        log.info("[SERVICE-CONTENT {} : FIND_FAQS]", Thread.currentThread().getId());
+        List<Content> contents = contentDAO.findFaq();
+        List<ContentDTO> dtos = new ArrayList<>();
+        for (Content content : contents) dtos.add(content.convertToDTO());
+        log.info("[SERVICE-CONTENT {} : FIND_FAQS_RESULT]", Thread.currentThread().getId());
+        return dtos;
+    }
 }
