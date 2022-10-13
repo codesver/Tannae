@@ -66,4 +66,12 @@ public class ContentJpaRepository implements ContentRepository {
         log.info("[REPOSITORY-CONTENT {} : EDIT_ANSWER_RESULT]", Thread.currentThread().getId());
         return true;
     }
+
+    @Override
+    public List<Content> findFaq() {
+        log.info("[REPOSITORY-CONTENT {} : FIND_FAQ] SELECT * FROM CONTENT WHERE FAQ=TRUE", Thread.currentThread().getId());
+        List<Content> contents = repository.findContentByFaqIsTrue();
+        log.info("[REPOSITORY-CONTENT {} : FIND_FAQ_RESULT]", Thread.currentThread().getId());
+        return contents;
+    }
 }
