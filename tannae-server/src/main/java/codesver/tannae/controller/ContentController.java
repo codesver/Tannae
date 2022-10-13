@@ -53,4 +53,10 @@ public class ContentController {
         log.info("[CONTROLLER-CONTENT {} : POST_ANSWER] POST /contents/{}/answer body={}", Thread.currentThread().getId(), csn, answer.getString());
         return contentService.editAnswer(csn, answer.getString());
     }
+
+    @GetMapping("/faq")
+    public List<ContentDTO> getFaqs() {
+        log.info("[CONTROLLER-CONTENT {} : GET_FAQS] GET /contents/faqs", Thread.currentThread().getId());
+        return contentService.findFaqs();
+    }
 }
