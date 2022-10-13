@@ -74,4 +74,7 @@ public interface ServiceApi {
 
     @DELETE("/contents/{csn}")
     Call<Boolean> deleteContent(@Path("csn") Integer csn);
+
+    @GET("/contents/faq")
+    Call<List<ContentDTO>> getFaqs(@Query("faq") Boolean faq);
 }
