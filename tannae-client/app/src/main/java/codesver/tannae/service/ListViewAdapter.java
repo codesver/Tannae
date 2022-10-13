@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import codesver.tannae.R;
-import codesver.tannae.activity.menu.qna.QnaDetailActivity;
+import codesver.tannae.activity.menu.content.QnaDetailActivity;
 import codesver.tannae.activity.menu.history.ReceiptActivity;
 import codesver.tannae.dto.ContentDTO;
 import codesver.tannae.dto.HistoryDTO;

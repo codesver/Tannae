@@ -16,13 +16,13 @@
         android:theme="@style/Theme.TANNAE"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".activity.menu.qna.QnaRegisterActivity"
+            android:name=".activity.menu.content.QnaRegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.menu.qna.QnaDetailActivity"
+            android:name=".activity.menu.content.QnaDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.menu.qna.QnaActivity"
+            android:name=".activity.menu.content.QnaActivity"
             android:exported="false" />
         <activity
             android:name=".activity.menu.history.HistoryActivity"

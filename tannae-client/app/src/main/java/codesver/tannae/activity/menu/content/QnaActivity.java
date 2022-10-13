@@ -1,4 +1,4 @@
-package codesver.tannae.activity.menu.qna;
+package codesver.tannae.activity.menu.content;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
