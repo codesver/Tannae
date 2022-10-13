@@ -17,4 +17,6 @@ public interface ContentRepository {
     Boolean deleteContent(Integer csn);
 
     Boolean editAnswer(Integer csn, String answer);
+
+    List<Content> findFaq();
 }
