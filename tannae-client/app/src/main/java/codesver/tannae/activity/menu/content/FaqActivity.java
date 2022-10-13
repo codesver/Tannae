@@ -28,6 +28,7 @@ public class FaqActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_faq);
         findViewById(R.id.button_back_faq_activity).setOnClickListener(v -> onBackPressed());
+        setAdapter();
     }
 
     private void setAdapter() {
@@ -38,7 +39,7 @@ public class FaqActivity extends AppCompatActivity {
                 List<ContentDTO> contents = response.body();
                 assert contents != null;
                 if (contents.isEmpty()) {
-                    Toaster.toast(getApplicationContext(), "등록된 FAQ가 없습니다.");
+                    Toaster.toast(getApplicationContext(), "등록된 FAQ 가 없습니다.");
                     onBackPressed();
                 } else {
                     adapter = new ListViewAdapter<>();
