@@ -11,6 +11,7 @@ import java.util.List;
 
 import codesver.tannae.R;
 import codesver.tannae.dto.ContentDTO;
+import codesver.tannae.dto.ContentFaqDTO;
 import codesver.tannae.network.Network;
 import codesver.tannae.service.ListViewAdapter;
 import codesver.tannae.service.Toaster;
@@ -21,7 +22,7 @@ import retrofit2.Response;
 public class FaqActivity extends AppCompatActivity {
 
     private ListView listView;
-    private ListViewAdapter<ContentDTO> adapter;
+    private ListViewAdapter<ContentFaqDTO> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,23 +34,23 @@ public class FaqActivity extends AppCompatActivity {
 
     private void setAdapter() {
         listView = findViewById(R.id.list_view_qnas_qna);
-        Network.service.getFaqs().enqueue(new Callback<List<ContentDTO>>() {
+        Network.service.getFaqs().enqueue(new Callback<List<ContentFaqDTO>>() {
             @Override
-            public void onResponse(@NonNull Call<List<ContentDTO>> call, @NonNull Response<List<ContentDTO>> response) {
-                List<ContentDTO> contents = response.body();
-                assert contents != null;
-                if (contents.isEmpty()) {
+            public void onResponse(@NonNull Call<List<ContentFaqDTO>> call, @NonNull Response<List<ContentFaqDTO>> response) {
+                List<ContentFaqDTO> faqs = response.body();
+                assert faqs != null;
+                if (faqs.isEmpty()) {
                     Toaster.toast(getApplicationContext(), "등록된 FAQ 가 없습니다.");
                     onBackPressed();
                 } else {
                     adapter = new ListViewAdapter<>();
-                    for (ContentDTO content : contents) adapter.addItem(content);
+                    for (ContentFaqDTO faq : faqs) adapter.addItem(faq);
                     listView.setAdapter(adapter);
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<ContentDTO>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<List<ContentFaqDTO>> call, @NonNull Throwable t) {
                 Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
             }
         });

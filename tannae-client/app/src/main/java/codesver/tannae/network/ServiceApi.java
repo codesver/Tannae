@@ -3,6 +3,7 @@ package codesver.tannae.network;
 import java.util.List;
 
 import codesver.tannae.dto.ContentDTO;
+import codesver.tannae.dto.ContentFaqDTO;
 import codesver.tannae.dto.HistoryDTO;
 import codesver.tannae.dto.RegisterContentDTO;
 import codesver.tannae.dto.ServiceRequestDTO;
@@ -76,5 +77,5 @@ public interface ServiceApi {
     Call<Boolean> deleteContent(@Path("csn") Integer csn);
 
     @GET("/contents/faqs")
-    Call<List<ContentDTO>> getFaqs();
+    Call<List<ContentFaqDTO>> getFaqs();
 }
