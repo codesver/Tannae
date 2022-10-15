@@ -12,9 +12,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import codesver.tannae.R;
+import codesver.tannae.activity.menu.content.FaqDetailActivity;
 import codesver.tannae.activity.menu.content.QnaDetailActivity;
 import codesver.tannae.activity.menu.history.ReceiptActivity;
 import codesver.tannae.dto.ContentDTO;
+import codesver.tannae.dto.ContentFaqDTO;
 import codesver.tannae.dto.HistoryDTO;
 
 public class ListViewAdapter<T> extends BaseAdapter {
@@ -64,6 +66,14 @@ public class ListViewAdapter<T> extends BaseAdapter {
             ((TextView) convertView.findViewById(R.id.text_title_list_view_content)).setText(content.getTitle());
             convertView.findViewById(R.id.button_details_list_view_content).setOnClickListener(v ->
                     context.startActivity(new Intent(context, QnaDetailActivity.class).putExtra("csn", content.getCsn())));
+        } else if (t.getClass().equals(ContentFaqDTO.class)) {
+            int layout = R.layout.list_view_content_faq;
+            convertView = inflater.inflate(layout, parent, false);
+            ContentFaqDTO faq = (ContentFaqDTO) t;
+            ((TextView) convertView.findViewById(R.id.text_title_list_view_content_faq)).setText(faq.getTitle());
+            convertView.findViewById(R.id.button_details_list_view_content_faq)
+                    .setOnClickListener(v -> context.startActivity(new Intent(context, FaqDetailActivity.class)
+                            .putExtra("csn", faq.getCsn())));
         }
 
         return convertView;
