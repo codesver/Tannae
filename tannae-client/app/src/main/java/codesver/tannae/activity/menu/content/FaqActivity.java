@@ -31,7 +31,7 @@ public class FaqActivity extends AppCompatActivity {
     }
 
     private void setAdapter() {
-        listView = findViewById(R.id.list_view_qnas_qna);
+        listView = findViewById(R.id.list_view_faqs_faq);
         Network.service.getFaqs().enqueue(new Callback<List<ContentFaqDTO>>() {
             @Override
             public void onResponse(@NonNull Call<List<ContentFaqDTO>> call, @NonNull Response<List<ContentFaqDTO>> response) {

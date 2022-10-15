@@ -43,6 +43,6 @@ public class FaqDetailActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.text_title_faq_detail)).setText(faq.getTitle());
         ((TextView) findViewById(R.id.text_date_faq_detail)).setText(faq.getDateTime());
         ((TextView) findViewById(R.id.text_question_faq_detail)).setText(faq.getQuestion());
-        ((TextView) findViewById(R.id.text_answer_faq_detail)).setText(faq.getAnswer());
+        ((TextView) findViewById(R.id.text_answer_faq_detail)).setText(faq.getAnswer() != null ? faq.getAnswer() : "답변이 아직 등록되지 않았습니다.");
     }
 }
