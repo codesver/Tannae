@@ -1,6 +1,7 @@
 package codesver.tannae.controller;
 
 import codesver.tannae.dto.ContentDTO;
+import codesver.tannae.dto.ContentFaqDTO;
 import codesver.tannae.dto.RegisterContentDTO;
 import codesver.tannae.dto.StringDTO;
 import codesver.tannae.service.domain.ContentService;
@@ -55,7 +56,7 @@ public class ContentController {
     }
 
     @GetMapping("/faq")
-    public List<ContentDTO> getFaqs() {
+    public List<ContentFaqDTO> getFaqs() {
         log.info("[CONTROLLER-CONTENT {} : GET_FAQS] GET /contents/faqs", Thread.currentThread().getId());
         return contentService.findFaqs();
     }
