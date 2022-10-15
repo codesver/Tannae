@@ -1,6 +1,7 @@
 package codesver.tannae.domain;
 
 import codesver.tannae.dto.ContentDTO;
+import codesver.tannae.dto.ContentFaqDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -55,5 +56,9 @@ public class Content {
         dto.setFaq(faq);
         dto.setUsn(user.getUsn());
         return dto;
+    }
+
+    public ContentFaqDTO convertToFaqDTO() {
+        return new ContentFaqDTO(csn, title, question, answer, dateTime.toString().replace("T", " "), getUser().getUsn());
     }
 }
