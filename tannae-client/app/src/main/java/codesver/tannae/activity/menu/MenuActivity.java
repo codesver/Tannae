@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import codesver.tannae.R;
+import codesver.tannae.activity.menu.content.FaqActivity;
 import codesver.tannae.activity.menu.history.HistoryActivity;
 import codesver.tannae.activity.menu.account.AccountActivity;
 import codesver.tannae.activity.menu.account.PointActivity;
@@ -45,7 +46,8 @@ public class MenuActivity extends AppCompatActivity {
         linearPoint.setOnClickListener(v -> startActivity(new Intent(MenuActivity.this, PointActivity.class)));
         linearHistory.setOnClickListener(v -> startActivity(new Intent(MenuActivity.this, HistoryActivity.class)));
         linearQna.setOnClickListener(v -> startActivity(new Intent(MenuActivity.this, QnaActivity.class)));
-        
+        linearFaq.setOnClickListener(v -> startActivity(new Intent(MenuActivity.this, FaqActivity.class)));
+
         buttonBack.setOnClickListener(v -> onBackPressed());
         buttonLogout.setOnClickListener(v -> {
             InnerDB.clear(getApplicationContext());
