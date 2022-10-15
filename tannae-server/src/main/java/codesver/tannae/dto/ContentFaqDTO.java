@@ -1,5 +1,8 @@
 package codesver.tannae.dto;
 
+import lombok.Getter;
+
+@Getter
 public class ContentFaqDTO {
 
     public ContentFaqDTO(Integer csn, String title, String question, String answer, String dateTime, Integer usn) {
