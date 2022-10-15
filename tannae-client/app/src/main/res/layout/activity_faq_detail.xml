@@ -78,8 +78,8 @@
 
             </LinearLayout>
 
-            <EditText
-                android:id="@+id/edit_question_faq_detail"
+            <TextView
+                android:id="@+id/text_question_faq_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -111,8 +111,8 @@
                 android:textSize="25sp"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/edit_answer_faq_detail"
+            <TextView
+                android:id="@+id/text_answer_faq_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rectangle"
