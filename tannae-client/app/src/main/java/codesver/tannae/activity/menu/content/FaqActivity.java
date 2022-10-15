@@ -1,7 +1,6 @@
 package codesver.tannae.activity.menu.content;
 
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -10,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 
 import codesver.tannae.R;
-import codesver.tannae.dto.ContentDTO;
 import codesver.tannae.dto.ContentFaqDTO;
 import codesver.tannae.network.Network;
 import codesver.tannae.service.ListViewAdapter;
@@ -38,7 +36,6 @@ public class FaqActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<List<ContentFaqDTO>> call, @NonNull Response<List<ContentFaqDTO>> response) {
                 List<ContentFaqDTO> faqs = response.body();
-                assert faqs != null;
                 if (faqs.isEmpty()) {
                     Toaster.toast(getApplicationContext(), "등록된 FAQ 가 없습니다.");
                     onBackPressed();

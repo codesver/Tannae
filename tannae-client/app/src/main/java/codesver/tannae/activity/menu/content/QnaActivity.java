@@ -1,12 +1,12 @@
 package codesver.tannae.activity.menu.content;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ListView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
 
@@ -56,7 +56,6 @@ public class QnaActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<List<ContentDTO>> call, @NonNull Response<List<ContentDTO>> response) {
                 List<ContentDTO> contents = response.body();
-                assert contents != null;
                 if (contents.isEmpty()) {
                     Toaster.toast(getApplicationContext(), "QnA가 없습니다.");
                 } else {

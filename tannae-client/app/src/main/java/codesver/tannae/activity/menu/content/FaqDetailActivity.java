@@ -1,10 +1,10 @@
 package codesver.tannae.activity.menu.content;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import codesver.tannae.R;
 import codesver.tannae.dto.ContentDTO;

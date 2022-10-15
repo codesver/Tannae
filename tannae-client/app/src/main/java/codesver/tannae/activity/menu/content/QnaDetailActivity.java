@@ -77,7 +77,6 @@ public class QnaDetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<ContentDTO> call, @NonNull Response<ContentDTO> response) {
                 ContentDTO content = response.body();
-                assert content != null;
                 setContent(content);
             }
 

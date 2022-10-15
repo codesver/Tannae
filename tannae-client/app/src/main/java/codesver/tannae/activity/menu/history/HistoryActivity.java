@@ -43,7 +43,6 @@ public class HistoryActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<List<HistoryDTO>> call, @NonNull Response<List<HistoryDTO>> response) {
                 List<HistoryDTO> histories = response.body();
-                assert histories != null;
                 if (histories.isEmpty()) {
                     Toaster.toast(getApplicationContext(), "이용 기록이 없습니다.");
                     onBackPressed();
