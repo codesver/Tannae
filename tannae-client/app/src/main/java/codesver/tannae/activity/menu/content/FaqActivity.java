@@ -36,7 +36,7 @@ public class FaqActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<List<ContentFaqDTO>> call, @NonNull Response<List<ContentFaqDTO>> response) {
                 List<ContentFaqDTO> faqs = response.body();
-                if (faqs.isEmpty()) {
+                if (faqs == null) {
                     Toaster.toast(getApplicationContext(), "등록된 FAQ 가 없습니다.");
                     onBackPressed();
                 } else {
