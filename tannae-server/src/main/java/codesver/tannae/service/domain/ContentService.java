@@ -2,6 +2,7 @@ package codesver.tannae.service.domain;
 
 import codesver.tannae.domain.Content;
 import codesver.tannae.dto.ContentDTO;
+import codesver.tannae.dto.ContentFaqDTO;
 import codesver.tannae.dto.RegisterContentDTO;
 import codesver.tannae.repository.content.ContentRepository;
 import lombok.RequiredArgsConstructor;
@@ -64,11 +65,11 @@ public class ContentService {
         return true;
     }
 
-    public List<ContentDTO> findFaqs() {
+    public List<ContentFaqDTO> findFaqs() {
         log.info("[SERVICE-CONTENT {} : FIND_FAQS]", Thread.currentThread().getId());
         List<Content> contents = contentDAO.findFaq();
-        List<ContentDTO> dtos = new ArrayList<>();
-        for (Content content : contents) dtos.add(content.convertToDTO());
+        List<ContentFaqDTO> dtos = new ArrayList<>();
+        for (Content content : contents) dtos.add(content.convertToFaqDTO());
         log.info("[SERVICE-CONTENT {} : FIND_FAQS_RESULT]", Thread.currentThread().getId());
         return dtos;
     }
