@@ -55,7 +55,7 @@ public class ContentController {
         return contentService.editAnswer(csn, answer.getString());
     }
 
-    @GetMapping("/faq")
+    @GetMapping("/faqs")
     public List<ContentFaqDTO> getFaqs() {
         log.info("[CONTROLLER-CONTENT {} : GET_FAQS] GET /contents/faqs", Thread.currentThread().getId());
         return contentService.findFaqs();
