@@ -68,7 +68,7 @@ public class NavigationActivity extends AppCompatActivity {
         getter = InnerDB.getter(getApplicationContext());
         setter = InnerDB.setter(getApplicationContext());
 
-        if (getIntent().getBooleanExtra("driver", true)) onCreateDriver();
+        if (getIntent().getBooleanExtra("isDriver", true)) onCreateDriver();
         else onCreatePassenger();
     }
 
@@ -103,39 +103,39 @@ public class NavigationActivity extends AppCompatActivity {
         int usn = response.getInt("usn");
 
         int innerUsn = getter.getInt("usn", 0);
-        boolean driver = getter.getBoolean("driver", false);
+        boolean isDriver = getter.getBoolean("isDriver", false);
 
         switch (flag) {
             case 0: {
                 extractDataFromResponse(response);
                 Toaster.toast(getApplicationContext(), type ?
-                        driver ? "승객이 탑승하였습니다." : usn == innerUsn ? "차량이 도착하였습니다.\n탑승해주세요." : "경유 지점입니다.\n승객이 승차합니다." :
-                        driver ? "승객이 하차하였습니다." : usn == innerUsn ? "목적지에 도착하였습니다.\n하차해주세요." : "경유 지점입니다.\n승객이 하차합니다.");
+                        isDriver ? "승객이 탑승하였습니다." : usn == innerUsn ? "차량이 도착하였습니다.\n탑승해주세요." : "경유 지점입니다.\n승객이 승차합니다." :
+                        isDriver ? "승객이 하차하였습니다." : usn == innerUsn ? "목적지에 도착하였습니다.\n하차해주세요." : "경유 지점입니다.\n승객이 하차합니다.");
                 if (usn == innerUsn && !type) endService(false);
                 else drawer(setter);
             }
             break;
             case 1: {
                 extractDataFromResponse(response);
-                Toaster.toast(getApplicationContext(), driver ?
+                Toaster.toast(getApplicationContext(), isDriver ?
                         "미동승 탑승자 요청이 들어왔습니다.\n탑승자 위치로 이동해주세요." :
                         "차량이 배차되었습니다.\n탑승 지점에서 기다려주세요.");
-                if (driver) startService();
+                if (isDriver) startService();
                 drawer(setter);
             }
             break;
             case 2: {
                 extractDataFromResponse(response);
-                Toaster.toast(getApplicationContext(), driver ?
+                Toaster.toast(getApplicationContext(), isDriver ?
                         "동승 탑승자 요청이 들어왔습니다.\n 탑승자 위치로 이동해주세요." :
                         "동승 가능한 차량이 없어 신규 차량으로 배차되었습니다.\n탑승 지점에서 기다려주세요.");
-                if (driver) startService();
+                if (isDriver) startService();
                 drawer(setter);
             }
             break;
             case 3: {
                 extractDataFromResponse(response);
-                Toaster.toast(getApplicationContext(), driver ?
+                Toaster.toast(getApplicationContext(), isDriver ?
                         "추가 탑승자 요청이 들어왔습니다.\n경로가 수정됩니다." :
                         usn == innerUsn ?
                                 "동승 차량이 배차되었습니다.\n 탑승 지점에서 기다려주세요." :
@@ -144,10 +144,10 @@ public class NavigationActivity extends AppCompatActivity {
             }
             break;
             case 4: {
-                Toaster.toast(getApplicationContext(), driver ?
+                Toaster.toast(getApplicationContext(), isDriver ?
                         "운행이 종료되었습니다." :
                         "목적지에 도착하였습니다.\n 하차해주세요.");
-                endService(driver);
+                endService(isDriver);
             }
             break;
             default:
@@ -168,8 +168,8 @@ public class NavigationActivity extends AppCompatActivity {
         buttonTransfer.setTextColor(Color.parseColor("#127CEA"));
     }
 
-    private void endService(boolean driver) {
-        if (driver) {
+    private void endService(boolean isDriver) {
+        if (isDriver) {
             switchRun.setEnabled(true);
             switchRun.setChecked(false);
             textCurrentPath.setText("현재 탑승자가 없습니다.");
