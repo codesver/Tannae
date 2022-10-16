@@ -61,13 +61,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void request() {
-        if (getter.getInt("point", 0) < 1000) {
+        boolean isDriver = getter.getBoolean("isDriver", false);
+        if (!isDriver && getter.getInt("point", 0) < 1000) {
             Toaster.toast(getApplicationContext(), "잔여 포인트가 1000p 미만입니다.\n충전 후 이용 가능합니다.");
             return;
         }
         mapViewContainer.removeView(mapView);
-        boolean driver = getter.getBoolean("driver", false);
-        startActivity(new Intent(MainActivity.this, driver ? NavigationActivity.class : RequestActivity.class).putExtra("driver", driver));
+        startActivity(new Intent(MainActivity.this, isDriver ? NavigationActivity.class : RequestActivity.class).putExtra("isDriver", isDriver));
     }
 
     @Override
