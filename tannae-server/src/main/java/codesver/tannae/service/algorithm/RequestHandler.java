@@ -34,9 +34,10 @@ public class RequestHandler {
         DSO<Process> DSO = manager.findProcess(dto);
         boolean exist = DSO.getFlag() == 2;
 
-        if (exist)
+        if (exist) {
             DSO = handleNonShareRequest(dto);
-        else {
+            DSO.setFlag(2);
+        } else {
             Process process = DSO.get();
             JSONObject summary = editor.summaryFromPath(new JSONArray(process.getPath()), process.getPassed());
             JSONObject response = requester.request(summary);
