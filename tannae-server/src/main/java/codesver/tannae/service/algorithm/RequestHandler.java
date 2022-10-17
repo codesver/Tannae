@@ -36,7 +36,6 @@ public class RequestHandler {
 
         if (exist) {
             DSO = handleNonShareRequest(dto);
-            DSO.setFlag(2);
         } else {
             Process process = DSO.get();
             JSONObject summary = editor.summaryFromPath(new JSONArray(process.getPath()), process.getPassed());
