@@ -27,7 +27,7 @@ public class Transporter {
 
     public JSONObject transport(JSONObject request, int vsn) {
         log.info("[SERVICE-TRANSPORTER {} : TRANSPORT] Transport vehicle {} to next point", Thread.currentThread().getId(), vsn);
-        
+
         JSONArray guides = guider.updatesGuides(new JSONArray(request.getString("guides")));
 
         Process process = processRepository.increasePassed(vsn);
