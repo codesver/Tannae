@@ -23,7 +23,7 @@ public class Process {
     @Column(nullable = false)
     private Integer passed;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "vsn")
     private Vehicle vehicle;
 }
