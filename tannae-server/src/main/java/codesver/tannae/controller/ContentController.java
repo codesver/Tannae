@@ -26,8 +26,8 @@ public class ContentController {
     }
 
     @PostMapping
-    public Boolean register(@RequestBody RegisterContentDTO dto) {
-        log.info("[CONTROLLER-CONTENT {} : REGISTER] POST /contents body={}", Thread.currentThread().getId(), dto);
+    public Boolean postContent(@RequestBody RegisterContentDTO dto) {
+        log.info("[CONTROLLER-CONTENT {} : POST_CONTENT] POST /contents body={}", Thread.currentThread().getId(), dto);
         return contentService.register(dto);
     }
 
@@ -37,27 +37,27 @@ public class ContentController {
         return contentService.getContent(csn);
     }
 
-    @PostMapping("/{csn}/question")
-    public Boolean postQuestion(@PathVariable Integer csn, @RequestBody StringDTO question) {
-        log.info("[CONTROLLER-CONTENT {} : POST_QUESTION] POST /contents/{}/question body={}", Thread.currentThread().getId(), csn, question.getString());
-        return contentService.editQuestion(csn, question.getString());
-    }
-
     @DeleteMapping("/{csn}")
     public Boolean deleteContent(@PathVariable Integer csn) {
         log.info("[CONTROLLER-CONTENT {} : DELETE_CONTENT] DELETE /contents/{}", Thread.currentThread().getId(), csn);
         return contentService.deleteQuestion(csn);
     }
 
-    @PostMapping("/{csn}/answer")
-    public Boolean postAnswer(@PathVariable Integer csn, @RequestBody StringDTO answer) {
-        log.info("[CONTROLLER-CONTENT {} : POST_ANSWER] POST /contents/{}/answer body={}", Thread.currentThread().getId(), csn, answer.getString());
-        return contentService.editAnswer(csn, answer.getString());
-    }
-
     @GetMapping("/faqs")
     public List<ContentFaqDTO> getFaqs() {
         log.info("[CONTROLLER-CONTENT {} : GET_FAQS] GET /contents/faqs", Thread.currentThread().getId());
         return contentService.findFaqs();
+    }
+
+    @PatchMapping("/{csn}/question")
+    public Boolean patchQuestion(@PathVariable Integer csn, @RequestBody StringDTO question) {
+        log.info("[CONTROLLER-CONTENT {} : PATCH_QUESTION] PATCH /contents/{}/question body={}", Thread.currentThread().getId(), csn, question.getString());
+        return contentService.editQuestion(csn, question.getString());
+    }
+
+    @PatchMapping("/{csn}/answer")
+    public Boolean patchAnswer(@PathVariable Integer csn, @RequestBody StringDTO answer) {
+        log.info("[CONTROLLER-CONTENT {} : PATCH_ANSWER] PATCH /contents/{}/answer body={}", Thread.currentThread().getId(), csn, answer.getString());
+        return contentService.editAnswer(csn, answer.getString());
     }
 }
