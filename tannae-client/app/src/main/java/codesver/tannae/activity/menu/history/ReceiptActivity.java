@@ -135,7 +135,7 @@ public class ReceiptActivity extends AppCompatActivity {
     }
 
     private void evaluateByServer(Integer vsn) {
-        Network.service.rate(vsn, ratingEvaluate.getRating()).enqueue(new Callback<>() {
+        Network.service.patchUserScore(vsn, ratingEvaluate.getRating()).enqueue(new Callback<>() {
             @Override
             public void onResponse(@NonNull Call<Boolean> call, @NonNull Response<Boolean> response) {
                 Toaster.toast(getApplicationContext(), "평가가 완료되었습니다.");

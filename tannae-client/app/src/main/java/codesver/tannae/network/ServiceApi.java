@@ -42,11 +42,11 @@ public interface ServiceApi {
     Call<Boolean> duplicateId(@Query("id") String id);
 
     // Vehicle
-    @POST("/vehicles/{vsn}/users/score")
-    Call<Boolean> rate(@Query("vsn") Integer vsn, @Body Float score);
+    @PATCH("/vehicles/{vsn}/running")
+    Call<Boolean> patchRunning(@Path("vsn") Integer vsn, @Body Boolean running);
 
-    @PATCH("/vehicles/{vsn}")
-    Call<Boolean> switchRun(@Path("vsn") Integer vsn, @Query("running") Boolean running);
+    @PATCH("/vehicles/{vsn}/users/score")
+    Call<Boolean> patchUserScore(@Query("vsn") Integer vsn, @Body Float score);
 
     // History
     @GET("/histories")

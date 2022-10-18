@@ -335,7 +335,7 @@ public class NavigationActivity extends AppCompatActivity {
     }
 
     private void switchRunByServer(boolean isChecked) {
-        Network.service.switchRun(getter.getInt("vsn", 0), isChecked).enqueue(new Callback<>() {
+        Network.service.patchRunning(getter.getInt("vsn", 0), isChecked).enqueue(new Callback<>() {
             @Override
             public void onResponse(@NonNull Call<Boolean> call, @NonNull Response<Boolean> response) {
                 Toaster.toast(getApplicationContext(), Boolean.TRUE.equals(response.body()) ? "운행이 활성화되었습니다." : "운행이 비활성화 되었습니다.");
