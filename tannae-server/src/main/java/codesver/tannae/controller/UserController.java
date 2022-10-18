@@ -16,22 +16,28 @@ public class UserController {
 
     private final UserService userService;
 
+    @GetMapping
+    public AccountDTO getUser(@RequestParam String id, @RequestParam String pw) {
+        log.info("[CONTROLLER-USER {} : GET_USER] GET /users?id={}&pw={}", Thread.currentThread().getId(), id, pw);
+        return userService.login(id, pw);
+    }
+
     @PostMapping
     public Boolean postUser(@RequestBody SignUpUserDTO dto) {
-        log.info("[CONTROLLER-USER {}: POST] POST /users body={}", Thread.currentThread().getId(), dto);
+        log.info("[CONTROLLER-USER {}: POST_USER] POST /users body={}", Thread.currentThread().getId(), dto);
         return userService.join(dto.convertToEntity());
     }
 
     @GetMapping("/account")
-    public AccountDTO account(@RequestParam String id, @RequestParam String pw) {
-        log.info("[CONTROLLER-USER {} : ACCOUNT] GET /users/account?id={}&pw={}", Thread.currentThread().getId(), id, pw);
-        return userService.login(id, pw);
+    public FoundAccountDTO getAccount(@RequestParam String name, @RequestParam String rrn) {
+        log.info("[CONTROLLER-USER {}: GET_ACCOUNT] /users/account?name={}&rrn={}", Thread.currentThread().getId(), name, rrn);
+        return userService.findAccount(name, rrn);
     }
 
-    @GetMapping("/private")
-    public FoundAccountDTO byPrivate(@RequestParam String name, @RequestParam String rrn) {
-        log.info("[CONTROLLER-USER {}: BY_PRIVATE] /users/private?name={}&rrn={}", Thread.currentThread().getId(), name, rrn);
-        return userService.findAccount(name, rrn);
+    @PatchMapping("/{usn}/point")
+    public Integer patchPoint(@PathVariable Integer usn, @RequestBody Integer point) {
+        log.info("[CONTROLLER-USER {} : PATCH_POINT] PATCH /users/{}/point body={}", Thread.currentThread().getId(), usn, point);
+        return userService.charge(usn, point);
     }
 
     @GetMapping("/duplicate-id")
@@ -44,11 +50,5 @@ public class UserController {
     public Boolean duplicatePrivate(@RequestParam String name, @RequestParam String rrn) {
         log.info("[CONTROLLER-USER {} : DUPLICATE_PRIVATE] GET /users/duplicate-private?name={}&rrn={}", Thread.currentThread().getId(), name, rrn);
         return userService.isDuplicatePrivate(name, rrn);
-    }
-
-    @PostMapping("/{usn}/point")
-    public Integer userPoint(@PathVariable Integer usn, @RequestBody Integer point) {
-        log.info("[CONTROLLER-USER {} : USER_POINT] POST /users/{}/point body={}", Thread.currentThread().getId(), usn, point);
-        return userService.charge(usn, point);
     }
 }
