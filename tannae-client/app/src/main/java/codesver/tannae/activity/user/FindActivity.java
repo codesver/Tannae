@@ -101,7 +101,7 @@ public class FindActivity extends AppCompatActivity {
     }
 
     private void findAccountByServer(String name, String rrn) {
-        Network.service.findAccount(name, rrn).enqueue(new Callback<FoundAccountDTO>() {
+        Network.service.getAccount(name, rrn).enqueue(new Callback<FoundAccountDTO>() {
             @Override
             public void onResponse(Call<FoundAccountDTO> call, Response<FoundAccountDTO> response) {
                 FoundAccountDTO account = response.body();

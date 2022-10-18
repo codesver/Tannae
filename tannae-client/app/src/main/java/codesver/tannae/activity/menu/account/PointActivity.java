@@ -75,7 +75,7 @@ public class PointActivity extends AppCompatActivity {
 
     private void chargeByServer(int point) {
         int usn = getter.getInt("usn", 0);
-        Network.service.charge(usn, point).enqueue(new Callback<>() {
+        Network.service.patchPoint(usn, point).enqueue(new Callback<>() {
             @Override
             public void onResponse(@NonNull Call<Integer> call, @NonNull Response<Integer> response) {
                 Integer charged = response.body();

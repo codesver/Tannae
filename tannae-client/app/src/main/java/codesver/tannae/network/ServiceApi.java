@@ -23,23 +23,23 @@ import retrofit2.http.Query;
 
 public interface ServiceApi {
     // User
+    @GET("/users")
+    Call<AccountDTO> getUsers(@Query("id") String id, @Query("pw") String pw);
+
     @POST("/users")
     Call<Boolean> postUser(@Body SignUpUserDTO dto);
 
     @GET("/users/account")
-    Call<AccountDTO> login(@Query("id") String id, @Query("pw") String pw);
+    Call<FoundAccountDTO> getAccount(@Query("name") String name, @Query("rrn") String rrn);
 
-    @GET("/users/private")
-    Call<FoundAccountDTO> findAccount(@Query("name") String name, @Query("rrn") String rrn);
-
-    @GET("/users/duplicate-id")
-    Call<Boolean> duplicateId(@Query("id") String id);
+    @PATCH("/users/{usn}/point")
+    Call<Integer> patchPoint(@Path("usn") Integer usn, @Body Integer point);
 
     @GET("/users/duplicate-private")
     Call<Boolean> duplicatePrivate(@Query("name") String name, @Query("rrn") String rrn);
 
-    @POST("/users/{usn}/point")
-    Call<Integer> charge(@Path("usn") Integer usn, @Body Integer point);
+    @GET("/users/duplicate-id")
+    Call<Boolean> duplicateId(@Query("id") String id);
 
     // Vehicle
     @POST("/vehicles/{vsn}/users/score")
