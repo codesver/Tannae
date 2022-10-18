@@ -52,7 +52,7 @@ public class QnaRegisterActivity extends AppCompatActivity {
     }
 
     private void registerByServer(RegisterContentDTO dto) {
-        Network.service.registerContent(dto).enqueue(new Callback<>() {
+        Network.service.postContent(dto).enqueue(new Callback<>() {
             @Override
             public void onResponse(@NonNull Call<Boolean> call, @NonNull Response<Boolean> response) {
                 Toaster.toast(getApplicationContext(), Boolean.TRUE.equals(response.body()) ? "QnA가 등록되었습니다." : "QnA 등록이 실패했습니다.");

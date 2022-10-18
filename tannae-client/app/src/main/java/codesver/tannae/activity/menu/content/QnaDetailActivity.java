@@ -116,7 +116,7 @@ public class QnaDetailActivity extends AppCompatActivity {
     }
 
     private void editQuestionByServer() {
-        Network.service.postQuestion(getIntent().getIntExtra("csn", 0), new StringDTO(editQuestion.getText().toString())).enqueue(new Callback<Boolean>() {
+        Network.service.patchQuestion(getIntent().getIntExtra("csn", 0), new StringDTO(editQuestion.getText().toString())).enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 if (Boolean.TRUE.equals(response.body())) {
@@ -161,7 +161,7 @@ public class QnaDetailActivity extends AppCompatActivity {
     }
 
     private void editAnswerByServer() {
-        Network.service.postAnswer(getIntent().getIntExtra("csn", 0), new StringDTO(editAnswer.getText().toString())).enqueue(new Callback<Boolean>() {
+        Network.service.patchAnswer(getIntent().getIntExtra("csn", 0), new StringDTO(editAnswer.getText().toString())).enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 Toaster.toast(getApplicationContext(), "답변이 등록되었습니다.");

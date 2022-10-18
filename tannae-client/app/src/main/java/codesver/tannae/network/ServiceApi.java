@@ -63,22 +63,22 @@ public interface ServiceApi {
     Call<List<ContentDTO>> getContents();
 
     @POST("/contents")
-    Call<Boolean> registerContent(@Body RegisterContentDTO dto);
+    Call<Boolean> postContent(@Body RegisterContentDTO dto);
 
     @GET("/contents/{csn}")
     Call<ContentDTO> getContent(@Path("csn") Integer csn);
-
-    @POST("/contents/{csn}/question")
-    Call<Boolean> postQuestion(@Path("csn") Integer csn, @Body StringDTO question);
-
-    @POST("/contents/{csn}/answer")
-    Call<Boolean> postAnswer(@Path("csn") Integer csn, @Body StringDTO answer);
 
     @DELETE("/contents/{csn}")
     Call<Boolean> deleteContent(@Path("csn") Integer csn);
 
     @GET("/contents/faqs")
     Call<List<ContentFaqDTO>> getFaqs();
+
+    @PATCH("/contents/{csn}/question")
+    Call<Boolean> patchQuestion(@Path("csn") Integer csn, @Body StringDTO question);
+
+    @PATCH("/contents/{csn}/answer")
+    Call<Boolean> patchAnswer(@Path("csn") Integer csn, @Body StringDTO answer);
 
     // Service
     @POST("/service/request")
