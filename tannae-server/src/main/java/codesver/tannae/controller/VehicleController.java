@@ -15,16 +15,16 @@ public class VehicleController {
     private final VehicleRepository vehicleRepository;
     private final UserService userService;
 
-    @PatchMapping("/{vsn}")
-    public Boolean switchRun(@PathVariable Integer vsn, @RequestParam Boolean running) {
-        log.info("[CONTROLLER-VEHICLE {} : SWITCH_RUN] PATCH /vehicles/{}?running={}", Thread.currentThread().getId(), vsn, running);
+    @PatchMapping("/{vsn}/running")
+    public Boolean patchRunning(@PathVariable Integer vsn, @RequestBody Boolean running) {
+        log.info("[CONTROLLER-VEHICLE {} : PATCH_RUNNING] PATCH /vehicles/{}/running body={}", Thread.currentThread().getId(), vsn, running);
         vehicleRepository.switchRun(vsn, running);
         return running;
     }
 
-    @PostMapping("/{vsn}/users/score")
-    public Boolean postUserScore(@PathVariable Integer vsn, @RequestBody Float score) {
-        log.info("[CONTROLLER-VEHICLE {} : POST_USER_SCORE] POST /vehicles/{}/users/score body={}", Thread.currentThread().getId(), vsn, score);
+    @PatchMapping("/{vsn}/users/score")
+    public Boolean patchUserScore(@PathVariable Integer vsn, @RequestBody Float score) {
+        log.info("[CONTROLLER-VEHICLE {} : PATCH_USER_SCORE] PATCH /vehicles/{}/users/score body={}", Thread.currentThread().getId(), vsn, score);
         return userService.rateDriver(vsn, score);
     }
 }
