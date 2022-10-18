@@ -22,6 +22,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ServiceApi {
+    // User
     @POST("/users")
     Call<Boolean> postUser(@Body SignUpUserDTO dto);
 
@@ -40,15 +41,14 @@ public interface ServiceApi {
     @POST("/users/{usn}/point")
     Call<Integer> charge(@Path("usn") Integer usn, @Body Integer point);
 
-    @POST("/service/request")
-    Call<ServiceResponseDTO> request(@Body ServiceRequestDTO dto);
-
+    // Vehicle
     @POST("/vehicles/{vsn}/users/score")
     Call<Boolean> rate(@Query("vsn") Integer vsn, @Body Float score);
 
     @PATCH("/vehicles/{vsn}")
     Call<Boolean> switchRun(@Path("vsn") Integer vsn, @Query("running") Boolean running);
 
+    // History
     @GET("/histories")
     Call<List<HistoryDTO>> getHistories(@Query("usn") Integer usn);
 
@@ -58,6 +58,7 @@ public interface ServiceApi {
     @GET("/histories/users")
     Call<HistoryDTO> getReceiptWithUsn(@Query("usn") Integer usn);
 
+    // Content
     @GET("/contents")
     Call<List<ContentDTO>> getContents();
 
@@ -78,4 +79,8 @@ public interface ServiceApi {
 
     @GET("/contents/faqs")
     Call<List<ContentFaqDTO>> getFaqs();
+
+    // Service
+    @POST("/service/request")
+    Call<ServiceResponseDTO> request(@Body ServiceRequestDTO dto);
 }
