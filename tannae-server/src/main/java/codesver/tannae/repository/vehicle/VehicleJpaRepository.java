@@ -78,4 +78,11 @@ public class VehicleJpaRepository implements VehicleRepository {
         log.info("[REPOSITORY-VEHICLE {} : FIND_RESULT] FOUND USER={}", Thread.currentThread().getId(), usn);
         return usn;
     }
+
+    @Override
+    public void setPositions(int vsn, double latitude, double longitude) {
+        Vehicle vehicle = repository.findById(vsn).get();
+        vehicle.setLatitude(latitude);
+        vehicle.setLongitude(longitude);
+    }
 }

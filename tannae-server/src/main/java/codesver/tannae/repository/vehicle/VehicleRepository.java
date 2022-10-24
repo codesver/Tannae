@@ -19,4 +19,6 @@ public interface VehicleRepository {
     Vehicle transfer(int vsn, boolean type, JSONObject point);
 
     Integer findUserOfVehicle(int vsn);
+
+    void setPositions(int vsn, double latitude, double longitude);
 }
