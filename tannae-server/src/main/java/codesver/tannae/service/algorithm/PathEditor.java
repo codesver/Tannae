@@ -24,7 +24,7 @@ public class PathEditor {
                 .put(createPoint(dto.getOrigin(), dto.getOriginLongitude(), dto.getOriginLatitude(), dto.getUsn(), true))
                 .put(createPoint(dto.getDestination(), dto.getDestinationLongitude(), dto.getDestinationLatitude(), dto.getUsn(), false));
 
-        log.info("[SERVICE-PATH-EDITOR {} : CREATE_PATH_RESULT] New path created={}", Thread.currentThread().getId(), path);
+        log.info("[SERVICE-PATH-EDITOR {} : CREATE_PATH_RESULT] CREATED", Thread.currentThread().getId());
         return path;
     }
 
@@ -43,7 +43,7 @@ public class PathEditor {
             point.put("fare", (int) (point.getInt("distance") / (double) totalDistance * totalFare));
         }
 
-        log.info("[SERVICE-PATH-EDITOR {} : ADD_RESULT_TO_PATH_RESULT] Added result to path={}", Thread.currentThread().getId(), path);
+        log.info("[SERVICE-PATH-EDITOR {} : ADD_RESULT_TO_PATH_RESULT] ADDED", Thread.currentThread().getId());
     }
 
     public JSONArray pathFromSummary(JSONObject summary) {
@@ -53,7 +53,7 @@ public class PathEditor {
                 .putAll(summary.getJSONArray("waypoints"))
                 .put(summary.getJSONObject("destination"));
 
-        log.info("[SERVICE-PATH-EDITOR :{}  PATH_FROM_SUMMARY_RESULT] Extracted path={}", Thread.currentThread().getId(), path);
+        log.info("[SERVICE-PATH-EDITOR :{}  PATH_FROM_SUMMARY_RESULT] EXTRACTED", Thread.currentThread().getId());
         return path;
     }
 
@@ -69,7 +69,7 @@ public class PathEditor {
             waypoints.put(path.getJSONObject(i));
         summary.put("waypoints", waypoints);
 
-        log.info("[SERVICE-PATH-EDITOR {} : SUMMARY_FROM_PATH_RESULT] Extracted summary={}", Thread.currentThread().getId(), summary);
+        log.info("[SERVICE-PATH-EDITOR {} : SUMMARY_FROM_PATH_RESULT] EXTRACTED", Thread.currentThread().getId());
         return summary;
     }
 
@@ -81,7 +81,7 @@ public class PathEditor {
         list.add(i, createPoint(dto.getOrigin(), dto.getOriginLongitude(), dto.getOriginLatitude(), dto.getUsn(), true));
         process.setPath(new JSONArray(list).toString());
 
-        log.info("[SERVICE-PATH-EDITOR {} : EDIT_PATH_RESULT] Process path edited={}", Thread.currentThread().getId(), process.getPath());
+        log.info("[SERVICE-PATH-EDITOR {} : EDIT_PATH_RESULT] ADDED", Thread.currentThread().getId());
     }
 
     private JSONObject createPoint(String name, double x, double y, int usn, boolean type) {
@@ -92,7 +92,7 @@ public class PathEditor {
                 .put("x", x).put("y", y).put("fare", 0).put("type", type)
                 .put("usn", usn).put("distance", 0).put("duration", 0);
 
-        log.info("[SERVICE-PATH-EDITOR {} : CREATE_POINT_RESULT] New point created", Thread.currentThread().getId());
+        log.info("[SERVICE-PATH-EDITOR {} : CREATE_POINT_RESULT] CREATED", Thread.currentThread().getId());
         return point;
     }
 }
