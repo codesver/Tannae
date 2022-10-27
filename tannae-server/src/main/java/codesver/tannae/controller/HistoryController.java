@@ -20,7 +20,7 @@ public class HistoryController {
 
     @GetMapping
     public List<HistoryDTO> getHistoriesOfUser(@RequestParam Integer usn) {
-        log.info("[CONTROLLER-HISTORY {} : GET_HISTORIES_OF_USER] /histories?usn={}", Thread.currentThread().getId(), usn);
+        log.info("[CONTROLLER-HISTORY {} : GET_HISTORIES_OF_USER] GET /histories?usn={}", Thread.currentThread().getId(), usn);
         List<History> histories = historyRepository.findHistories(usn);
         List<HistoryDTO> historyDTOS = new ArrayList<>();
         for (History history : histories) historyDTOS.add(history.getDTO());
@@ -28,8 +28,8 @@ public class HistoryController {
     }
 
     @GetMapping("/{hsn}")
-    public HistoryDTO getReceiptByHsn(@PathVariable("hsn") Integer hsn) {
-        log.info("[CONTROLLER-HISTORY {} : GET_RECEIPT_BY_HSN] /histories?hsn={}", Thread.currentThread().getId(), hsn);
+    public HistoryDTO getHistory(@PathVariable("hsn") Integer hsn) {
+        log.info("[CONTROLLER-HISTORY {} : GET_HISTORY] GET /histories?hsn={}", Thread.currentThread().getId(), hsn);
         History history = historyRepository.findHistoryByHsn(hsn);
         return history.getDTO();
     }
