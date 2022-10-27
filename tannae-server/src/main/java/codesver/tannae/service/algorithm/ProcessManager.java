@@ -30,7 +30,7 @@ public class ProcessManager {
         process.setPassed(-1);
         process.setVehicle(vehicle);
 
-        log.info("[SERVICE-PROCESS-MANAGER {} : CREATE_PROCESS_RESULT] Created process={}", Thread.currentThread().getId(), process);
+        log.info("[SERVICE-PROCESS-MANAGER {} : CREATE_PROCESS_RESULT] CREATED", Thread.currentThread().getId());
         return process;
     }
 
@@ -52,7 +52,7 @@ public class ProcessManager {
         if (!processDSO.isPresent())
             processDSO = new DSO<>(2);
 
-        log.info("[SERVICE-PROCESS-MANAGER {} : FIND_PROCESSES] Find processes gender={} share={}", Thread.currentThread().getId(), dto.getGender(), dto.getShare());
+        log.info("[SERVICE-PROCESS-MANAGER {} : FIND_PROCESSES] FOUND processes gender={} share={}", Thread.currentThread().getId(), dto.getGender(), dto.getShare());
         return processDSO;
     }
 
@@ -82,7 +82,7 @@ public class ProcessManager {
             return lengthA == lengthB ? 0 : (lengthA - lengthB < 0 ? -1 : 1);
         });
 
-        log.info("[SERVICE-PROCESS-MANAGER {} : SORT_PROCESS_LIST_RESULT] Processes sorted", Thread.currentThread().getId());
+        log.info("[SERVICE-PROCESS-MANAGER {} : SORT_PROCESS_LIST_RESULT] SORTED", Thread.currentThread().getId());
     }
 
     private boolean availableCoordinate(ServiceRequestDTO dto, Process process) {
@@ -141,8 +141,9 @@ public class ProcessManager {
         double bpx = px - bx, bpy = py - by, bfx = fx - bx, bfy = fy - by;
         double backAngle = Math.toDegrees(Math.acos((bpx * bfx + bpy * bfy) / (Math.sqrt(Math.pow(bpx, 2) + Math.pow(bpy, 2)) * Math.sqrt(Math.pow(bfx, 2) + Math.pow(bfy, 2)))));
 
-        log.info("[SERVICE-PROCESS-MANAGER {} : IS_INSIDE_RESULT] Front angle={}°, Back angle={}°", Thread.currentThread().getId(), frontAngle, backAngle);
-        return frontAngle < 30 && backAngle < 30;
+        boolean inside = frontAngle < 30 && backAngle < 30;
+        log.info("[SERVICE-PROCESS-MANAGER {} : IS_INSIDE_RESULT] Front angle={}°, Back angle={}°, INSIDE={}", Thread.currentThread().getId(), frontAngle, backAngle, inside);
+        return inside;
     }
 
     private boolean destinationIsFurther(double ox, double oy, double dx, double dy, double fx, double fy) {
@@ -152,12 +153,16 @@ public class ProcessManager {
         double ofLength = Math.pow(ox - fx, 2) + Math.pow(oy - fy, 2);
         double dfLength = Math.pow(dx - fx, 2) + Math.pow(dy - fy, 2);
 
-        log.info("[SERVICE-PROCESS-MANAGER {} : DESTINATION_IS_FURTHER_RESULT] Origin length={} Destination length={}", Thread.currentThread().getId(), ofLength, dfLength);
-        return ofLength < dfLength;
+        boolean farther = ofLength < dfLength;
+
+        log.info("[SERVICE-PROCESS-MANAGER {} : DESTINATION_IS_FURTHER_RESULT] Origin length={} Destination length={} FARTHER={}",
+                Thread.currentThread().getId(), ofLength, dfLength, farther);
+        return farther;
     }
 
     private boolean isInsideAfterEndPoint(JSONArray path, Double px, Double py) {
         log.info("[SERVICE-PROCESS-MANAGER {} : IS_INSIDE_AFTER_END_POINT] Destination({}, {}) is inside area after end point", Thread.currentThread().getId(), px, py);
+
         JSONObject beforeEnd = path.getJSONObject(path.length() - 2);
         JSONObject end = path.getJSONObject(path.length() - 1);
 
@@ -167,7 +172,7 @@ public class ProcessManager {
         double epx = px - ex, epy = py - ey;
         double beex = ex - bex, beey = ey - bey;
         double angle = Math.toDegrees((epx * beex + epy * beey) / (Math.sqrt(Math.pow(epx, 2) + Math.pow(epy, 2)) * Math.sqrt(Math.pow(beex, 2) + Math.pow(beey, 2))));
-
+        
         log.info("[SERVICE-PROCESS-MANAGER {} : IS_INSIDE_AFTER_END_POINT] End point angle={}", Thread.currentThread().getId(), angle);
         return angle < 22.5;
     }
