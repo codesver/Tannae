@@ -19,8 +19,8 @@ public class HistoryController {
     private final HistoryRepository historyRepository;
 
     @GetMapping
-    public List<HistoryDTO> getHistories(@RequestParam Integer usn) {
-        log.info("[CONTROLLER-HISTORY {} : GET_HISTORIES] /histories?usn={}", Thread.currentThread().getId(), usn);
+    public List<HistoryDTO> getHistoriesOfUser(@RequestParam Integer usn) {
+        log.info("[CONTROLLER-HISTORY {} : GET_HISTORIES_OF_USER] /histories?usn={}", Thread.currentThread().getId(), usn);
         List<History> histories = historyRepository.findHistories(usn);
         List<HistoryDTO> historyDTOS = new ArrayList<>();
         for (History history : histories) historyDTOS.add(history.getDTO());
