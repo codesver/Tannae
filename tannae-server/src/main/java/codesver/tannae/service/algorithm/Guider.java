@@ -28,7 +28,7 @@ public class Guider {
             }
         }
 
-        log.info("[SERVICE-GUIDES {} : CREATE_GUIDES_RESULT] Created guides={}", Thread.currentThread().getId(), guides);
+        log.info("[SERVICE-GUIDES {} : CREATE_GUIDES_RESULT] CREATED", Thread.currentThread().getId());
         return guides;
     }
 
