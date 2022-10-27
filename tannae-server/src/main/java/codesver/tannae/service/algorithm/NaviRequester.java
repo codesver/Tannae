@@ -24,13 +24,13 @@ public class NaviRequester {
     }
 
     public JSONObject request(JSONObject body) {
-        log.info("[SERVICE-NAVI-REQUESTER {} : REQUEST] Request navigation details={}", Thread.currentThread().getId(), body);
+        log.info("[SERVICE-NAVI-REQUESTER {} : REQUEST] Request navigation details", Thread.currentThread().getId());
 
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body.toMap(), headers);
         String url = "https://apis-navi.kakaomobility.com/v1/waypoints/directions";
         JSONObject response = new JSONObject(rest.postForEntity(url, entity, String.class).getBody());
 
-        log.info("[SERVICE-NAVI-REQUESTER {} : REQUEST_RESULT] RESPONSE={}", Thread.currentThread().getId(), response);
+        log.info("[SERVICE-NAVI-REQUESTER {} : REQUEST_RESULT] RESPONSED", Thread.currentThread().getId());
         return response;
     }
 }
