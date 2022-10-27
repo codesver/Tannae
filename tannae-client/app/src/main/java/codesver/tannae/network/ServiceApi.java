@@ -55,7 +55,7 @@ public interface ServiceApi {
     @GET("/histories/{hsn}")
     Call<HistoryDTO> getReceiptWithHsn(@Path("hsn") Integer hsn);
 
-    @GET("/histories/users")
+    @GET("/histories/receipts")
     Call<HistoryDTO> getReceiptWithUsn(@Query("usn") Integer usn);
 
     // Content
