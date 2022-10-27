@@ -35,8 +35,8 @@ public class HistoryController {
     }
 
     @GetMapping("/users")
-    public HistoryDTO getReceiptByUsn(@RequestParam Integer usn) {
-        log.info("[CONTROLLER-HISTORY {} : GET_RECEIPT] /histories/users?usn={}", Thread.currentThread().getId(), usn);
+    public HistoryDTO getReceiptOfUser(@RequestParam Integer usn) {
+        log.info("[CONTROLLER-HISTORY {} : GET_RECEIPT_OF_USER] GET /histories/receipt?usn={}", Thread.currentThread().getId(), usn);
         History history = historyRepository.findHistoryByUsn(usn);
         return history.getDTO();
     }
