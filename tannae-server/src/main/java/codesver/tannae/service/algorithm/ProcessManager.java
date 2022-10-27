@@ -172,8 +172,8 @@ public class ProcessManager {
         double epx = px - ex, epy = py - ey;
         double beex = ex - bex, beey = ey - bey;
         double angle = Math.toDegrees((epx * beex + epy * beey) / (Math.sqrt(Math.pow(epx, 2) + Math.pow(epy, 2)) * Math.sqrt(Math.pow(beex, 2) + Math.pow(beey, 2))));
-        
+
         log.info("[SERVICE-PROCESS-MANAGER {} : IS_INSIDE_AFTER_END_POINT] End point angle={}", Thread.currentThread().getId(), angle);
-        return angle < 22.5;
+        return angle < 45;
     }
 }
