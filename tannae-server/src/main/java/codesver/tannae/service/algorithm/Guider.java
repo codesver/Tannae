@@ -46,7 +46,7 @@ public class Guider {
                 nextGuides.put(guide);
         }
 
-        log.info("[SERVICE-GUIDES {} : UPDATE_GUIDES_RESULT] Updated guides", Thread.currentThread().getId());
+        log.info("[SERVICE-GUIDES {} : UPDATE_GUIDES_RESULT] UPDATED", Thread.currentThread().getId());
         return nextGuides;
     }
 }
