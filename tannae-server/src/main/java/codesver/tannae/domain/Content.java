@@ -34,7 +34,7 @@ public class Content {
     @Column(length = 1, columnDefinition = "TINYINT")
     private Boolean faq;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USN")
     private User user;
 

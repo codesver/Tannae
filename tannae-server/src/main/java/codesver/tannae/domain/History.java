@@ -70,11 +70,11 @@ public class History {
     @Column(length = 1, columnDefinition = "TINYINT")
     private Boolean end;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USN")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "VSN")
     private Vehicle vehicle;
 
