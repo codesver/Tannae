@@ -5,7 +5,7 @@ public class LostDTO {
     private Integer lsn;
     private String lost;
     private String lostDate;
-    private Integer vrn;
+    private String vrn;
 
     public Integer getLsn() {
         return lsn;
@@ -19,7 +19,7 @@ public class LostDTO {
         return lostDate;
     }
 
-    public Integer getVrn() {
+    public String getVrn() {
         return vrn;
     }
 }
