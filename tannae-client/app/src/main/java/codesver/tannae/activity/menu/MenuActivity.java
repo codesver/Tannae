@@ -13,6 +13,7 @@ import codesver.tannae.activity.menu.account.PointActivity;
 import codesver.tannae.activity.menu.content.FaqActivity;
 import codesver.tannae.activity.menu.content.QnaActivity;
 import codesver.tannae.activity.menu.history.HistoryActivity;
+import codesver.tannae.activity.menu.lost.LostActivity;
 import codesver.tannae.activity.user.LoginActivity;
 import codesver.tannae.service.InnerDB;
 
@@ -47,6 +48,7 @@ public class MenuActivity extends AppCompatActivity {
         linearHistory.setOnClickListener(v -> startActivity(new Intent(MenuActivity.this, HistoryActivity.class)));
         linearQna.setOnClickListener(v -> startActivity(new Intent(MenuActivity.this, QnaActivity.class)));
         linearFaq.setOnClickListener(v -> startActivity(new Intent(MenuActivity.this, FaqActivity.class)));
+        linearLost.setOnClickListener(v -> startActivity(new Intent(MenuActivity.this, LostActivity.class)));
 
         buttonBack.setOnClickListener(v -> onBackPressed());
         buttonLogout.setOnClickListener(v -> {
