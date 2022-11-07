@@ -18,6 +18,7 @@ import codesver.tannae.activity.menu.history.ReceiptActivity;
 import codesver.tannae.dto.ContentDTO;
 import codesver.tannae.dto.ContentFaqDTO;
 import codesver.tannae.dto.HistoryDTO;
+import codesver.tannae.dto.LostDTO;
 
 public class ListViewAdapter<T> extends BaseAdapter {
 
@@ -74,6 +75,12 @@ public class ListViewAdapter<T> extends BaseAdapter {
             convertView.findViewById(R.id.button_details_list_view_content_faq)
                     .setOnClickListener(v -> context.startActivity(new Intent(context, FaqDetailActivity.class)
                             .putExtra("csn", faq.getCsn())));
+        } else if (t.getClass().equals(LostDTO.class)) {
+            int layout = R.layout.list_view_lost;
+            LostDTO lost = (LostDTO) t;
+            ((TextView) convertView.findViewById(R.id.text_lost_list_view_lost)).setText(lost.getLost());
+            ((TextView) convertView.findViewById(R.id.text_date_list_view_lost)).setText(lost.getDate());
+            ((TextView) convertView.findViewById(R.id.text_vrn_list_view_lost)).setText(lost.getVrn());
         }
 
         return convertView;

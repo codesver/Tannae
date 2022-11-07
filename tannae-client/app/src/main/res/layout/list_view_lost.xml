@@ -64,7 +64,7 @@
                     android:layout_weight="1" />
 
                 <TextView
-                    android:id="@+id/text_origin_list_view_history"
+                    android:id="@+id/text_date_list_view_lost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="{DATE}"
@@ -91,7 +91,7 @@
                     android:layout_weight="1" />
 
                 <TextView
-                    android:id="@+id/text_destination_list_view_history"
+                    android:id="@+id/text_vrn_list_view_lost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="{VRN}"
