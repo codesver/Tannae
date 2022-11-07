@@ -1,6 +1,5 @@
 package codesver.tannae.controller;
 
-import codesver.tannae.domain.Lost;
 import codesver.tannae.dto.LostDTO;
 import codesver.tannae.repository.lost.LostRepository;
 import lombok.RequiredArgsConstructor;
