@@ -80,7 +80,7 @@ public class ListViewAdapter<T> extends BaseAdapter {
             convertView = inflater.inflate(layout, parent, false);
             LostDTO lost = (LostDTO) t;
             ((TextView) convertView.findViewById(R.id.text_lost_list_view_lost)).setText(lost.getLost());
-            ((TextView) convertView.findViewById(R.id.text_date_list_view_lost)).setText(lost.getDate());
+            ((TextView) convertView.findViewById(R.id.text_date_list_view_lost)).setText(lost.getLostDate());
             ((TextView) convertView.findViewById(R.id.text_vrn_list_view_lost)).setText(lost.getVrn());
         }
 
