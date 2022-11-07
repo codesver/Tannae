@@ -5,10 +5,17 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
+
 import codesver.tannae.R;
 import codesver.tannae.dto.ContentFaqDTO;
 import codesver.tannae.dto.LostDTO;
+import codesver.tannae.network.Network;
 import codesver.tannae.service.ListViewAdapter;
+import codesver.tannae.service.Toaster;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LostActivity extends AppCompatActivity {
 
@@ -26,6 +33,24 @@ public class LostActivity extends AppCompatActivity {
     }
 
     private void setAdapter() {
-        // Network
+        Network.service.getLosts().enqueue(new Callback<List<LostDTO>>() {
+            @Override
+            public void onResponse(Call<List<LostDTO>> call, Response<List<LostDTO>> response) {
+                List<LostDTO> losts = response.body();
+                if (losts.isEmpty()) {
+                    Toaster.toast(getApplicationContext(), "분실물이 없습니다.");
+                    onBackPressed();
+                } else {
+                    adapter = new ListViewAdapter<>();
+                    for (LostDTO lost : losts) adapter.addItem(lost);
+                    listView.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<LostDTO>> call, Throwable t) {
+                Toaster.toast(getApplicationContext(), "오류가 발생했습니다.\n고객센터로 문의바랍니다.");
+            }
+        });
     }
 }
