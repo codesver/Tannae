@@ -5,6 +5,7 @@ import java.util.List;
 import codesver.tannae.dto.ContentDTO;
 import codesver.tannae.dto.ContentFaqDTO;
 import codesver.tannae.dto.HistoryDTO;
+import codesver.tannae.dto.LostDTO;
 import codesver.tannae.dto.RegisterContentDTO;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.dto.FoundAccountDTO;
@@ -83,4 +84,8 @@ public interface ServiceApi {
     // Service
     @POST("/service/request")
     Call<ServiceResponseDTO> request(@Body ServiceRequestDTO dto);
+
+    // Lost
+    @GET("/losts")
+    Call<List<LostDTO>> getLosts();
 }
