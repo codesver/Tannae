@@ -1,4 +1,4 @@
-package codesver.tannae.domain;
+package codesver.tannae.dto;
 
 
 import org.json.JSONArray;
