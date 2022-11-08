@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -32,7 +33,7 @@ public class ResponseHandler {
     private final VehicleRepository vehicleRepository;
     private final HistoryRepository historyRepository;
 
-
+    @Transactional
     public DSO<Process> handleShareResponse(ServiceRequestDTO dto, Process process, JSONObject summary, JSONObject response) {
         log.info("[SERVICE-RESPONSE-HANDLER {} : HANDLE_SHARE_RESPONSE]", Thread.currentThread().getId());
 
@@ -54,6 +55,7 @@ public class ResponseHandler {
         return DSO;
     }
 
+    @Transactional
     public DSO<Process> handleNonShareResponse(ServiceRequestDTO dto, Vehicle vehicle, JSONArray path, JSONObject response) {
         log.info("[SERVICE-RESPONSE-HANDLER {} : HANDLE_NON_SHARE_RESPONSE] Handling result from navigation detail api", Thread.currentThread().getId());
 

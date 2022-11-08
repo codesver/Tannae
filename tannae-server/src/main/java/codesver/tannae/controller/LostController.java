@@ -24,7 +24,6 @@ public class LostController {
 
     @PostMapping
     public Boolean postLost(@RequestBody RegisterLostDTO dto) {
-        lostService.postLost(dto);
-        return true;
+        return lostService.postLost(dto);
     }
 }

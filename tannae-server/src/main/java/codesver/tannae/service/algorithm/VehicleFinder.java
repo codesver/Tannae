@@ -7,6 +7,7 @@ import codesver.tannae.repository.vehicle.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class VehicleFinder {
 
     private final VehicleRepository vehicleRepository;
 
+    @Transactional
     public DSO<Vehicle> findVehicle(ServiceRequestDTO dto) {
         log.info("[SERVICE-VEHICLE-FINDER {} : FIND_VEHICLE] Finding vehicle for user={}", Thread.currentThread().getId(), dto.getId());
 
