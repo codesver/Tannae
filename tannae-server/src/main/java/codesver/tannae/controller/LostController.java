@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -20,9 +19,7 @@ public class LostController {
 
     @GetMapping
     public List<LostDTO> getLosts() {
-        return lostRepository.findAll().stream()
-                .map(lost -> new LostDTO(lost.getLsn(), lost.getLost(), lost.getLostDate().toString(), lost.getVehicle().getVrn()))
-                .collect(Collectors.toList());
+        return lostRepository.findAll();
     }
 
     @PostMapping
