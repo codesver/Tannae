@@ -7,4 +7,6 @@ import java.util.List;
 public interface LostRepository {
 
     List<Lost> findAll();
+
+    void registerLost(String lost, int vsn);
 }

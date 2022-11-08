@@ -21,4 +21,6 @@ public interface VehicleRepository {
     Integer findUserOfVehicle(int vsn);
 
     void setPositions(int vsn, double latitude, double longitude);
+
+    Vehicle findVehicle(int vsn);
 }

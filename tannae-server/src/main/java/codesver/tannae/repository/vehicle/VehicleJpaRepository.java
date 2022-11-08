@@ -85,4 +85,9 @@ public class VehicleJpaRepository implements VehicleRepository {
         vehicle.setLatitude(latitude);
         vehicle.setLongitude(longitude);
     }
+
+    @Override
+    public Vehicle findVehicle(int vsn) {
+        return repository.findById(vsn).get();
+    }
 }

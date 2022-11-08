@@ -1,6 +1,7 @@
 package codesver.tannae.domain;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table
+@NoArgsConstructor
 public class Lost {
 
     @Id
@@ -23,4 +25,10 @@ public class Lost {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "VSN")
     private Vehicle vehicle;
+
+    public Lost(String lost, LocalDateTime lostDate, Vehicle vehicle) {
+        this.lost = lost;
+        this.lostDate = lostDate;
+        this.vehicle = vehicle;
+    }
 }
