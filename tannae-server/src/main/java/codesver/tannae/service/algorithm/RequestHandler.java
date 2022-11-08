@@ -1,9 +1,10 @@
 package codesver.tannae.service.algorithm;
 
-import codesver.tannae.dto.ResultDTO;
 import codesver.tannae.domain.Process;
 import codesver.tannae.domain.Vehicle;
+import codesver.tannae.dto.ResultDTO;
 import codesver.tannae.dto.ServiceRequestDTO;
+import codesver.tannae.service.domain.VehicleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
@@ -16,10 +17,10 @@ import org.springframework.stereotype.Service;
 public class RequestHandler {
 
     private final PathEditor editor;
-    private final VehicleFinder finder;
     private final ProcessManager manager;
     private final NaviRequester requester;
     private final ResponseHandler handler;
+    private final VehicleService vehicleService;
 
     public ResultDTO<Process> handleRequest(ServiceRequestDTO dto) {
         log.info("[SERVICE-REQUEST-HANDLER {} : HANDLE_REQUEST] Handling new request from={}", Thread.currentThread().getId(), dto.getId());
@@ -50,7 +51,7 @@ public class RequestHandler {
     private ResultDTO<Process> handleNonShareRequest(ServiceRequestDTO dto) {
         log.info("[SERVICE-REQUEST-HANDLER {} : HANDLE_NON_SHARE_REQUEST] : Handling non share request", Thread.currentThread().getId());
 
-        ResultDTO<Vehicle> vehicleResultDTO = finder.findVehicle(dto);
+        ResultDTO<Vehicle> vehicleResultDTO = vehicleService.findVehicle(dto);
         ResultDTO<Process> processResultDTO;
 
         if (vehicleResultDTO.isPresent()) {
