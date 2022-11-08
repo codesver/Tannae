@@ -2,7 +2,7 @@ package codesver.tannae.controller;
 
 import codesver.tannae.dto.LostDTO;
 import codesver.tannae.dto.RegisterLostDTO;
-import codesver.tannae.repository.lost.LostRepository;
+import codesver.tannae.service.domain.LostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -15,16 +15,16 @@ import java.util.List;
 @RequestMapping("/losts")
 public class LostController {
 
-    private final LostRepository lostRepository;
+    private final LostService lostService;
 
     @GetMapping
     public List<LostDTO> getLosts() {
-        return lostRepository.findAll();
+        return lostService.getLosts();
     }
 
     @PostMapping
     public Boolean postLost(@RequestBody RegisterLostDTO dto) {
-        lostRepository.registerLost(dto.getLost(), dto.getVsn());
+        lostService.postLost(dto);
         return true;
     }
 }
