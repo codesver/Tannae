@@ -68,7 +68,6 @@ public class ResponseHandler {
             editor.addResultToPath(path, sections, result);
             Process process = manager.createProcess(dto, vehicle, path);
             updateByNonShareResponse(dto, vehicle, process);
-            log.error("===================================={}", dto);
             processDSO = new DSO<>(0, process, guider.creatGuides(sections, path)).setFlag(dto.getShare() ? 2 : 1);
         } else
             processDSO = new DSO<>(-2);
