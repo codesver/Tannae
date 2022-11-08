@@ -26,6 +26,7 @@ public class HistoryService {
         return historyRepository.findHistoryByHsn(hsn).getDTO();
     }
 
+    @Transactional
     public HistoryDTO getReceiptOfUser(Integer usn) {
         return historyRepository.findHistoryByUsn(usn).getDTO();
     }
