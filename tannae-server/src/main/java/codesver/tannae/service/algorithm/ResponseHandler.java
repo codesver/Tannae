@@ -1,6 +1,6 @@
 package codesver.tannae.service.algorithm;
 
-import codesver.tannae.domain.ResultDTO;
+import codesver.tannae.dto.ResultDTO;
 import codesver.tannae.domain.History;
 import codesver.tannae.domain.Process;
 import codesver.tannae.domain.Vehicle;

@@ -1,6 +1,6 @@
 package codesver.tannae.controller;
 
-import codesver.tannae.domain.ResultDTO;
+import codesver.tannae.dto.ResultDTO;
 import codesver.tannae.domain.Process;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.dto.ServiceResponseDTO;
