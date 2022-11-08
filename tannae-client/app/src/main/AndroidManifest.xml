@@ -16,6 +16,9 @@
         android:theme="@style/Theme.TANNAE"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activity.menu.lost.LostRegisterActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.menu.lost.LostActivity"
             android:exported="false" />
         <activity
