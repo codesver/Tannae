@@ -281,7 +281,7 @@ public class NavigationActivity extends AppCompatActivity {
     private void sendResponseBack() {
         JSONObject data;
         try {
-            data = new JSONObject().put("flag", 1)
+            data = new JSONObject().put("flag", responseDTO.getFlag())
                     .put("vsn", responseDTO.getVsn())
                     .put("usn", responseDTO.getUsn())
                     .put("type", false)
