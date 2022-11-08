@@ -1,7 +1,7 @@
 package codesver.tannae.controller;
 
-import codesver.tannae.repository.vehicle.VehicleRepository;
 import codesver.tannae.service.domain.UserService;
+import codesver.tannae.service.domain.VehicleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -12,14 +12,13 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class VehicleController {
 
-    private final VehicleRepository vehicleRepository;
     private final UserService userService;
+    private final VehicleService vehicleService;
 
     @PatchMapping("/{vsn}/running")
     public Boolean patchRunning(@PathVariable Integer vsn, @RequestBody Boolean running) {
         log.info("[CONTROLLER-VEHICLE {} : PATCH_RUNNING] PATCH /vehicles/{}/running body={}", Thread.currentThread().getId(), vsn, running);
-        vehicleRepository.switchRun(vsn, running);
-        return running;
+        return vehicleService.switchRunningState(vsn, running);
     }
 
     @PatchMapping("/{vsn}/users/score")
