@@ -9,17 +9,20 @@ import codesver.tannae.repository.vehicle.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Slf4j
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final VehicleRepository vehicleRepository;
 
+    @Transactional
     public Boolean join(User user) {
         log.info("[SERVICE-USER {} JOIN] USER={}", Thread.currentThread().getId(), user);
         userRepository.save(user);
@@ -65,6 +68,7 @@ public class UserService {
         return optionalUser.isPresent();
     }
 
+    @Transactional
     public Integer charge(int usn, int point) {
         log.info("[SERVICE-USER {} : CHARGE] CHARGING POINT {} TO USER {}", Thread.currentThread().getId(), point, usn);
         Integer chargedPoint = userRepository.chargePoint(usn, point);
@@ -72,6 +76,7 @@ public class UserService {
         return chargedPoint;
     }
 
+    @Transactional
     public Boolean rateDriver(int vsn, float score) {
         log.info("[SERVICE-USER {} : RATE] RATING DRIVER OF VEHICLE={} SCORE={}", Thread.currentThread().getId(), vsn, score);
         Integer usn = vehicleRepository.findUserOfVehicle(vsn);
