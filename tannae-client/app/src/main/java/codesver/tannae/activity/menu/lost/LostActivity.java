@@ -39,7 +39,6 @@ public class LostActivity extends AppCompatActivity {
                 List<LostDTO> losts = response.body();
                 if (losts.isEmpty()) {
                     Toaster.toast(getApplicationContext(), "분실물이 없습니다.");
-                    onBackPressed();
                 } else {
                     adapter = new ListViewAdapter<>();
                     for (LostDTO lost : losts) adapter.addItem(lost);
