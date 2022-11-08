@@ -176,6 +176,8 @@ public class NavigationActivity extends AppCompatActivity {
             textCurrentPath.setTextColor(Color.parseColor("#CCCCCC"));
             textNextPath.setText("현재 탑승자가 없습니다.");
             textNextPath.setTextColor(Color.parseColor("#CCCCCC"));
+            buttonTransfer.setEnabled(false);
+            buttonTransfer.setTextColor(Color.parseColor("#CCCCCC"));
             mapView.removeAllPolylines();
             mapView.removeAllCircles();
         } else {
