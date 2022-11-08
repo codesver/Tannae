@@ -50,6 +50,8 @@ public class RequestHandler {
     private DSO<Process> handleNonShareRequest(ServiceRequestDTO dto) {
         log.info("[SERVICE-REQUEST-HANDLER {} : HANDLE_NON_SHARE_REQUEST] : Handling non share request", Thread.currentThread().getId());
 
+        log.error("============================={}", dto);
+
         DSO<Vehicle> vehicleDSO = finder.findVehicle(dto);
         DSO<Process> processDSO;
 

@@ -32,7 +32,6 @@ public class ServiceController {
     public ServiceResponseDTO request(@RequestBody ServiceRequestDTO requestDTO) {
         log.info("[CONTROLLER-SERVICE {} : REQUEST] POST /service/request body={}", Thread.currentThread().getId(), requestDTO);
         DSO<Process> processDSO = processor.handleRequest(requestDTO);
-        log.error("======================================{}", processDSO);
         Process process = processDSO.get();
         return processDSO.getFlag() > 0 ? new ServiceResponseDTO(processDSO.getFlag(), process.getVehicle().getVsn(), requestDTO.getUsn(),
                 process.getPath(), processDSO.getGuides().toString(), process.getPassed())
