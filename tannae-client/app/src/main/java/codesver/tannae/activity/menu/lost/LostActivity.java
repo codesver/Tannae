@@ -1,6 +1,9 @@
 package codesver.tannae.activity.menu.lost;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,9 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 
 import codesver.tannae.R;
-import codesver.tannae.dto.ContentFaqDTO;
 import codesver.tannae.dto.LostDTO;
 import codesver.tannae.network.Network;
+import codesver.tannae.service.InnerDB;
 import codesver.tannae.service.ListViewAdapter;
 import codesver.tannae.service.Toaster;
 import retrofit2.Call;
@@ -22,14 +25,32 @@ public class LostActivity extends AppCompatActivity {
     private ListView listView;
     private ListViewAdapter<LostDTO> adapter;
 
+    private SharedPreferences getter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lost);
 
+        getter = InnerDB.getter(getApplicationContext());
+
         listView = findViewById(R.id.list_view_losts_lost);
-        findViewById(R.id.button_back_lost).setOnClickListener(v -> onBackPressed());
+        setViews();
         setAdapter();
+    }
+
+    private void setViews() {
+        findViewById(R.id.button_back_lost).setOnClickListener(v -> onBackPressed());
+
+        Button registerButton = (Button) findViewById(R.id.button_register_lost_lost);
+        int vsn = getter.getInt("vsn", -1);
+        if (vsn == -1) registerButton.setVisibility(View.GONE);
+        else registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // to register page
+            }
+        });
     }
 
     private void setAdapter() {
