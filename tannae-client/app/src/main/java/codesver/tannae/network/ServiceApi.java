@@ -48,7 +48,7 @@ public interface ServiceApi {
     Call<Boolean> patchRunning(@Path("vsn") Integer vsn, @Body Boolean running);
 
     @PATCH("/vehicles/{vsn}/users/score")
-    Call<Boolean> patchUserScore(@Query("vsn") Integer vsn, @Body Float score);
+    Call<Boolean> patchUserScore(@Path("vsn") Integer vsn, @Body Float score);
 
     // History
     @GET("/histories")
