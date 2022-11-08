@@ -1,6 +1,6 @@
 package codesver.tannae.service.algorithm;
 
-import codesver.tannae.domain.DSO;
+import codesver.tannae.domain.ResultDTO;
 import codesver.tannae.domain.Vehicle;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.repository.vehicle.VehicleRepository;
@@ -19,17 +19,17 @@ public class VehicleFinder {
     private final VehicleRepository vehicleRepository;
 
     @Transactional
-    public DSO<Vehicle> findVehicle(ServiceRequestDTO dto) {
+    public ResultDTO<Vehicle> findVehicle(ServiceRequestDTO dto) {
         log.info("[SERVICE-VEHICLE-FINDER {} : FIND_VEHICLE] Finding vehicle for user={}", Thread.currentThread().getId(), dto.getId());
 
         List<Vehicle> vehicles = vehicleRepository.findNewVehicle(true, 0);
-        DSO<Vehicle> DSO = vehicles.isEmpty() ? new DSO<>(-1) : findNearestVehicle(vehicles, dto);
+        ResultDTO<Vehicle> resultDTO = vehicles.isEmpty() ? new ResultDTO<>(-1) : findNearestVehicle(vehicles, dto);
 
-        log.info("[SERVICE-VEHICLE-FINDER {} : FIND_VEHICLE_RESULT] Founded vehicle={}", Thread.currentThread().getId(), DSO.isPresent() ? DSO.get() : "Not founded");
-        return DSO;
+        log.info("[SERVICE-VEHICLE-FINDER {} : FIND_VEHICLE_RESULT] Founded vehicle={}", Thread.currentThread().getId(), resultDTO.isPresent() ? resultDTO.get() : "Not founded");
+        return resultDTO;
     }
 
-    private DSO<Vehicle> findNearestVehicle(List<Vehicle> vehicles, ServiceRequestDTO dto) {
+    private ResultDTO<Vehicle> findNearestVehicle(List<Vehicle> vehicles, ServiceRequestDTO dto) {
         log.info("[SERVICE-VEHICLE-FINDER {} : FIND_NEAREST_VEHICLE] Finding nearest vehicle for user={}", Thread.currentThread().getId(), dto.getId());
 
         double distance = Double.MAX_VALUE;
@@ -47,6 +47,6 @@ public class VehicleFinder {
 
         assert nearestVehicle != null;
         log.info("[SERVICE-VEHICLE-FINDER {} : FIND_NEAREST_VEHICLE_RESULT] Nearest vehicle {}", Thread.currentThread().getId(), nearestVehicle.getVsn());
-        return new DSO<>(1, nearestVehicle);
+        return new ResultDTO<>(1, nearestVehicle);
     }
 }

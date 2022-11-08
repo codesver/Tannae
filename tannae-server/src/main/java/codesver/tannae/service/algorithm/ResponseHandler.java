@@ -1,6 +1,6 @@
 package codesver.tannae.service.algorithm;
 
-import codesver.tannae.domain.DSO;
+import codesver.tannae.domain.ResultDTO;
 import codesver.tannae.domain.History;
 import codesver.tannae.domain.Process;
 import codesver.tannae.domain.Vehicle;
@@ -34,12 +34,12 @@ public class ResponseHandler {
     private final HistoryRepository historyRepository;
 
     @Transactional
-    public DSO<Process> handleShareResponse(ServiceRequestDTO dto, Process process, JSONObject summary, JSONObject response) {
+    public ResultDTO<Process> handleShareResponse(ServiceRequestDTO dto, Process process, JSONObject summary, JSONObject response) {
         log.info("[SERVICE-RESPONSE-HANDLER {} : HANDLE_SHARE_RESPONSE]", Thread.currentThread().getId());
 
         JSONObject result = response.getJSONArray("routes").getJSONObject(0);
         int resultCode = result.getInt("result_code");
-        DSO<Process> processDSO;
+        ResultDTO<Process> processResultDTO;
 
         if (resultCode == 0) {
             JSONArray sections = result.getJSONArray("sections");
@@ -47,33 +47,33 @@ public class ResponseHandler {
             editor.addResultToPath(path, sections, result);
             manager.mergePathToProcess(process, path);
             updateByShareResponse(dto, process);
-            processDSO = new DSO<>(3, process, guider.creatGuides(sections, path));
+            processResultDTO = new ResultDTO<>(3, process, guider.creatGuides(sections, path));
         } else
-            processDSO = new DSO<>(-2);
+            processResultDTO = new ResultDTO<>(-2);
 
         log.info("[SERVICE-RESPONSE-HANDLER {} : HANDLE_SHARE_RESPONSE_RESULT] ", Thread.currentThread().getId());
-        return processDSO;
+        return processResultDTO;
     }
 
     @Transactional
-    public DSO<Process> handleNonShareResponse(ServiceRequestDTO dto, Vehicle vehicle, JSONArray path, JSONObject response) {
+    public ResultDTO<Process> handleNonShareResponse(ServiceRequestDTO dto, Vehicle vehicle, JSONArray path, JSONObject response) {
         log.info("[SERVICE-RESPONSE-HANDLER {} : HANDLE_NON_SHARE_RESPONSE] Handling result from navigation detail api", Thread.currentThread().getId());
 
         JSONObject result = response.getJSONArray("routes").getJSONObject(0);
         int resultCode = result.getInt("result_code");
-        DSO<Process> processDSO;
+        ResultDTO<Process> processResultDTO;
 
         if (resultCode == 0) {
             JSONArray sections = result.getJSONArray("sections");
             editor.addResultToPath(path, sections, result);
             Process process = manager.createProcess(dto, vehicle, path);
             updateByNonShareResponse(dto, vehicle, process);
-            processDSO = new DSO<>(0, process, guider.creatGuides(sections, path)).setFlag(dto.getShare() ? 2 : 1);
+            processResultDTO = new ResultDTO<>(0, process, guider.creatGuides(sections, path)).setFlag(dto.getShare() ? 2 : 1);
         } else
-            processDSO = new DSO<>(-2);
+            processResultDTO = new ResultDTO<>(-2);
 
         log.info("[SERVICE-RESPONSE-HANDLER {} : HANDLE_NON_SHARE_RESPONSE_RESULT] Handled result={}", Thread.currentThread().getId(), resultCode == 0);
-        return processDSO;
+        return processResultDTO;
     }
 
     private void updateByShareResponse(ServiceRequestDTO dto, Process process) {
