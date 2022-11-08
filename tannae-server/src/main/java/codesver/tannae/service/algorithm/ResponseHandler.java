@@ -39,7 +39,7 @@ public class ResponseHandler {
 
         JSONObject result = response.getJSONArray("routes").getJSONObject(0);
         int resultCode = result.getInt("result_code");
-        DSO<Process> DSO;
+        DSO<Process> processDSO;
 
         if (resultCode == 0) {
             JSONArray sections = result.getJSONArray("sections");
@@ -47,12 +47,12 @@ public class ResponseHandler {
             editor.addResultToPath(path, sections, result);
             manager.mergePathToProcess(process, path);
             updateByShareResponse(dto, process);
-            DSO = new DSO<>(3, process, guider.creatGuides(sections, path));
+            processDSO = new DSO<>(3, process, guider.creatGuides(sections, path));
         } else
-            DSO = new DSO<>(-2);
+            processDSO = new DSO<>(-2);
 
         log.info("[SERVICE-RESPONSE-HANDLER {} : HANDLE_SHARE_RESPONSE_RESULT] ", Thread.currentThread().getId());
-        return DSO;
+        return processDSO;
     }
 
     @Transactional

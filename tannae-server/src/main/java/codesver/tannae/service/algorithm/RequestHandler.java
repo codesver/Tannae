@@ -23,28 +23,28 @@ public class RequestHandler {
 
     public DSO<Process> handleRequest(ServiceRequestDTO dto) {
         log.info("[SERVICE-REQUEST-HANDLER {} : HANDLE_REQUEST] Handling new request from={}", Thread.currentThread().getId(), dto.getId());
-        DSO<Process> DSO = dto.getShare() ? handleShareRequest(dto) : handleNonShareRequest(dto);
-        log.info("[SERVICE-REQUEST-HANDLER {} : HANDLE_REQUEST_RESULT] RESPONSE DRO FLAG={}", Thread.currentThread().getId(), DSO.getFlag());
-        return DSO;
+        DSO<Process> processDSO = dto.getShare() ? handleShareRequest(dto) : handleNonShareRequest(dto);
+        log.info("[SERVICE-REQUEST-HANDLER {} : HANDLE_REQUEST_RESULT] RESPONSE DRO FLAG={}", Thread.currentThread().getId(), processDSO.getFlag());
+        return processDSO;
     }
 
     private DSO<Process> handleShareRequest(ServiceRequestDTO dto) {
         log.info("[SERVICE-REQUEST-HANDLER {} : HANDLE_SHARE_REQUEST] Handling share request gender={}", Thread.currentThread().getId(), dto.getGender());
 
-        DSO<Process> DSO = manager.findProcess(dto);
-        boolean exist = DSO.getFlag() == 2;
+        DSO<Process> processDSO = manager.findProcess(dto);
+        boolean exist = processDSO.getFlag() == 3;
 
         if (exist) {
-            DSO = handleNonShareRequest(dto);
-        } else {
-            Process process = DSO.get();
+            Process process = processDSO.get();
             JSONObject summary = editor.summaryFromPath(new JSONArray(process.getPath()), process.getPassed());
             JSONObject response = requester.request(summary);
-            DSO = handler.handleShareResponse(dto, process, summary, response);
+            processDSO = handler.handleShareResponse(dto, process, summary, response);
+        } else {
+            processDSO = handleNonShareRequest(dto);
         }
 
         log.info("[SERVICE-REQUEST-HANDLER {} : HANDLE_SHARE_REQUEST_RESULT] Share request handled={}", Thread.currentThread().getId(), exist);
-        return DSO;
+        return processDSO;
     }
 
     private DSO<Process> handleNonShareRequest(ServiceRequestDTO dto) {

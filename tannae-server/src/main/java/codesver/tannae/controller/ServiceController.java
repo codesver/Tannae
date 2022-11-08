@@ -31,11 +31,11 @@ public class ServiceController {
     @PostMapping("/request")
     public ServiceResponseDTO request(@RequestBody ServiceRequestDTO requestDTO) {
         log.info("[CONTROLLER-SERVICE {} : REQUEST] POST /service/request body={}", Thread.currentThread().getId(), requestDTO);
-        DSO<Process> DSO = processor.handleRequest(requestDTO);
-        Process process = DSO.get();
-        return DSO.getFlag() > 0 ? new ServiceResponseDTO(DSO.getFlag(), process.getVehicle().getVsn(), requestDTO.getUsn(),
-                process.getPath(), DSO.getGuides().toString(), process.getPassed())
-                : new ServiceResponseDTO(DSO.getFlag());
+        DSO<Process> processDSO = processor.handleRequest(requestDTO);
+        Process process = processDSO.get();
+        return processDSO.getFlag() > 0 ? new ServiceResponseDTO(processDSO.getFlag(), process.getVehicle().getVsn(), requestDTO.getUsn(),
+                process.getPath(), processDSO.getGuides().toString(), process.getPassed())
+                : new ServiceResponseDTO(processDSO.getFlag());
     }
 
     @MessageMapping("/connect")
