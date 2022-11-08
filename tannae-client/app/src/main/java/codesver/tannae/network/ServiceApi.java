@@ -7,6 +7,7 @@ import codesver.tannae.dto.ContentFaqDTO;
 import codesver.tannae.dto.HistoryDTO;
 import codesver.tannae.dto.LostDTO;
 import codesver.tannae.dto.RegisterContentDTO;
+import codesver.tannae.dto.RegisterLostDTO;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.dto.FoundAccountDTO;
 import codesver.tannae.dto.AccountDTO;
@@ -88,4 +89,7 @@ public interface ServiceApi {
     // Lost
     @GET("/losts")
     Call<List<LostDTO>> getLosts();
+
+    @POST("/losts")
+    Call<Boolean> postLost(@Body RegisterLostDTO dto);
 }
