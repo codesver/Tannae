@@ -1,5 +1,6 @@
 package codesver.tannae.activity.menu.lost;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -45,12 +46,7 @@ public class LostActivity extends AppCompatActivity {
         Button registerButton = (Button) findViewById(R.id.button_register_lost_lost);
         int vsn = getter.getInt("vsn", -1);
         if (vsn == -1) registerButton.setVisibility(View.GONE);
-        else registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // to register page
-            }
-        });
+        else registerButton.setOnClickListener(v -> startActivity(new Intent(LostActivity.this, LostRegisterActivity.class)));
     }
 
     private void setAdapter() {
