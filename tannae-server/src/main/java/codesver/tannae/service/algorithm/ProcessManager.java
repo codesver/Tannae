@@ -1,8 +1,8 @@
 package codesver.tannae.service.algorithm;
 
-import codesver.tannae.dto.ResultDTO;
 import codesver.tannae.domain.Process;
 import codesver.tannae.domain.Vehicle;
+import codesver.tannae.dto.ResultDTO;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.repository.process.ProcessRepository;
 import lombok.RequiredArgsConstructor;

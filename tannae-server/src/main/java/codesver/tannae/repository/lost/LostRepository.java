@@ -1,6 +1,5 @@
 package codesver.tannae.repository.lost;
 
-import codesver.tannae.domain.Lost;
 import codesver.tannae.dto.LostDTO;
 
 import java.util.List;

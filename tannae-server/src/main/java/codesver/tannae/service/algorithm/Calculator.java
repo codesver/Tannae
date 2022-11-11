@@ -11,7 +11,7 @@ public class Calculator {
 
     public JSONObject calculate(JSONArray path, int usn) {
         log.info("[SERVICE-CALCULATOR {} : CALCULATE] Calculate real data of usn={}", Thread.currentThread().getId(), usn);
-        
+
         int count = 1;
         int fare = 0, distance = 0, duration = 0;
         boolean board = path.getJSONObject(1).getInt("usn") == usn;
