@@ -19,11 +19,13 @@ public class LostController {
 
     @GetMapping
     public List<LostDTO> getLosts() {
+        log.info("[CONTROLLER-LOST {} : GET_LOSTS] GET /losts", Thread.currentThread().getId());
         return lostService.getLosts();
     }
 
     @PostMapping
     public Boolean postLost(@RequestBody RegisterLostDTO dto) {
+        log.info("[CONTROLLER-LOST {} : POST_LOST] POST /losts body={}", Thread.currentThread().getId(), dto);
         return lostService.postLost(dto);
     }
 }
