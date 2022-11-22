@@ -1,7 +1,7 @@
 package codesver.tannae.dto;
 
-import codesver.tannae.domain.Content;
-import codesver.tannae.domain.User;
+import codesver.tannae.entity.Content;
+import codesver.tannae.entity.User;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

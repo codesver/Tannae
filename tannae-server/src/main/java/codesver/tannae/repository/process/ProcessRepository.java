@@ -1,6 +1,6 @@
 package codesver.tannae.repository.process;
 
-import codesver.tannae.domain.Process;
+import codesver.tannae.entity.Process;
 
 import java.util.List;
 

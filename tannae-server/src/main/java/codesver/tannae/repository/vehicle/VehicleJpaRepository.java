@@ -1,6 +1,6 @@
 package codesver.tannae.repository.vehicle;
 
-import codesver.tannae.domain.Vehicle;
+import codesver.tannae.entity.Vehicle;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;

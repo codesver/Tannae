@@ -1,7 +1,7 @@
 package codesver.tannae.service.algorithm;
 
-import codesver.tannae.domain.Process;
-import codesver.tannae.domain.Vehicle;
+import codesver.tannae.entity.Process;
+import codesver.tannae.entity.Vehicle;
 import codesver.tannae.repository.history.HistoryRepository;
 import codesver.tannae.repository.process.ProcessRepository;
 import codesver.tannae.repository.user.UserRepository;

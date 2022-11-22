@@ -1,6 +1,6 @@
 package codesver.tannae.repository.user;
 
-import codesver.tannae.domain.User;
+import codesver.tannae.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;

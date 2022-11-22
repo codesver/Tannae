@@ -1,6 +1,6 @@
 package codesver.tannae.repository.process;
 
-import codesver.tannae.domain.Process;
+import codesver.tannae.entity.Process;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;

@@ -1,6 +1,6 @@
 package codesver.tannae.repository.vehicle;
 
-import codesver.tannae.domain.Vehicle;
+import codesver.tannae.entity.Vehicle;
 import org.json.JSONObject;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package codesver.tannae.service.domain;
 
-import codesver.tannae.domain.Vehicle;
+import codesver.tannae.entity.Vehicle;
 import codesver.tannae.dto.ResultDTO;
 import codesver.tannae.dto.ServiceRequestDTO;
 import codesver.tannae.repository.vehicle.VehicleRepository;

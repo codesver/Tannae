@@ -1,6 +1,6 @@
 package codesver.tannae.dto;
 
-import codesver.tannae.domain.User;
+import codesver.tannae.entity.User;
 import lombok.Getter;
 import lombok.ToString;
 

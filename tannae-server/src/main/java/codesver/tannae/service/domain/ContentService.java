@@ -1,6 +1,6 @@
 package codesver.tannae.service.domain;
 
-import codesver.tannae.domain.Content;
+import codesver.tannae.entity.Content;
 import codesver.tannae.dto.ContentDTO;
 import codesver.tannae.dto.ContentFaqDTO;
 import codesver.tannae.dto.RegisterContentDTO;

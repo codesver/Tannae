@@ -1,7 +1,7 @@
 package codesver.tannae.service.domain;
 
-import codesver.tannae.domain.User;
-import codesver.tannae.domain.Vehicle;
+import codesver.tannae.entity.User;
+import codesver.tannae.entity.Vehicle;
 import codesver.tannae.dto.AccountDTO;
 import codesver.tannae.dto.FoundAccountDTO;
 import codesver.tannae.repository.user.UserRepository;

@@ -1,6 +1,6 @@
 package codesver.tannae.repository.history;
 
-import codesver.tannae.domain.History;
+import codesver.tannae.entity.History;
 
 import java.util.List;
 

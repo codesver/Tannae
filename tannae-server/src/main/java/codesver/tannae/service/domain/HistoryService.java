@@ -1,6 +1,6 @@
 package codesver.tannae.service.domain;
 
-import codesver.tannae.domain.History;
+import codesver.tannae.entity.History;
 import codesver.tannae.dto.HistoryDTO;
 import codesver.tannae.repository.history.HistoryRepository;
 import lombok.RequiredArgsConstructor;

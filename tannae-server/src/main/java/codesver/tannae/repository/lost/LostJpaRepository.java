@@ -1,7 +1,7 @@
 package codesver.tannae.repository.lost;
 
-import codesver.tannae.domain.Lost;
-import codesver.tannae.domain.Vehicle;
+import codesver.tannae.entity.Lost;
+import codesver.tannae.entity.Vehicle;
 import codesver.tannae.dto.LostDTO;
 import codesver.tannae.repository.vehicle.VehicleRepository;
 import lombok.RequiredArgsConstructor;

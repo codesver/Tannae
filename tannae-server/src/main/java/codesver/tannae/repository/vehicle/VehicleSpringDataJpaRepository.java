@@ -1,6 +1,6 @@
 package codesver.tannae.repository.vehicle;
 
-import codesver.tannae.domain.Vehicle;
+import codesver.tannae.entity.Vehicle;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package codesver.tannae.repository.user;
 
-import codesver.tannae.domain.User;
+import codesver.tannae.entity.User;
 
 import java.util.Optional;
 

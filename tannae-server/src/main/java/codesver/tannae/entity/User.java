@@ -1,4 +1,4 @@
-package codesver.tannae.domain;
+package codesver.tannae.entity;
 
 import codesver.tannae.dto.UserDTO;
 import lombok.AllArgsConstructor;

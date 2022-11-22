@@ -1,6 +1,6 @@
 package codesver.tannae.repository.history;
 
-import codesver.tannae.domain.History;
+import codesver.tannae.entity.History;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;

@@ -1,6 +1,6 @@
 package codesver.tannae.repository.content;
 
-import codesver.tannae.domain.Content;
+import codesver.tannae.entity.Content;
 
 import java.util.List;
 
