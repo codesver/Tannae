@@ -1,6 +1,6 @@
-# Algorithm based share taxi TANNAE
+# ALGORITHM BASED SHARE TRANSPORTATION SERVICE TANNAE
 ```
-This service provides taxi service which passengers can ride taxi together with other passengers.
+This provides taxi service which passengers can ride taxi together with other passengers.
 
 Server will match with passengers that moves on similar path.
 
